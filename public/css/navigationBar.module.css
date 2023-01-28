@@ -1,0 +1,121 @@
+@value grayLine from "./colors.module.css";
+@value grayWorld from "./colors.module.css";
+
+.icon{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    width: 20px;
+    height: 20px;
+    background-size:contain;
+    background-position:center;
+    background-repeat: no-repeat;
+    color: rgba(0,0,0,0);
+    font-size: 1px;
+    cursor: pointer;
+}
+
+.icon:hover{
+    
+}
+
+.nav_container{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.nav_bar{
+    display: flex;
+    width: 1200px;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    color: grayWorld;
+    cursor: pointer;
+}
+
+:global(.nav_group){
+    display: flex;
+    align-items: center;
+}
+
+.burger_icon{
+    background-image: url(/public/assets/burger_icon.png);
+    composes:icon;
+    margin-right: 20px;
+}
+
+.change_time{
+    display: flex;
+    align-items: center;
+    height: 80px;
+    font-size: 30px;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
+.left_arrow_icon{
+    background-image: url(/public/assets/left_arrow_icon.png);
+    composes:icon;
+    margin-right: 20px;
+    width: 8px;
+}
+
+.right_arrow_icon{
+    background-image: url(/public/assets/right_arrow_icon.png);
+    composes:icon;
+    margin-left: 20px;
+    width: 8px;
+}
+
+.search{
+    display: flex;
+    align-items: center;
+    width: 400px;
+    height: 36px;
+    border-radius: 5px;
+    background-color: grayLine;
+}
+
+.search:active{
+    
+}
+
+.search_input{
+    border: 0px;
+    outline: 0px;
+    width: 380px;
+    height: 30px;
+    margin-left: 10px;
+    background-color: grayLine;
+}
+
+.search_input:focus{
+    content: black;
+}
+
+.search_button{
+    margin-left: 10px;
+    background-image: url(/public/assets/search_icon.png);
+    composes:icon;
+}
+
+.search_button:active{
+  
+}
+
+.change_time_type{
+    margin-right: 20px;
+    box-sizing: border-box;
+    height: 36px;
+    width: 100px;
+    border: 1px solid grayLine;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 36px;
+}
+
+.time_type_items{
+    display: none;
+}

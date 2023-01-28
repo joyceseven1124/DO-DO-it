@@ -1,0 +1,58 @@
+@value grayLine from "./colors.module.css";
+@value grayWorld from "./colors.module.css";
+
+.monthPage_container{
+    display: flex;
+    justify-content: center;
+}
+
+.week_title{
+    width: 1200px;
+    display: flex;
+    justify-content: space-around;
+    padding-left: 0px;
+}
+
+:global(.week){
+    width:100%;
+    padding-left: 0px;
+    text-align: center;
+    font-weight: 600;
+    color: grayWorld;
+}
+
+.monthCell{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+    box-sizing: border-box;
+    width: 1200px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    font-size: 5px;
+}
+
+:global(.date){
+    text-align: center;
+    padding-top: 10px;
+    box-sizing: border-box;
+    border: 0.5px solid grayLine;
+}
+
+#myCanvas{
+    width: 100%;
+    height: auto;
+    position: absolute;
+}
+
+.testMom{
+    display: flex;
+}
+.test{
+    z-index: 10;
+    position: absolute;
+    opacity: 0;
+}

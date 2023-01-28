@@ -1,0 +1,174 @@
+@value saveButtonBg from "./colors.module.css";
+@value saveButtonActiveBg from "./colors.module.css";
+@value dialogBoxBg from "./colors.module.css";
+@value grayLine from "./colors.module.css";
+@value inputFocus from "./colors.module.css";
+.icon{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    width: 20px;
+    height: 20px;
+    background-size:contain;
+    background-position:center;
+    background-repeat: no-repeat;
+    color: rgba(0,0,0,0);
+    font-size: 1px;
+    cursor: pointer;
+}
+
+.toDoListDialogBox_container{
+    width: 1200px;
+    display: none;
+    justify-content: center;
+    position: absolute;
+    z-index: 10;
+    top:25%;
+    left:11%;
+}
+
+.toDoListDialogBox{
+    text-align: center;
+    width: 400px;
+    background-color: dialogBoxBg;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    -webkit-box-shadow: 0px 0px 12px 3px rgba(178, 178, 178, 0.73);
+    box-shadow: 0px 0px 12px 3px rgba(178, 178, 178, 0.73);
+}
+
+.close_container{
+    display: flex;
+    justify-content: right;
+}
+
+.close_button{
+    background-image: url(/public/assets/close_icon.png);
+    composes:icon;
+    margin: 20px;
+    margin-top: 5px;
+}
+
+.title_container{
+    position: relative;
+}
+
+.toDoList_title{
+    outline: none;
+    border: 0px black solid;
+    border-bottom:1px grayLine solid ;
+    width:300px;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-left: 40px;
+}
+
+.toDoList_title:focus+.under_line {
+    transform: scaleX(1)
+}
+
+.under_line{
+    position: absolute;
+	content: "";
+	height: 2px;
+	width: 300px;
+    margin-left: 60px;
+	background-color: #4158D0;
+	transform: scaleX(0);
+	transition:transform 0.3s ease;
+}
+
+.time_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.time_icon{
+    background-image: url(/public/assets/time_icon.png);
+    composes:icon;
+    margin-right: 20px;
+}
+
+.time_information{
+    width: 300px;
+    padding-left: 0px;
+}
+
+.time_information >span{
+    width: 300px;
+    margin-right: 20px;
+}
+
+.description_container{
+    display: flex;
+    justify-content: center;
+    align-items:flex-start;
+    width:100%;
+    position: relative;
+}
+
+.description_icon{
+    background-image: url(/public/assets/description_icon.png);
+    composes:icon;
+    margin-right: 20px;
+}
+
+.description{
+    width: 300px;
+    border: 0px;
+    padding: 10px;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: grayLine;
+}
+
+.description:focus + .description_under_line{
+    transform: scaleX(1)
+}
+
+.description_under_line{
+    position: absolute;
+    content: "";
+	height: 2px;
+	width: 300px;
+    bottom:0px;
+    margin-left: 40px;
+	background-color: #4158D0;
+	transform: scaleX(0);
+	transition:transform 0.3s ease;
+}
+
+.save_button_container{
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+    padding-right: 20px;
+}
+
+.save_button{
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    line-height: 40px;
+    color: white;
+    background-color: saveButtonBg;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+
+
+.save_button:hover{
+    background-color: saveButtonActiveBg;
+}
+
+
+
+
