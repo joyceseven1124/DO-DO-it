@@ -2,6 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Tag } from './actionStyle';
 
+let tagPathData: { [key: string]: string }[] = [];
+
+
 function getPosition (element:any) {
   let x = 0;
   let y = 0;
@@ -74,9 +77,9 @@ function checkElementIntersect(e:any){
     if(intersectNumber===0){
         positionTop = "auto"
     }else if(intersectNumber===1){
-        positionTop = "50px"
+        positionTop = "80px"
     }else if(intersectNumber===2){
-        positionTop = "75px"
+        positionTop = "100px"
     }
     return {positionTop:positionTop,intersectNumber:intersectNumber}
 }
@@ -93,10 +96,12 @@ let endRow:number
 let positionLeft:string="auto"
 let positionRight:string="auto"
 let nowTagIs:string
-let test:boolean
+
 //let positionTop:string="auto"
 
 function mouseDown(e:any){
+    console.log("滑鼠按下")
+    console.log(e.target)
     if(!e.target.className.includes("toDoListTag")){
         startCell = Number(e.target.id.split("-")[1])
         console.log(startCell)
@@ -112,15 +117,15 @@ function mouseDown(e:any){
     }
 }
 
-function changeTagZIndex(e:any){
+/*function changeTagZIndex(e:any){
     e.target.style.zIndex = "0";
-}
+}*/
 
 function changeTagWidth(e:any){
     if(!dragging){
         //const startPlaceTag = document.querySelector<HTMLElement>(`.toDoListTag-${startCell}`);
         const startPlaceTag = document.getElementById(nowTagIs)
-        startPlaceTag.addEventListener("mouseenter",changeTagZIndex)
+        //startPlaceTag.addEventListener("mouseenter",changeTagZIndex)
         endCell = Number(e.target.id.split("-")[1]);
         endRow = e.target.id.split("-")[2];
         if(endRow !==startRow){
@@ -143,11 +148,13 @@ function changeTagWidth(e:any){
 }
 
 function mouseUp(e:any){
+    console.log("滑鼠放開")
+    console.log(e.target)
     const monthCellArray = Array.from(document.getElementsByClassName("date"))
     monthCellArray.forEach(element => {
         element.removeEventListener("mouseenter",changeTagWidth)
     });
-
+    
     //const  test = document.getElementById("test")
     //test.style.display = "none"
     //console.log(test)
@@ -158,8 +165,24 @@ function mouseUp(e:any){
         document.getElementById("toDoListTitle").focus()
     },0)
     const startPlaceTag = document.querySelector<HTMLElement>(`.toDoListTag-${startCell}`);
-    startPlaceTag.removeEventListener("mouseenter",changeTagZIndex)
-    startPlaceTag.style.zIndex = "5";
+    //startPlaceTag.removeEventListener("mouseenter",changeTagZIndex)
+    //startPlaceTag.style.zIndex = "5";
+    startPlaceTag.style.pointerEvents = "auto"
+
+
+
+    console.log("我的起末點")
+    console.log(startCell)
+    console.log(endCell)
+    const key = `cell-${startCell}`
+    const value = `${startCell}-${endCell}`
+    //寫成解構的方式
+    tagPathData.push({[key]: value})
+    console.log(tagPathData[startCell-1])
+    let x
+    
+    console.log(x)
+    console.log(tagPathData)
 }
 
 function draw(e:any){
@@ -208,8 +231,12 @@ function draw(e:any){
                 }
 
             }
+            const totalDay = Math.abs(startCell - id)+1
+            //startPlaceTag.classList.add(myClass);
+            let connectData = `first-${startCell}-second-${id}-totalDay-${totalDay}`
+            startPlaceTag.setAttribute("connectData",connectData);
         }
-
+       
         
 
         const checkElementIntersectResult = checkElementIntersect(e)
@@ -226,6 +253,9 @@ function draw(e:any){
         place.appendChild(container);
         const root = ReactDOM.createRoot(container);
         nowTagIs = `toDoListTag-${id}-${intersectNumber}`
+
+        
+
         root.render(
             <Tag
                 id = {`toDoListTag-${id}-${intersectNumber}`}
@@ -246,10 +276,15 @@ function draw(e:any){
     cellWidth = "100%"
     positionRight = "auto"
     positionLeft = "auto"
+
+
 };
 
 
 function dragstart(e: any){
+    console.log(e.target)
+    //let x = document.querySelector("Tag")
+    //console.log(x)
     dragging = true
     const monthCellArray = Array.from(document.getElementsByClassName("date"))
     monthCellArray.forEach(element => {

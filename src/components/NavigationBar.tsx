@@ -5,12 +5,15 @@ import Search from './navigation/Search';
 import ChangeTimeItem from './navigation/ChangeTimeItem';
 import { NEXT_MONTH } from '../store/action/timeControl';
 
-let NavigationBar = () => (
+const openCard = (e:any) => {
+    document.getElementById("sing_in").style.display = "flex"
+}
+
+const NavigationBar = () => (
     <nav className={styles.nav_container}>
         <div  className={styles.nav_bar}>
             <div className="nav_group">
-                <div className={styles.burger_icon}>堡</div>
-                <div>DO DO it</div>
+                <div className={styles.app_icon}>主</div>
             </div>
             <div className="nav_group">
                 <ChangeTime />
@@ -18,7 +21,7 @@ let NavigationBar = () => (
             </div>
             <div className="nav_group">
                 <ChangeTimeItem />
-                <div>使用者</div>
+                <div className={styles.login} onClick={openCard}>登入</div>
             </div>
         </div>
     </nav>

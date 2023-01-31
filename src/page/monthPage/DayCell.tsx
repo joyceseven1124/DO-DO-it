@@ -5,11 +5,14 @@ import { RootState } from '../../store/index';
 import { DayCell} from './actionStyle';
 import tag from "./ToDoListTag"
 import styles from '/public/css/monthPage.module.css';
+import colors from '/public/css/colors.module.css';
 import dayjs from 'dayjs';
 import toObject from 'dayjs/plugin/toObject';
 import weekday from 'dayjs/plugin/weekday';
 dayjs.extend(toObject);
 dayjs.extend(weekday);
+
+console.log(colors)
 
 //let maxDay: number;
 //let maxPrevMonthDay:number
@@ -46,6 +49,16 @@ function generateMonthData(searchMonth: number) {
     let nowMonthMaxDay = findMaxDay(monthNumber);
     let preMonthMaxDay = findMaxDay(monthNumber - 1);
 
+    let nowTime:string = dayjs().format('YYYY-MM-DD')
+    console.log(nowTime.split("-"))
+    const nowMonth = Number(nowTime.split("-")[1])
+    const nowDate = Number(nowTime.split("-")[2])
+    console.log(Number(nowMonth),Number(nowDate))
+    if(monthNumber === Number(nowMonth)){
+
+    }
+   
+
     let monthStart: number = dayjs()
         .add(searchMonth, 'month')
         .date(1)
@@ -61,25 +74,34 @@ function generateMonthData(searchMonth: number) {
     let nextMonthDay = 1;
     let thisMonthDay = 1;
     let preMonthDay = preMonthMaxDay - monthStart + 2;
+   
     for (let i = 1; i <= cells; i++) {
         if (i < monthStart) {
             let dayHtml = (
                 <DayCell
                     id={`cell-${i}-1`}
-                    primary={false}
+                    primary={"var(--otherMonthWorldColor)"}
                     key={`cmd-${i}`}
                     className="date"
                 >
-                    <div>{preMonthDay}</div>
+                    <div className='date_word'>{preMonthDay}</div>
                 </DayCell>
             );
             monthDataArray.push(dayHtml);
             preMonthDay = preMonthDay + 1;
         } else if (i <= nowMonthMaxDay + monthStart - 1) {
             let row =Math.ceil( i/7 )
+
+            let nowTimeResult = false
+            let primaryResult:string = "var(--thisMonthWorldColor)"
+            if(monthNumber === nowMonth && thisMonthDay === nowDate){
+                nowTimeResult = true
+                //primaryResult = "var(--nowTimeWorldColor)"
+            }
+            
             let dayHtml = (
-                <DayCell id={`cell-${i}-${row}`} primary={true} key={`cmd-${i}`} className="date">
-                    <div>{thisMonthDay}</div>
+                <DayCell id={`cell-${i}-${row}`} primary={primaryResult} key={`cmd-${i}`} className="date" nowTime={nowTimeResult}>
+                    <div className='date_word'>{thisMonthDay}</div>
                 </DayCell>
             );
             monthDataArray.push(dayHtml);
@@ -87,8 +109,8 @@ function generateMonthData(searchMonth: number) {
         } else {
             let row =Math.ceil( i/7 )
             let dayHtml = (
-                <DayCell id={`cell-${i}-${row}`} primary={false} key={`cmd-${i}`} className="date">
-                    <div>{nextMonthDay}</div>
+                <DayCell id={`cell-${i}-${row}`} primary={"var(--otherMonthWorldColor)"} key={`cmd-${i}`} className="date">
+                    <div className='date_word'>{nextMonthDay}</div>
                 </DayCell>
             );
             monthDataArray.push(dayHtml);

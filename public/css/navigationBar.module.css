@@ -22,17 +22,22 @@
 .nav_container{
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin: 1px;
+    height: 100px;
+    box-sizing: border-box;
+    padding-top: 20px;
+    background-color: var(--navBgColor);
+    opacity: 1;
 }
 
 .nav_bar{
     display: flex;
-    width: 1200px;
+    width: 1600px;
     align-items: center;
     justify-content: space-between;
     height: 50px;
-    color: grayWorld;
-    cursor: pointer;
+    color: white;
+    
 }
 
 :global(.nav_group){
@@ -46,49 +51,75 @@
     margin-right: 20px;
 }
 
+.app_icon{
+    background-image: url(/public/assets/app_icon.png);
+    width:200px;
+    height: 50px;
+    background-size:contain;
+    background-position:center;
+    background-repeat: no-repeat;
+    margin-right: 20px;
+    color: rgba(0,0,0,0);
+}
+
 .change_time{
+    font-family: 'Lilita One', cursive;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     height: 80px;
+    width: 300px;
     font-size: 30px;
     font-weight: 600;
-    margin-right: 20px;
+    margin-right: 80px;
+    cursor: pointer;
+}
+
+:global(.arrow_background){
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: antiquewhite;
+}
+
+:global(.arrow_background):hover{
+    box-sizing: border-box;
+    border:#03e9f4 1px solid;
 }
 
 .left_arrow_icon{
     background-image: url(/public/assets/left_arrow_icon.png);
     composes:icon;
-    margin-right: 20px;
-    width: 8px;
+    margin: 15px;
 }
 
 .right_arrow_icon{
     background-image: url(/public/assets/right_arrow_icon.png);
     composes:icon;
-    margin-left: 20px;
-    width: 8px;
+    margin: 15px;
 }
+
+
 
 .search{
     display: flex;
     align-items: center;
-    width: 400px;
+    width: 600px;
     height: 36px;
     border-radius: 5px;
-    background-color: grayLine;
-}
-
-.search:active{
-    
+    background-color: white;
 }
 
 .search_input{
+    font-family: 'Potta One', cursive;
     border: 0px;
     outline: 0px;
     width: 380px;
     height: 30px;
     margin-left: 10px;
-    background-color: grayLine;
+    background-color: white;
+    caret-color:#03e9f4;
+    width: 100%;
 }
 
 .search_input:focus{
@@ -106,6 +137,7 @@
 }
 
 .change_time_type{
+    font-family: 'Potta One', cursive;
     margin-right: 20px;
     box-sizing: border-box;
     height: 36px;
@@ -114,8 +146,22 @@
     border-radius: 5px;
     text-align: center;
     line-height: 36px;
+    cursor: pointer;
 }
 
 .time_type_items{
     display: none;
+}
+
+.login{
+    font-family: 'Potta One', cursive;
+    margin-right: 20px;
+    box-sizing: border-box;
+    height: 36px;
+    width: 100px;
+    border: 1px solid grayLine;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
 }

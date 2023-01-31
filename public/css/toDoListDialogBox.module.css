@@ -17,25 +17,53 @@
     cursor: pointer;
 }
 
-.toDoListDialogBox_container{
-    width: 1200px;
+.toDoListDialogBox_background{
     display: none;
-    justify-content: center;
     position: absolute;
+    top:0px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.437);
     z-index: 10;
+    justify-content: center;
+}
+
+.toDoListDialogBox_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1600px;
+    
     top:25%;
     left:11%;
+    display: flex;
+}
+
+.toDoListDialogPic{
+    background-color: black;
+    background-image: url(/public/assets/task_card.png);
+    width: 300px;
+    height: 450px;
+    background-size:contain;
+    background-position:center;
+    background-repeat: no-repeat;
+    color: white;
+    box-sizing: border-box;
+    text-align: center;
+    padding-top: 350px;
+    border-radius: 5px 0px 0px 5px;
 }
 
 .toDoListDialogBox{
     text-align: center;
     width: 400px;
+    height: 450px;
     background-color: dialogBoxBg;
-    border-radius: 5px;
+    border-radius: 0px 5px 5px 0px;
     padding: 10px;
     box-sizing: border-box;
     -webkit-box-shadow: 0px 0px 12px 3px rgba(178, 178, 178, 0.73);
-    box-shadow: 0px 0px 12px 3px rgba(178, 178, 178, 0.73);
+    box-shadow: 0px 0px 12px 3px rgba(81, 80, 80, 0.73);
 }
 
 .close_container{
@@ -157,8 +185,8 @@
     height: 40px;
     border-radius: 5px;
     line-height: 40px;
-    color: white;
-    background-color: saveButtonBg;
+    color: #4158D0;
+    border: 1px solid #4158D0;
     cursor: pointer;
     margin-bottom: 20px;
 }
@@ -166,7 +194,8 @@
 
 
 .save_button:hover{
-    background-color: saveButtonActiveBg;
+    background-color: #4158D0;
+    color: white;
 }
 
 

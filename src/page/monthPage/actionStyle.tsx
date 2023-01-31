@@ -18,12 +18,35 @@ import styled from 'styled-components';
   }}
 `;*/
 
-export const DayCell = styled.div<{ primary: boolean }>`
-    color: ${({ primary }) => {
-        return primary ? 'black' : '#8a8a8a';
-    }};
+interface DayCell {
+  primary: string;
+  nowTime?:boolean
+}
+
+
+export const DayCell = styled.div<DayCell>`
     position:relative;
+   
+    .date_word{
+      background-color:${({ nowTime }) => {
+        return nowTime ? 'var(--nowTimeBgColor)' : 'var(--otherTimeBgColor)';
+    }};
+      width:30px;
+      height:30px;
+      border-radius:15px;
+      line-height:30px;
+      margin:5px auto;
+      color: ${(props)=>props.primary};
+      cursor:pointer;
+      &:hover{
+        background-color:${({ nowTime }) => {
+        return nowTime ? 'var(--nowTimeBgHoverColor)' : "var(--grayBgHoverColor)";
+      }};
+      }
+    }
 `;
+
+
 
 interface Tag {
   color?: string;
@@ -36,7 +59,7 @@ interface Tag {
 
 export const Tag = styled.div<Tag>`
     box-sizing:border-box;
-    background-color:yellow;
+    background-color: var(--tagBgColor);
     width:${(props) => props.width};
     position:absolute;
     left:${(props)=>props.left};
@@ -45,4 +68,7 @@ export const Tag = styled.div<Tag>`
     text-align:left;
     padding-left:5px;
     z-index:5;
+    pointer-events: none;
+    
 `;
+//

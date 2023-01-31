@@ -11,15 +11,17 @@ function MonthBlock() {
     return (
         <div className={styles.monthPage_container}>
             <div>
-                <ul className={styles.week_title}>
-                    <ol className="week">MON</ol>
-                    <ol className="week">TUE</ol>
-                    <ol className="week">WED</ol>
-                    <ol className="week">THU</ol>
-                    <ol className="week">FRI</ol>
-                    <ol className="week">SAT</ol>
-                    <ol className="week">SUN</ol>
-                </ul>
+                <div className={styles.week_container}>
+                    <ul className={styles.week_title}>
+                        <ol className="week">MON</ol>
+                        <ol className="week">TUE</ol>
+                        <ol className="week">WED</ol>
+                        <ol className="week">THU</ol>
+                        <ol className="week">FRI</ol>
+                        <ol className="week">SAT</ol>
+                        <ol className="week">SUN</ol>
+                    </ul>
+                </div>
                 <MonthCell />
             </div>
         </div>

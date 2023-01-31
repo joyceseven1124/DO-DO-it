@@ -5,8 +5,25 @@
 @value dialogBoxBg white;
 @value inputFocus #4c95f4;
 
+@value mainBgColor rgb(43, 43, 43);
+
+:root {
+  --tagBgColor:yellow;
+  --mainBgColor:rgb(43, 43, 43,0.8);
+  --navBgColor:rgb(43, 43, 43);
+  --otherMonthWorldColor:#8a8a8a;
+  --thisMonthWorldColor: black;
+  --nowTimeWorldColor:white;
+  --nowTimeBgColor: #03e9f4;
+  --nowTimeBgHoverColor:rgb(204, 174, 5);
+  --otherTimeBgColor:white;
+  --inputFocus: #4c95f4;
+  --grayBgHoverColor:rgba(240, 240, 240, 0.834);
+  
+}
+
 
 .CSS{
-    background-color: #4c95f4;
+    background-color: rgb(204, 174, 5);
 }
 

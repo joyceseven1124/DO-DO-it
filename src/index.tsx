@@ -9,6 +9,8 @@ import  MonthBlock  from './page/monthPage';
 import DayBlock from './page/dayPage';
 import NavigationBar from './components/NavigationBar';
 import ToDoListDialogBox from "./components/ToDoListDialogBox"
+import Register from "./components/navigation/member/Register"
+import SingIn from './components/navigation/member/SignIn';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -19,6 +21,8 @@ const App = () => {
         <div>
             <NavigationBar/>
             <ToDoListDialogBox/>
+            <SingIn/>
+            <Register/>
             <BrowserRouter>
             <Routes>
                 <Route  path="/" element={<MonthBlock />} />
