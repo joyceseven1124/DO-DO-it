@@ -159,8 +159,8 @@ export default function MonthCell() {
             onDragEnter={dragenter}
             onDragLeave={dragleave}
             onDrop={dragDrop}
-            onMouseDown={tag.mouseDown}
-            onMouseUp={tag.mouseUp}
+            onPointerDown={tag.mouseDown}
+            onPointerUp={tag.mouseUp}
             >
             {dayArrayIsValue}
         </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import styles from '/public/css/toDoListDialogBox.module.css';
+import TimeInformation from './toDoListDialog/TimeDuraction';
 
 const closedDialog = (e:any) =>  {
     document.getElementById("toDoListDialogBox").style.display="none"
@@ -34,23 +35,17 @@ export default function ToDoListDialogBox(){
                             <div className={styles.under_line}></div>
                         </div>
 
-                        <div className={styles.colorItem_container}>
-                            <div className={styles.time_information}>
-                                <span>紅色</span>
-                                <span>綠色</span>
-                                <span>黃色</span>
+                        <div className={styles.colors_items_container}>
+                            <div className={styles.colors_items}>
+                                <div className={styles.color_item_style}>紅</div>
+                                <div className={styles.color_item_style}>綠</div>
+                                <div className={styles.color_item_style}>黃</div>
+                                <div className={styles.color_item_style}>紫</div>
+
                             </div>
                         </div>
 
-                        <div className={styles.time_container}>
-                            <span className={styles.time_icon}>時</span>
-                            <div className={styles.time_information}>
-                                <span>Feb 8,2023</span>
-                                <span>12:00am</span>
-                                <span>all day</span>
-                                <input type={"checkbox"}></input>
-                            </div>
-                        </div>
+                        <TimeInformation/>
                         <div className={styles.description_container}>
                             <span className={styles.description_icon}>描</span>
                             <textarea

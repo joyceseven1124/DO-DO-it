@@ -26,7 +26,6 @@ interface DayCell {
 
 export const DayCell = styled.div<DayCell>`
     position:relative;
-   
     .date_word{
       background-color:${({ nowTime }) => {
         return nowTime ? 'var(--nowTimeBgColor)' : 'var(--otherTimeBgColor)';
@@ -69,6 +68,5 @@ export const Tag = styled.div<Tag>`
     padding-left:5px;
     z-index:5;
     pointer-events: none;
-    
 `;
-//
+// 

@@ -4,7 +4,6 @@ import { Tag } from './actionStyle';
 
 let tagPathData: { [key: string]: string }[] = [];
 
-
 function getPosition (element:any) {
   let x = 0;
   let y = 0;
@@ -17,7 +16,6 @@ function getPosition (element:any) {
   return { x: x, y: y };
 }
 
-
 function checkElementIntersect(e:any){
     const id = Number(e.target.id.split("-")[1]);
     const row = Number(e.target.id.split("-")[2]);
@@ -27,8 +25,7 @@ function checkElementIntersect(e:any){
     const check = (element:any) => {
         const cellSize = document.getElementById("cell-1-1").offsetWidth
         const tagWidth = (element as HTMLElement).offsetWidth
-        const perElementId = Number(element.id.split("-")[1])
-        console.log("我"+perElementId)
+        const elementId = Number(element.id.split("-")[1])
         if(tagWidth>cellSize){
             const position = getPosition(element).x
             const elementRightPlace = Math.floor((position+tagWidth)/cellSize)
@@ -37,12 +34,12 @@ function checkElementIntersect(e:any){
             if(targetPlace<=elementRightPlace){
                 return true
             }
-        }else if(id === perElementId){
+        }else if(id === elementId){
             return true
         }
     }
+
     for(let i=row*7-6; i<=row*7; i++ ){
-        //const sameRowTag = document.querySelector(`.toDoListTag-${i}-0`)
         const sameRowTagOne = document.querySelector(`#toDoListTag-${i}-0`)
         const sameRowTagTwo = document.querySelector(`#toDoListTag-${i}-1`)
         const sameRowTagThree = document.querySelector(`#toDoListTag-${i}-2`)
@@ -66,12 +63,6 @@ function checkElementIntersect(e:any){
                 intersectNumber++
             }
         }
-        
-        /*if(i === id){
-            intersectNumber++
-        }*/
-
-        console.log("交叉"+intersectNumber)
     }
 
     if(intersectNumber===0){
@@ -84,167 +75,179 @@ function checkElementIntersect(e:any){
     return {positionTop:positionTop,intersectNumber:intersectNumber}
 }
 
+interface commonValue {
+    startCell:number;
+    endCell:number;
+    cellWidth:string;
+    dragging:boolean;
+    changeRowStatus:boolean;
+    insertPlace:number;
+    startRow:number;
+    endRow:number;
+    positionLeft:string;
+    positionRight:string;
+    firstTagIs:string;
+    nowTagIs:string;
+    rowsTags:string[];
+    changeEndTagId:number
+}
 
-let startCell:number
-let endCell:number
-let cellWidth:string = "100%"
-let dragging:boolean = false
-let changeRowStatus:boolean=false
-let insertPlace:number = 0
-let startRow:number
-let endRow:number
-let positionLeft:string="auto"
-let positionRight:string="auto"
-let nowTagIs:string
+let commonValue:commonValue = {
+    startCell:0,
+    endCell:0,
+    cellWidth:"100%",
+    dragging:false,
+    changeRowStatus:false,
+    insertPlace: 0,
+    startRow:0,
+    endRow:0,
+    positionLeft:"auto",
+    positionRight:"auto",
+    firstTagIs:"",
+    nowTagIs:"",
+    rowsTags:[],
+    changeEndTagId:0,
+}
+
 
 //let positionTop:string="auto"
 
 function mouseDown(e:any){
-    console.log("滑鼠按下")
-    console.log(e.target)
     if(!e.target.className.includes("toDoListTag")){
-        startCell = Number(e.target.id.split("-")[1])
-        console.log(startCell)
-        startRow = e.target.id.split("-")[2];
-        console.log(startRow)
+        commonValue.startCell = Number(e.target.id.split("-")[1])
+        commonValue.startRow = e.target.id.split("-")[2];
         draw(e)
         const monthCellArray = Array.from(document.getElementsByClassName("date"))
         monthCellArray.forEach(element => {
-            element.addEventListener("mouseenter",changeTagWidth)
-
+            element.addEventListener("pointerenter",changeTagWidth)
         });
-        
     }
 }
 
-/*function changeTagZIndex(e:any){
-    e.target.style.zIndex = "0";
-}*/
-
 function changeTagWidth(e:any){
-    if(!dragging){
-        //const startPlaceTag = document.querySelector<HTMLElement>(`.toDoListTag-${startCell}`);
-        const startPlaceTag = document.getElementById(nowTagIs)
-        //startPlaceTag.addEventListener("mouseenter",changeTagZIndex)
-        endCell = Number(e.target.id.split("-")[1]);
-        endRow = e.target.id.split("-")[2];
-        if(endRow !==startRow){
-            changeRowStatus = true
-            draw(e)
-            changeRowStatus = false
-        }else{
-            const tagWidth:number = ((Math.abs(startCell-endCell)+1)*100)
-            if(startCell>endCell){
-                startPlaceTag.style.right="1%"
-            }else if(startCell === endCell){
-                startPlaceTag.style.left="auto"
-                startPlaceTag.style.right="auto"
+    const startPlaceTag = document.getElementById(commonValue.nowTagIs)
+    commonValue.endCell = Number(e.target.id.split("-")[1]);
+    commonValue.endRow = e.target.id.split("-")[2];
+    if(commonValue.endRow !==commonValue.startRow){
+        commonValue.changeRowStatus = true
+        let id = commonValue.changeEndTagId
+        const perRowStartNumber = [1,8,15,22,29,36]
+        const perRowEndNumber = [7,14,21,28,35,42]
+        if(commonValue.startRow>commonValue.endRow){
+            if(perRowStartNumber.includes(id)){
+                id = id +6
+                commonValue.positionRight = "1%"
+                commonValue.cellWidth = "700%"
+            }else if(perRowEndNumber.includes(id)){
+                commonValue.cellWidth = "100%"
+                startPlaceTag.style.right = "1%"
+                startPlaceTag.style.width="700%"
             }else{
-                startPlaceTag.style.left="1%"
+                const firstRowWidth = (Math.abs(commonValue.startCell - (commonValue.startRow*7-6))+1)*100
+                startPlaceTag.style.right="1%"
+                startPlaceTag.style.width= `${firstRowWidth}%`
+                const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7))+1)*100
+                id = commonValue.endRow*7
+                commonValue.positionRight = "1%"
+                commonValue.cellWidth = `${SecondRowWidth}%`
             }
-            startPlaceTag.style.width = `${tagWidth}%`
+        }else if(commonValue.startRow<commonValue.endRow){
+            if(perRowStartNumber.includes(id)){
+                startPlaceTag.style.width="700%"
+                const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7-6))+1)*100
+                commonValue.cellWidth = `${SecondRowWidth}%`
+                commonValue.positionLeft="1%"
+            }else if(perRowEndNumber.includes(id)){
+                id = id-6
+                commonValue.cellWidth = "700%"
+                commonValue.positionLeft="1%"
+            }else{
+                const firstRowWidth = (Math.abs(commonValue.startCell - commonValue.startRow*7)+1)*100
+                startPlaceTag.style.width= `${firstRowWidth}%`
+                const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7-6))+1)*100
+                id = commonValue.endRow*7-6
+                commonValue.cellWidth = `${SecondRowWidth}%`
+                commonValue.positionLeft="1%"
+            }
+
         }
+        commonValue.changeEndTagId = id
+        draw(e)
+        commonValue.changeEndTagId = 0
+
+    }else{
+        const tagWidth:number = ((Math.abs(commonValue.startCell-commonValue.endCell)+1)*100)
+        if(commonValue.startCell>commonValue.endCell){
+            startPlaceTag.style.right="1%"
+        }else if(commonValue.startCell === commonValue.endCell){
+            startPlaceTag.style.left="auto"
+            startPlaceTag.style.right="auto"
+        }else{
+            startPlaceTag.style.left="1%"
+        }
+        let checkResultIntersect = checkElementIntersect(e)
+        if(checkResultIntersect.intersectNumber>0){
+            startPlaceTag.style.top = checkResultIntersect.positionTop
+        }
+        startPlaceTag.style.width = `${tagWidth}%`
     }
 }
 
 function mouseUp(e:any){
-    console.log("滑鼠放開")
-    console.log(e.target)
     const monthCellArray = Array.from(document.getElementsByClassName("date"))
     monthCellArray.forEach(element => {
-        element.removeEventListener("mouseenter",changeTagWidth)
+        element.removeEventListener("pointerenter",changeTagWidth)
     });
-    
-    //const  test = document.getElementById("test")
-    //test.style.display = "none"
-    //console.log(test)
-    const dialogBox = document.getElementById("toDoListDialogBox")
-    dialogBox.style.display="flex"
-    dialogBox.setAttribute("className",`${startCell}`)
-    setTimeout(function(){
-        document.getElementById("toDoListTitle").focus()
-    },0)
-    const startPlaceTag = document.querySelector<HTMLElement>(`.toDoListTag-${startCell}`);
-    //startPlaceTag.removeEventListener("mouseenter",changeTagZIndex)
-    //startPlaceTag.style.zIndex = "5";
-    startPlaceTag.style.pointerEvents = "auto"
+    console.log("滑鼠放開")
+    console.log(e.target)
+    if(e.target.classList.contains("date")){
+        const dialogBox = document.getElementById("toDoListDialogBox")
+        dialogBox.style.display="flex"
+        //dialogBox.setAttribute("className",`${commonValue.startCell}`)
+        setTimeout(function(){
+            document.getElementById("toDoListTitle").focus()
+        },0)
 
-
-
-    console.log("我的起末點")
-    console.log(startCell)
-    console.log(endCell)
-    const key = `cell-${startCell}`
-    const value = `${startCell}-${endCell}`
-    //寫成解構的方式
-    tagPathData.push({[key]: value})
-    console.log(tagPathData[startCell-1])
-    let x
-    
-    console.log(x)
-    console.log(tagPathData)
+        let id = Number(e.target.id.split("-")[1]);
+        commonValue.rowsTags.forEach((element)=>{
+            //const startPlaceTag = document.querySelector<HTMLElement>(`.toDoListTag-${commonValue.startCell}`);
+            console.log(element)
+            const startPlaceTag = document.getElementById(element)
+            startPlaceTag.style.pointerEvents = "auto";
+        })
+        if(commonValue.changeRowStatus){
+            const totalDay = Math.abs(commonValue.startCell - id)+1
+            const connectData = `first-${commonValue.startCell}-second-${id}-totalDay-${totalDay}`
+            commonValue.rowsTags.forEach((element) =>{
+                 document.getElementById(element).setAttribute("connectData",connectData)
+            })
+            commonValue.changeRowStatus = false
+        }
+    }
+    commonValue.rowsTags= []
 }
 
 function draw(e:any){
-    let id = Number(e.target.id.split("-")[1]);
-    if(id){
-        if(insertPlace !== 0){
-            id =id - (insertPlace-1)
-            insertPlace = 0
+    if(!e.target.classList.contains("date_word")){
+        let id = Number(e.target.id.split("-")[1]);
+        //commonValue.drawId = id
+        console.log("畫圖"+id)
+        if(commonValue.insertPlace !== 0){
+            id =id - (commonValue.insertPlace-1)
+            commonValue.insertPlace = 0
         }
-        
-        if(changeRowStatus){
-            const perRowStartNumber = [1,8,15,22,29,36]
-            const perRowEndNumber = [7,14,21,28,35,42]
-            const startPlaceTag = document.querySelector<HTMLElement>(`.toDoListTag-${startCell}`);
-            if(startRow>endRow){
-                if(perRowStartNumber.includes(id)){
-                    id = id +6
-                    positionRight = "1%"
-                    cellWidth = "700%"
-                }else if(perRowEndNumber.includes(id)){
-                    cellWidth = "100%"
-                    startPlaceTag.style.right = "1%"
-                    startPlaceTag.style.width="700%"
-                }else{
-                    const firstRowWidth = (Math.abs(startCell - (startRow*7-6))+1)*100
-                    startPlaceTag.style.right="1%"
-                    startPlaceTag.style.width= `${firstRowWidth}%`
-                    const SecondRowWidth =  (Math.abs(endCell - (endRow*7))+1)*100
-                    id = endRow*7
-                    positionRight = "1%"
-                    cellWidth = `${SecondRowWidth}%`
-                }
-            }else if(startRow<endRow){
-                if(perRowStartNumber.includes(id)){
-                    startPlaceTag.style.width="700%"
-                    cellWidth = "100%"
-                }else if(perRowEndNumber.includes(id)){
-                    id = id-6
-                    cellWidth = "700%"
-                }else{
-                    const firstRowWidth = (Math.abs(startCell - startRow*7)+1)*100
-                    startPlaceTag.style.width= `${firstRowWidth}%`
-                    const SecondRowWidth =  (Math.abs(endCell - (endRow*7-6))+1)*100
-                    id = endRow*7-6
-                    cellWidth = `${SecondRowWidth}%`
-                }
-
-            }
-            const totalDay = Math.abs(startCell - id)+1
-            //startPlaceTag.classList.add(myClass);
-            let connectData = `first-${startCell}-second-${id}-totalDay-${totalDay}`
-            startPlaceTag.setAttribute("connectData",connectData);
-        }
-       
-        
 
         const checkElementIntersectResult = checkElementIntersect(e)
+        const positionTop = checkElementIntersectResult.positionTop
+
+        if(commonValue.changeRowStatus){
+            id = commonValue.changeEndTagId
+        }
         const intersectElement = document.querySelectorAll(`.container-${id}`)
         const intersectNumber = intersectElement.length
-
-        console.log("這個長度"+intersectNumber)
-        const positionTop = checkElementIntersectResult.positionTop
+        commonValue.nowTagIs = `toDoListTag-${id}-${intersectNumber}`
+        commonValue.rowsTags.push(`toDoListTag-${id}-${intersectNumber}`)
+        
 
         const row = Math.ceil( id/7 )
         const place = document.getElementById(`cell-${id}-${row}`)
@@ -252,10 +255,6 @@ function draw(e:any){
         container.setAttribute("class", `container-${id} ${intersectNumber}`);
         place.appendChild(container);
         const root = ReactDOM.createRoot(container);
-        nowTagIs = `toDoListTag-${id}-${intersectNumber}`
-
-        
-
         root.render(
             <Tag
                 id = {`toDoListTag-${id}-${intersectNumber}`}
@@ -263,33 +262,31 @@ function draw(e:any){
                 onDragStart={dragstart}
                 onDragEnd={dragend}
                 draggable="true"
-                width={cellWidth}
+                onClick={openToDoList}
+                width={commonValue.cellWidth}
                 top = {positionTop}
-                left = {positionLeft}
-                right={positionRight}
+                left = {commonValue.positionLeft}
+                right={commonValue.positionRight}
                 >
                 (No title)
             </Tag>
         );
-
     }
-    cellWidth = "100%"
-    positionRight = "auto"
-    positionLeft = "auto"
-
-
+    commonValue.cellWidth = "100%"
+    commonValue.positionRight = "auto"
+    commonValue.positionLeft = "auto"
 };
 
+function openToDoList(){
+    console.log("假裝打開")
+}
 
 function dragstart(e: any){
-    console.log(e.target)
-    //let x = document.querySelector("Tag")
-    //console.log(x)
-    dragging = true
     const monthCellArray = Array.from(document.getElementsByClassName("date"))
     monthCellArray.forEach(element => {
-        element.removeEventListener("mouseenter",changeTagWidth)
+        element.removeEventListener("pointerenter",changeTagWidth)
     });
+    //下共同連結的判斷式
     //setTimeout(() => (e.target.className = 'invisible'), 0);
     const elementPosition = getPosition(e.target)
     const cellSize = document.getElementById("cell-1-1").offsetWidth
@@ -299,20 +296,21 @@ function dragstart(e: any){
     }else{
         clickElementPlace = Math.ceil(clickElementPlace)
     }
-    insertPlace = clickElementPlace
+    commonValue.insertPlace = clickElementPlace
     //e.dataTransfer.setData('width',`${e.target.offsetWidth}px`)
-    cellWidth = `${e.target.offsetWidth}px`
+    commonValue.cellWidth = `${e.target.offsetWidth}px`
 };
 
 const dragend = (e: any) => {
-    dragging = false
+    commonValue.dragging = false
     const cellId = e.target.parentNode.parentNode.id
     const prevCell = document.getElementById(cellId)
     const tag = e.target.parentNode.className
     const prevTag = document.getElementsByClassName(tag)
     prevCell.removeChild(prevTag[0]);
-    cellWidth = "100%"
-
+    commonValue.cellWidth = "100%"
+    const newTag = document.getElementById(commonValue.nowTagIs);
+    newTag.style.pointerEvents = "auto";
 };
 
 export default{
