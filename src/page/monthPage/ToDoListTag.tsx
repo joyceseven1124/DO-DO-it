@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Tag } from './actionStyle';
 
+
 let tagPathData: { [key: string]: string }[] = [];
 
 function getPosition (element:any) {
@@ -92,6 +93,7 @@ interface commonValue {
     changeEndTagId:number
 }
 
+//用useState代替，須歸零的部分或重新計算
 let commonValue:commonValue = {
     startCell:0,
     endCell:0,
@@ -115,7 +117,7 @@ let commonValue:commonValue = {
 function mouseDown(e:any){
     if(!e.target.className.includes("toDoListTag")){
         commonValue.startCell = Number(e.target.id.split("-")[1])
-        commonValue.startRow = e.target.id.split("-")[2];
+        commonValue.startRow = Number(e.target.id.split("-")[2]);
         draw(e)
         const monthCellArray = Array.from(document.getElementsByClassName("date"))
         monthCellArray.forEach(element => {
@@ -125,59 +127,96 @@ function mouseDown(e:any){
 }
 
 function changeTagWidth(e:any){
-    const startPlaceTag = document.getElementById(commonValue.nowTagIs)
+    //目前的位置
+    let startPlaceTag = document.getElementById(commonValue.nowTagIs)
     commonValue.endCell = Number(e.target.id.split("-")[1]);
-    commonValue.endRow = e.target.id.split("-")[2];
+    commonValue.endRow = Number(e.target.id.split("-")[2]);
     if(commonValue.endRow !==commonValue.startRow){
-        commonValue.changeRowStatus = true
         let id = commonValue.changeEndTagId
         const perRowStartNumber = [1,8,15,22,29,36]
         const perRowEndNumber = [7,14,21,28,35,42]
-        if(commonValue.startRow>commonValue.endRow){
-            if(perRowStartNumber.includes(id)){
-                id = id +6
-                commonValue.positionRight = "1%"
-                commonValue.cellWidth = "700%"
-            }else if(perRowEndNumber.includes(id)){
-                commonValue.cellWidth = "100%"
-                startPlaceTag.style.right = "1%"
-                startPlaceTag.style.width="700%"
-            }else{
-                const firstRowWidth = (Math.abs(commonValue.startCell - (commonValue.startRow*7-6))+1)*100
-                startPlaceTag.style.right="1%"
-                startPlaceTag.style.width= `${firstRowWidth}%`
-                const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7))+1)*100
-                id = commonValue.endRow*7
-                commonValue.positionRight = "1%"
-                commonValue.cellWidth = `${SecondRowWidth}%`
-            }
-        }else if(commonValue.startRow<commonValue.endRow){
-            if(perRowStartNumber.includes(id)){
-                startPlaceTag.style.width="700%"
-                const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7-6))+1)*100
-                commonValue.cellWidth = `${SecondRowWidth}%`
-                commonValue.positionLeft="1%"
-            }else if(perRowEndNumber.includes(id)){
-                id = id-6
-                commonValue.cellWidth = "700%"
-                commonValue.positionLeft="1%"
-            }else{
-                const firstRowWidth = (Math.abs(commonValue.startCell - commonValue.startRow*7)+1)*100
-                startPlaceTag.style.width= `${firstRowWidth}%`
-                const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7-6))+1)*100
-                id = commonValue.endRow*7-6
-                commonValue.cellWidth = `${SecondRowWidth}%`
-                commonValue.positionLeft="1%"
-            }
+        //換行折返
+        const pathNumber = commonValue.rowsTags.length
+        console.log("我再找邏輯")
+        console.log(pathNumber)
+        console.log(Math.abs(commonValue.endRow-commonValue.startRow))
+        //依序擺入判斷是中
+        //commonValue.endRow > pathNumber
+        //commonValue.endRow === pathNumber
+        if( Math.abs(commonValue.endRow-commonValue.startRow) === pathNumber){
+            //用useState代替
+            commonValue.changeRowStatus = true
+            if(commonValue.startRow>commonValue.endRow){
+                if(perRowStartNumber.includes(id)){
+                    id = id +6
+                    commonValue.positionRight = "1%"
+                    commonValue.cellWidth = "700%"
+                }else if(perRowEndNumber.includes(id)){
+                    commonValue.cellWidth = "100%"
+                    startPlaceTag.style.right = "1%"
+                    startPlaceTag.style.width="700%"
+                }else{
+                    const firstRowWidth = (Math.abs(commonValue.startCell - (commonValue.startRow*7-6))+1)*100
+                    startPlaceTag.style.right="1%"
+                    startPlaceTag.style.width= `${firstRowWidth}%`
+                    const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7))+1)*100
+                    id = commonValue.endRow*7
+                    commonValue.positionRight = "1%"
+                    commonValue.cellWidth = `${SecondRowWidth}%`
+                }
+            }else if(commonValue.startRow<commonValue.endRow){
+                if(perRowStartNumber.includes(id)){
+                    startPlaceTag.style.width="700%"
+                    const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7-6))+1)*100
+                    commonValue.cellWidth = `${SecondRowWidth}%`
+                    commonValue.positionLeft="1%"
+                }else if(perRowEndNumber.includes(id)){
+                    id = id-6
+                    commonValue.cellWidth = "700%"
+                    commonValue.positionLeft="1%"
+                }else{
+                    const firstRowWidth = (Math.abs(commonValue.startCell - commonValue.startRow*7)+1)*100
+                    startPlaceTag.style.width= `${firstRowWidth}%`
+                    const SecondRowWidth =  (Math.abs(commonValue.endCell - (commonValue.endRow*7-6))+1)*100
+                    id = commonValue.endRow*7-6
+                    commonValue.cellWidth = `${SecondRowWidth}%`
+                    commonValue.positionLeft="1%"
+                }
 
+            }
+            commonValue.changeEndTagId = id
+            draw(e)
+            commonValue.changeEndTagId = 0
+        }else if(Math.abs(commonValue.endRow-commonValue.startRow) === 0){
+            const nowTagId = commonValue.rowsTags[pathNumber-1]
+            startPlaceTag = document.getElementById(nowTagId)
+            console.log("現在的tag是誰")
+            console.log(startPlaceTag)
+            const differentRowStartCell = Number(nowTagId.split("-")[1])
+            const tagWidth:number = ((Math.abs(differentRowStartCell-commonValue.endCell)+1)*100)
+            startPlaceTag.style.width = `${tagWidth}%`
+        }else{
+            const id = Number(commonValue.rowsTags[pathNumber-1].split("-")[1])
+            const deleteTagId = commonValue.rowsTags[pathNumber-1]
+            const deleteInCellId = `cell-${id}-${Math.ceil(id/7)}`
+            const deleteInCell = document.getElementById(deleteInCellId)
+            const deleteTag = document.getElementById(deleteTagId).parentNode
+            deleteInCell.removeChild(deleteTag)
+            commonValue.rowsTags.pop()
+            const nowTagIndex = commonValue.rowsTags.length-1
+            console.log("現在的tag是誰")
+            console.log(nowTagIndex)
+            startPlaceTag = document.getElementById(commonValue.rowsTags[nowTagIndex])
         }
-        commonValue.changeEndTagId = id
-        draw(e)
-        commonValue.changeEndTagId = 0
 
     }else{
+        console.log("我在這")
         const tagWidth:number = ((Math.abs(commonValue.startCell-commonValue.endCell)+1)*100)
-        if(commonValue.startCell>commonValue.endCell){
+        startPlaceTag.style.width = `${tagWidth}%`
+    }
+    
+    
+    if(commonValue.startCell>commonValue.endCell){
             startPlaceTag.style.right="1%"
         }else if(commonValue.startCell === commonValue.endCell){
             startPlaceTag.style.left="auto"
@@ -188,8 +227,6 @@ function changeTagWidth(e:any){
         let checkResultIntersect = checkElementIntersect(e)
         if(checkResultIntersect.intersectNumber>0){
             startPlaceTag.style.top = checkResultIntersect.positionTop
-        }
-        startPlaceTag.style.width = `${tagWidth}%`
     }
 }
 
@@ -198,9 +235,8 @@ function mouseUp(e:any){
     monthCellArray.forEach(element => {
         element.removeEventListener("pointerenter",changeTagWidth)
     });
-    console.log("滑鼠放開")
-    console.log(e.target)
     if(e.target.classList.contains("date")){
+        //可以用usestate代替
         const dialogBox = document.getElementById("toDoListDialogBox")
         dialogBox.style.display="flex"
         //dialogBox.setAttribute("className",`${commonValue.startCell}`)
@@ -211,7 +247,6 @@ function mouseUp(e:any){
         let id = Number(e.target.id.split("-")[1]);
         commonValue.rowsTags.forEach((element)=>{
             //const startPlaceTag = document.querySelector<HTMLElement>(`.toDoListTag-${commonValue.startCell}`);
-            console.log(element)
             const startPlaceTag = document.getElementById(element)
             startPlaceTag.style.pointerEvents = "auto";
         })
@@ -231,7 +266,6 @@ function draw(e:any){
     if(!e.target.classList.contains("date_word")){
         let id = Number(e.target.id.split("-")[1]);
         //commonValue.drawId = id
-        console.log("畫圖"+id)
         if(commonValue.insertPlace !== 0){
             id =id - (commonValue.insertPlace-1)
             commonValue.insertPlace = 0
@@ -241,10 +275,12 @@ function draw(e:any){
         const positionTop = checkElementIntersectResult.positionTop
 
         if(commonValue.changeRowStatus){
+            console.log("不會吧")
             id = commonValue.changeEndTagId
         }
         const intersectElement = document.querySelectorAll(`.container-${id}`)
         const intersectNumber = intersectElement.length
+
         commonValue.nowTagIs = `toDoListTag-${id}-${intersectNumber}`
         commonValue.rowsTags.push(`toDoListTag-${id}-${intersectNumber}`)
         
@@ -272,13 +308,14 @@ function draw(e:any){
             </Tag>
         );
     }
+    //用useState代替
     commonValue.cellWidth = "100%"
     commonValue.positionRight = "auto"
     commonValue.positionLeft = "auto"
 };
 
 function openToDoList(){
-    console.log("假裝打開")
+    document.getElementById("allToDoListDayDialogBox").style.display= "flex"
 }
 
 function dragstart(e: any){

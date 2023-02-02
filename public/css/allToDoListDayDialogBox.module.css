@@ -1,0 +1,217 @@
+.dialog_background{
+    display: none;
+    position: absolute;
+    background-color: rgba(50, 50, 50, 0.9);
+    width: 100%;
+    height: 100%;
+    z-index:10;
+    top:0px;
+    align-items: center;
+    justify-content: center;
+    -webkit-user-select:text;
+    -moz-user-select:text;
+    -o-user-select:text;
+}
+
+.carousel_card {
+ display: flex;
+}
+
+.close_icon{
+    background-image: url(/public/assets/close_icon.png);
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top:80px;
+    right: 10%;
+    text-align: right;
+    color: rgba(50, 50, 50, 0);
+    cursor: pointer;
+}
+
+.carousel__list {
+  display: flex;
+  list-style: none;
+  position: relative;
+  width: 1200px;
+  height: 1000px;
+  align-items: center;
+  justify-content: center;
+  perspective: 300px;
+}
+
+.carousel__item {
+  color: #fff;
+  font-size: 0px;
+  padding: 20px;
+  width: 450px;
+  height: 800px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 8px 0px rgba(50, 50, 50, 0.5);
+  position: absolute;
+  transition: all 0.3s ease-in;
+}
+.carousel__item:nth-child(1) {
+  background: black;
+}
+.carousel__item:nth-child(2) {
+  background: linear-gradient(45deg, #2D35EB 0%, #fdbb2d 100%);
+}
+.carousel__item:nth-child(3) {
+  background: linear-gradient(45deg, #2D35EB 0%, #22c1c3 100%);
+}
+
+.carousel__item[data-pos="0"] {
+  z-index: 5;
+}
+.carousel__item[data-pos="-1"], .carousel__item[data-pos="1"] {
+  opacity: 1;
+  filter: blur(1px) grayscale(10%);
+}
+.carousel__item[data-pos="-1"] {
+  transform: translateX(-40%) scale(0.9);
+  z-index: 4;
+}
+.carousel__item[data-pos="1"] {
+  transform: translateX(40%) scale(0.9);
+  z-index: 4;
+}
+
+.item_content{
+    width:100%;
+    height: 100%;
+    color: white;
+    z-index: 20;
+    font-size: 25px;
+    text-align: center;
+    font-family: 'Noto Sans TC', sans-serif;
+    position: relative;;
+}
+
+.card_pic{
+    background-image: url("/public/assets/card_pic_one.png");
+    width: 100px;
+    height: 100px;
+    background-size:contain;
+    background-position:center;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+    bottom:20px;
+    color: rgba(0,0,0,0);
+}
+
+.list_information{
+    width: 450px;
+    text-align: left;
+    margin: auto auto;
+}
+
+.list_title{
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.list_date{
+    font-size: 20px;
+}
+
+#content{
+    -webkit-user-select:text;
+    -moz-user-select:text;
+    -o-user-select:text;
+}
+
+.description_content{
+    margin: 20px auto;
+    width: 450px;
+    height: 300px;
+    background-color: aliceblue;
+    border-radius: 12px;
+    color:black;
+    text-align: left;
+    box-sizing: border-box;
+    padding: 20px;
+    font-size: 20px;
+    position: relative;;
+}
+
+.description_mark_tool{
+    background-image: url("/public/assets/pen_icon.png");
+    width: 50px;
+    height: 50px;
+    background-size:contain;
+    background-position:center;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 10px;
+    top:10px;
+    color: rgba(0,0,0,0);
+    cursor: pointer;
+}
+
+::-moz-selection { /* Code for Firefox */
+    background: rgba(50, 50, 50, 0.5);
+}
+
+::selection {
+    background: rgba(50, 50, 50, 0.5);
+}
+
+.edit_button_box{
+    display: flex;
+    width: 450px;
+    justify-content: right;
+    margin: auto auto;
+}
+.edit_button_box >div{
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.edit_button_box >div:hover{
+    color: rgb(191, 190, 190);
+}
+
+
+
+.finish_button{
+    width: 300px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 5px;
+    border: 1px solid white;
+    margin:  auto auto;
+    margin-top: 50px;
+    cursor: pointer;
+    -webkit-animation: shadowFloat 1.2s linear alternate infinite;
+    animation: shadowFloat 1.2s linear alternate infinite;
+}
+
+.finish_button:hover{
+    background-color: white;
+    color: purple;
+}
+
+@-webkit-keyframes shadowFloat {
+  0% {
+    box-shadow: 0 20px 40px #c7c7c7;
+    transform: translateY(-3px);
+  }
+  100% {
+    box-shadow: 0 10px 10px #bababa;
+    transform: translateY(3px);
+  }
+}
+
+@keyframes shadowFloat {
+  0% {
+    box-shadow: 0 20px 40px #c7c7c7;
+    transform: translateY(-3px);
+  }
+  100% {
+    box-shadow: 0 10px 10px #bababa;
+    transform: translateY(3px);
+  }
+}

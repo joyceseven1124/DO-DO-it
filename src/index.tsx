@@ -11,6 +11,8 @@ import NavigationBar from './components/NavigationBar';
 import ToDoListDialogBox from "./components/ToDoListDialogBox"
 import Register from "./components/navigation/member/Register"
 import SingIn from './components/navigation/member/SignIn';
+import AllToDoListDayDialogBox from './components/AllToDoListDayDialogBox';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -20,9 +22,10 @@ const App = () => {
       <Provider store={store}>
         <div>
             <NavigationBar/>
-            <ToDoListDialogBox/>
             <SingIn/>
             <Register/>
+            <ToDoListDialogBox/>
+            <AllToDoListDayDialogBox/>
             <BrowserRouter>
             <Routes>
                 <Route  path="/" element={<MonthBlock />} />
