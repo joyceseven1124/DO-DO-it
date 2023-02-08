@@ -49,11 +49,11 @@
 }
 
 :global(#register){
-    display: none;
+    display: flex;
 }
 
 :global(#sing_in){
-    display: none;
+    display: flex;
 }
 
 :global(.close_icon_box){
@@ -89,6 +89,7 @@
   display: inline-block;
   width: 100%;
   padding: 10px 0;
+  line-height: 16px;
   font-size: 16px;
   color: #fff;
   margin-bottom: 50px;
@@ -226,3 +227,103 @@ input:checked + :global(.show_password_label):after {
 
 
 
+
+
+
+:global(.fakePass) {
+	font-size: 1em;
+	width: 0%;
+	border-radius: 4px 0 0 4px;
+	position: absolute;
+	background: black;
+	z-index: 2;
+	height: 40px;
+	top: 0;
+	right: 0;
+	left: 0;
+	transition: all 1s ease 0s;
+	width: 0;
+	line-height: 40px;
+	text-indent: 10px;
+	overflow: hidden;
+	box-shadow: 0.15em 0.15em 0.25em var(--dark-grey) inset,
+		-0.15em -0.15em 0.25em #ffffff80 inset;
+	color: #808080;
+
+}
+
+
+
+:global(.fakePass):global(.scan) {
+	display: block;
+	animation: scan-show 1s ease-out 0s 1;
+	width: 0%;
+	left: 0;
+}
+
+:global(.fakePass):global(.scan):before {
+	display: none;
+}
+
+:global(.fakePass):after {
+	content: "";
+	height: 40px;
+	width: 2px;
+	background: #92ceff;
+	position: absolute;
+	right: 10px;
+	top: 0;
+	box-shadow: 0 0 3px 1px #33a4ff, 0 0 5px 3px #33a4ff;
+	animation: light 0.15s ease 0s infinite;
+}
+
+:global(.fakePass):global(.scan):after {
+	background: #a1f3f8;
+	box-shadow: 0 0 3px 1px #03e9f4, 0 0 5px 3px #03e9f4;
+	right: 5px;
+}
+
+@keyframes light {
+	50% {
+		opacity: 0.5;
+	}
+}
+
+@keyframes scan-show {
+	0% {
+		width: 100%;
+	}
+	100% {
+		width: 0%;
+	}
+}
+
+@keyframes scan-hide {
+	0% {
+		width: 0%;
+		left: 0;
+		right: inherit;
+	}
+	98% {
+		width: 100%;
+		left: 0;
+		right: inherit;
+	}
+	99% {
+		width: 100%;
+		left: inherit;
+		right: 0;
+	}
+	100% {
+		width: 0%;
+		left: inherit;
+		right: 0;
+	}
+}
+
+@-moz-document url-prefix() {
+	:global(.fakePass) {
+		text-shadow: 0 0 2px #666, 0 0 2px #666, 0 0 2px #666, 0 0 2px #666,
+			0 0 2px #666, 0 0 2px #666, 0 0 2px #666, 0 0 2px #666;
+	}
+}

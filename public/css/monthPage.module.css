@@ -3,9 +3,7 @@
 
 .monthPage_container{
     margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    
+
 }
 
 /*.week_container{
@@ -28,6 +26,7 @@
     background-color: white;
     margin-bottom: 0px;
     border-radius: 5px 5px 0px 0px;
+    margin: auto auto;
 
 }
 
@@ -38,6 +37,7 @@
     font-weight: 600;
     font-size: 20px;
     color: grayWorld;
+    
 }
 
 .monthCell{
@@ -48,12 +48,13 @@
     user-select:none;
     box-sizing: border-box;
     width: 1600px;
-    height: 800px;
+    height: 900px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
 	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     font-size: 5px;
-    
+    margin: auto auto;
+    margin-bottom: 20px;
 }
 
 :global(.date){

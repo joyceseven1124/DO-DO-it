@@ -11,9 +11,7 @@ function selectText(){
     else if ((document as any).selection) {
     selection = (document as any).selection;
     }
-    console.log(selection.toString());
     const range = selection.getRangeAt(0);
-    console.log(range)
     const newNode = document.createElement("span");
     //newNode.style.backgroundColor = "yellow";
     newNode.style.textDecoration = "line-through";
@@ -30,6 +28,7 @@ const closeDialog = (e:any) =>{
 
 
 export default function AllToDoListDayDialogBox(){
+    
     return(
         <div id="allToDoListDayDialogBox" className={styles.dialog_background}>
             <div className={styles.carousel_card}>

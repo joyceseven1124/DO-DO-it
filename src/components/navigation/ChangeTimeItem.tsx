@@ -6,13 +6,9 @@ import weekday from 'dayjs/plugin/weekday';
 dayjs.extend(toObject);
 dayjs.extend(weekday);
 
-
-
 let ChangeTimeItem = () => (
     <div className={styles.change_time_type}>
-        <div id="change_time_type_button" >
-            時間表
-        </div>
+        <div id="change_time_type_button">時間表</div>
         <div>
             <ul id="change_time_type_menu" className={styles.time_type_items}>
                 <ol>天</ol>

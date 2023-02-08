@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styles from '/public/css/monthPage.module.css';
-import MonthCell from './monthPage/DayCell';
+import MonthCell from './monthPage/MonthCell';
 import { RootState } from '../store';
 
 

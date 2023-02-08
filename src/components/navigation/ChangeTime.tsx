@@ -14,34 +14,27 @@ export default function ChangeTime() {
     const dispatch = useDispatch();
     return (
         <div className={styles.change_time}>
-            <div className="arrow_background"
+            <div
+                className="arrow_background"
                 onClick={() => {
                     dispatch(minusTime());
-                }}>
-                <div
-                className={styles.left_arrow_icon}
-                
-                >
-                    左
-                </div>
+                }}
+            >
+                <div className={styles.left_arrow_icon}>左</div>
             </div>
-            
+
             <div>
                 {year}/{monthNumber}
             </div>
 
-            <div className="arrow_background" 
+            <div
+                className="arrow_background"
                 onClick={() => {
                     dispatch(addTime());
-                }}>
-                <div
-                className={styles.right_arrow_icon}
-                
-                >
-                    右
-                </div>
+                }}
+            >
+                <div className={styles.right_arrow_icon}>右</div>
             </div>
-            
         </div>
     );
 }

@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
-import { DayCell} from './actionStyle';
-import tag from "./ToDoListTag"
+import { DayCell } from './actionStyle';
+import ToDoListTag from './ToDoListTag';
 import styles from '/public/css/monthPage.module.css';
 import colors from '/public/css/colors.module.css';
 import dayjs from 'dayjs';
@@ -11,8 +11,6 @@ import toObject from 'dayjs/plugin/toObject';
 import weekday from 'dayjs/plugin/weekday';
 dayjs.extend(toObject);
 dayjs.extend(weekday);
-
-console.log(colors)
 
 //let maxDay: number;
 //let maxPrevMonthDay:number
@@ -49,15 +47,11 @@ function generateMonthData(searchMonth: number) {
     let nowMonthMaxDay = findMaxDay(monthNumber);
     let preMonthMaxDay = findMaxDay(monthNumber - 1);
 
-    let nowTime:string = dayjs().format('YYYY-MM-DD')
-    console.log(nowTime.split("-"))
-    const nowMonth = Number(nowTime.split("-")[1])
-    const nowDate = Number(nowTime.split("-")[2])
-    console.log(Number(nowMonth),Number(nowDate))
-    if(monthNumber === Number(nowMonth)){
-
+    let nowTime: string = dayjs().format('YYYY-MM-DD');
+    const nowMonth = Number(nowTime.split('-')[1]);
+    const nowDate = Number(nowTime.split('-')[2]);
+    if (monthNumber === Number(nowMonth)) {
     }
-   
 
     let monthStart: number = dayjs()
         .add(searchMonth, 'month')
@@ -74,43 +68,54 @@ function generateMonthData(searchMonth: number) {
     let nextMonthDay = 1;
     let thisMonthDay = 1;
     let preMonthDay = preMonthMaxDay - monthStart + 2;
-   
+
     for (let i = 1; i <= cells; i++) {
         if (i < monthStart) {
             let dayHtml = (
                 <DayCell
                     id={`cell-${i}-1`}
-                    primary={"var(--otherMonthWorldColor)"}
+                    primary={'var(--otherMonthWorldColor)'}
                     key={`cmd-${i}`}
                     className="date"
                 >
-                    <div className='date_word'>{preMonthDay}</div>
+                    <div className="date_word">{preMonthDay}</div>
                 </DayCell>
             );
             monthDataArray.push(dayHtml);
             preMonthDay = preMonthDay + 1;
         } else if (i <= nowMonthMaxDay + monthStart - 1) {
-            let row =Math.ceil( i/7 )
+            let row = Math.ceil(i / 7);
 
-            let nowTimeResult = false
-            let primaryResult:string = "var(--thisMonthWorldColor)"
-            if(monthNumber === nowMonth && thisMonthDay === nowDate){
-                nowTimeResult = true
+            let nowTimeResult = false;
+            let primaryResult: string = 'var(--thisMonthWorldColor)';
+            if (monthNumber === nowMonth && thisMonthDay === nowDate) {
+                nowTimeResult = true;
                 //primaryResult = "var(--nowTimeWorldColor)"
             }
-            
+
             let dayHtml = (
-                <DayCell id={`cell-${i}-${row}`} primary={primaryResult} key={`cmd-${i}`} className="date" nowTime={nowTimeResult}>
-                    <div className='date_word'>{thisMonthDay}</div>
+                <DayCell
+                    id={`cell-${i}-${row}`}
+                    primary={primaryResult}
+                    key={`cmd-${i}`}
+                    className="date"
+                    nowTime={nowTimeResult}
+                >
+                    <div className="date_word">{thisMonthDay}</div>
                 </DayCell>
             );
             monthDataArray.push(dayHtml);
             thisMonthDay++;
         } else {
-            let row =Math.ceil( i/7 )
+            let row = Math.ceil(i / 7);
             let dayHtml = (
-                <DayCell id={`cell-${i}-${row}`} primary={"var(--otherMonthWorldColor)"} key={`cmd-${i}`} className="date">
-                    <div className='date_word'>{nextMonthDay}</div>
+                <DayCell
+                    id={`cell-${i}-${row}`}
+                    primary={'var(--otherMonthWorldColor)'}
+                    key={`cmd-${i}`}
+                    className="date"
+                >
+                    <div className="date_word">{nextMonthDay}</div>
                 </DayCell>
             );
             monthDataArray.push(dayHtml);
@@ -118,7 +123,7 @@ function generateMonthData(searchMonth: number) {
         }
     }
 
-    return  monthDataArray
+    return monthDataArray;
 }
 
 export default function MonthCell() {
@@ -133,36 +138,39 @@ export default function MonthCell() {
         setDayArray(newMonthDataArray);
     }, [searchMonth]);
 
-    
-
     const dragDrop = (e: any) => {
         //const dragText = e.dataTransfer.getData('width')
-        tag.draw(e)
-    }
+        //tag.draw(e)
+    };
 
     const dragover = (e: any) => {
         e.preventDefault();
     };
     const dragenter = (e: any) => {
         e.preventDefault();
-   
     };
 
     const dragleave = (e: any) => {
         e.preventDefault();
     };
 
-    return(
+    return (
         <div
             className={styles.monthCell}
             onDragOver={dragover}
             onDragEnter={dragenter}
             onDragLeave={dragleave}
             onDrop={dragDrop}
-            onPointerDown={tag.mouseDown}
-            onPointerUp={tag.mouseUp}
-            >
+            onPointerDown={test}
+            onPointerUp={test}
+        >
             {dayArrayIsValue}
         </div>
-    )
+    );
 }
+
+function test() {
+}
+
+//tag.mouseDown
+//tag.mouseUp
