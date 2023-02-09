@@ -14,25 +14,25 @@ const ColorSelector = (props:any)=>{
             <div className={styles.colors_items}>
                 <input type="radio" name='color' id="red" value="red" 
                        onClick={(e)=>{setColorStatus(false) 
-                                      props.data.color="red"
+                                      props.data.color="#F56651"
                                       }}/>
                 <label htmlFor='red' className={styles.color_item_style}>紅</label>
 
                 <input type="radio" name='color' id="green" value="green" 
                        onClick={(e)=>{setColorStatus(false)
-                                      props.data.color="green"}}/>
+                                      props.data.color="#7AE9C9"}}/>
                 <label htmlFor='green' className={styles.color_item_style}>綠</label>
 
                 <input type="radio" name='color' id="yellow" value="yellow" 
                        defaultChecked={colorStatus} 
                        onClick={(e)=>{setColorStatus(true)
-                                      props.data.color="yellow"
+                                      props.data.color="#FDCD47"
                         }}/>
                 <label htmlFor='yellow' className={styles.color_item_style }>黃</label>
 
                 <input type="radio" name='color' id="purple" value="purple" 
                 onClick={(e)=>{setColorStatus(false)
-                               props.data.color="purple"
+                               props.data.color="#606A92"
                 }}/>
                 <label htmlFor='purple' className={styles.color_item_style}>紫</label>
             </div>

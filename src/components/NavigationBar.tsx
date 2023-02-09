@@ -1,4 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store/index';
+import { logOut } from '../store/action/logInControl';
 import styles from '/public/css/navigationBar.module.css';
 import ChangeTime from './navigation/ChangeTime';
 import Search from './navigation/Search';
@@ -14,12 +17,14 @@ const NavigationBar = () => {
     //const [memberStatus,setMemberStatus] = useState("登入")
     const {memberNowStatus} = useContext(memberStatus)
     const {setMemberStatus} = useContext(memberStatus)
+    const {setMemberInformation} = useContext(memberStatus)
     //const { setSignInCardStatus} = useContext(memberStatus)
     //const { registerCardStatus} = useContext(memberStatus)
     //const { signInCardStatus} = useContext(memberStatus)
     const [signInCardStatus,setSignInCardStatus] = useState(false)
     const [registerCardStatus,setRegisterCardStatus] = useState(false)
     const[logIn,setLogIn] =useState("登出")
+    const dispatch = useDispatch();
     console.log(memberNowStatus)
     useEffect(()=>{
         if(!memberNowStatus){
@@ -34,6 +39,8 @@ const NavigationBar = () => {
             setSignInCardStatus(true)
         }else{
             const result = db.leaveAccount()
+            dispatch(logOut())
+           
             result.then((msg)=>{
                 if(msg === "success"){
                     setMemberStatus(false)

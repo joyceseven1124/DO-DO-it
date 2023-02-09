@@ -55,7 +55,6 @@ export default function ToDoListTag(props: any) {
         
     },[tagStartCell]);*/
     function dragstart(e: any) {
-        console.log("開始")
         const elementPosition = getPosition(e.target);
         const cellSize = document.getElementById('cell-1-1').offsetWidth;
         let clickElementPlace = (e.clientX - elementPosition.x) / cellSize;

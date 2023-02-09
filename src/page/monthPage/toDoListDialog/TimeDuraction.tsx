@@ -6,6 +6,7 @@ import styles from '/public/css/toDoListDialogBox.module.css';
 import { tagData } from '../MonthCell';
 
 export default function TimeInformation(props:any) {
+    const { tagStartCell } = useContext(tagData);
     const { dayStart } = useContext(tagData);
     const { dayEnd } = useContext(tagData);
     const { setDayStart } = useContext(tagData);
@@ -32,7 +33,13 @@ export default function TimeInformation(props:any) {
         setEndYear(year)
     },[year])
    
-    
+    props.data.yearStart =year
+    props.data.yearEnd=year
+    props.data.monthStart=monthNumber
+    props.data.monthEnd=monthNumber
+    props.data.dayStart=dayStart
+    props.data.dayEnd=dayEnd
+
     console.log(dayStart)
     const renderCount = useRef( dayStart);  
     let newDayStart = dayStart

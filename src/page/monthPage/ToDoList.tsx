@@ -139,9 +139,6 @@ function changeTagWidth(e: any) {
         const perRowEndNumber = [7, 14, 21, 28, 35, 42];
         //換行折返
         const pathNumber = commonValue.rowsTags.length;
-        console.log('我再找邏輯');
-        console.log(pathNumber);
-        console.log(Math.abs(commonValue.endRow - commonValue.startRow));
         //依序擺入判斷是中
         //commonValue.endRow > pathNumber
         //commonValue.endRow === pathNumber
@@ -217,8 +214,6 @@ function changeTagWidth(e: any) {
         } else if (commonValue.endRow === pathNumber) {
             const nowTagId = commonValue.rowsTags[pathNumber - 1];
             startPlaceTag = document.getElementById(nowTagId);
-            console.log('現在的tag是誰');
-            console.log(startPlaceTag);
             const differentRowStartCell = Number(nowTagId.split('-')[1]);
             const tagWidth: number =
                 (Math.abs(differentRowStartCell - commonValue.endCell) + 1) *
@@ -235,14 +230,11 @@ function changeTagWidth(e: any) {
             deleteInCell.removeChild(deleteTag);
             commonValue.rowsTags.pop();
             const nowTagIndex = commonValue.rowsTags.length - 1;
-            console.log('現在的tag是誰');
-            console.log(nowTagIndex);
             startPlaceTag = document.getElementById(
                 commonValue.rowsTags[nowTagIndex]
             );
         }
     } else {
-        console.log('我在這');
         const tagWidth: number =
             (Math.abs(commonValue.startCell - commonValue.endCell) + 1) * 100;
         startPlaceTag.style.width = `${tagWidth}%`;
@@ -309,7 +301,6 @@ function draw(e: any) {
         const positionTop = checkElementIntersectResult.positionTop;
 
         if (commonValue.changeRowStatus) {
-            console.log('不會吧');
             id = commonValue.changeEndTagId;
         }
         const intersectElement = document.querySelectorAll(`.container-${id}`);

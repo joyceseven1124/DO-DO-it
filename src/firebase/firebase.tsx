@@ -10,6 +10,9 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore,
          doc,
          setDoc,
+         getDoc,
+         getDocs,
+         collection
         }from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -32,8 +35,64 @@ const analytics = getAnalytics(app);
 const db = getFirestore();
 
 
+async function saveToDoList(time:string,toDoListData:{},id:number){
+    let msg =""
+    try {
+        let email =""
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                email = user.email
+                let x =setDoc(doc(db, email, time), {[id]:toDoListData},{ merge: true });
+                msg="success"
+            }
+        
+        })
+        
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = "fail"
+    }finally{
+        return msg
+    }
+}
+
+
+
+async function getToDoListData(email:string,time:string){
+    //await getDoc(doc(db, email,time));
+    //const querySnapshot = await getDocs(collection(db, email));
+    let msg
+    let monthData =await getDoc(doc(db, email,time));
+    if(monthData.exists()) {
+        msg = monthData.data()
+        console.log(msg)
+    }
+    
+}
+
+async function getMemberInformation(email:string){
+    let msg
+    try{
+        const memberData = await getDoc(doc(db, email, "memberInformation"));
+        msg = memberData
+        if(memberData.exists()) {
+            msg = memberData.data()
+            msg = {email:msg.email.email,name:msg.name.name}
+        }
+    }catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = {result:"fail"}
+    }finally{
+        return msg
+    }
+    
+}
+
 //之後用參數帶入
-async function saveToDoList(){
+/*async function saveToDoList(){
     let msg =""
     try {
         await setDoc(doc(db, "users", "demo1"), {
@@ -49,7 +108,7 @@ async function saveToDoList(){
     }finally{
         return msg
     }
-}
+}*/
 
 //註冊
 async function buildAccount(email:string, password:string,name:string){
@@ -86,7 +145,12 @@ async function enterAccount(email:string, password:string){
   try{
     const auth = getAuth();
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    msg = "success"
+    console.log("我想獲取登入的資料")
+    console.log(userCredential)
+    console.log(userCredential.user)
+    console.log(userCredential.user.email)
+    //msg = "success"
+    msg = userCredential.user.email
   }
   catch(error){
     const errorCode = error.code;
@@ -107,14 +171,20 @@ async function memberStatus(){
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
-                const uid = user.uid;
+                //const uid = user.uid;
+                //console.log(uid)
+                //console.log(user)
+                //console.log(user.email)
+                msg = user.email
+                console.log("firebase")
+                console.log(msg)
                 // ...
             } else {
                 // User is signed out
                 // ...
+                msg = "登出"
             }
         });
-        msg = "success"
     }
     catch(error){
         const errorCode = error.code;
@@ -122,8 +192,12 @@ async function memberStatus(){
         msg = "fail"
     }
     finally{
+        console.log("我傳了啥")
+        console.log(msg)
         return msg
     }
+
+    
 }
 
 async function leaveAccount(){
@@ -150,5 +224,7 @@ export default {
   saveToDoList: saveToDoList,
   buildAccount: buildAccount,
   enterAccount: enterAccount,
-  leaveAccount:leaveAccount
+  leaveAccount: leaveAccount,
+  getToDoListData:getToDoListData,
+  getMemberInformation:getMemberInformation
 };

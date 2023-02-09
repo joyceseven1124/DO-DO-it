@@ -15,6 +15,9 @@ export default function Register(props:any) {
     const openRegister = props.setRegister
     const openLogIn = props.setSignInCard
     const [passwordType,setPasswordType] = useState("password")
+    const [passwordCheck,setPassWordCheck] = useState("none")
+    const [emailCheck,setEmailCheck] = useState("none")
+    const [inputCheck,setInputCheck] = useState("none")
     //記得正規化檢查輸入的東西
     let user = {
     email: "",
@@ -110,6 +113,11 @@ export default function Register(props:any) {
                         <span id="switch_login_button" className='switch_card_button' onClick={switchSignIn}>
                             登入
                         </span>
+                    </div>
+                    <div className={styles.remind_word}>
+                        <div style={{color:"none"}}>✔信箱格式@gmail.com</div>
+                        <div style={{color:"none"}}>✔密碼六個字元以上</div>
+                        <div style={{color:"none"}}>✔欄位不可空白</div>
                     </div>
                     <div className='user_button_box'>
                         <div id="register_button" className='user_button' onClick={buildAccount}>SUBMIT</div>

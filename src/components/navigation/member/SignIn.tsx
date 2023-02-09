@@ -3,26 +3,38 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from '/public/css/member.module.css';
 import db from "../../../firebase/firebase"
 import {memberStatus} from "../../../index"
-
-
-
+import { RootState } from '../../../store/index';
+import { logIn } from '../../../store/action/logInControl';
 
 
 export default function SingIn(props:any) {
     const {memberNowStatus} = useContext(memberStatus)
     const {setMemberStatus} = useContext(memberStatus)
+    const {setMemberInformation} =useContext(memberStatus)
     const openLogIn = props.setSignInCard
     const openRegister = props.setRegister
     const [passwordType,setPasswordType] = useState("password")
+    const [passwordCheck,setPassWordCheck] = useState("none")
+    const [emailCheck,setEmailCheck] = useState("none")
+    const [inputCheck,setInputCheck] = useState("none")
+    const dispatch = useDispatch();
     let user = {
         email:"",
         password:""
     }
     const enterAccount = (e:any)=>{
         const result = db.enterAccount(user.email,user.password)
+        let email =''
+        console.log(result)
         result.then((msg)=>{
-            if(msg === "success"){
+            if(msg !== "fail"){
+                let memberData = db.getMemberInformation(msg)
+                memberData.then((msg:{[key:string]:string}) =>{
+                    dispatch(logIn(msg.name,msg.email))
+                })
+                   
                 setMemberStatus(true)
+                setMemberInformation(msg)
                 openLogIn(false)
             }
         })
@@ -92,6 +104,13 @@ export default function SingIn(props:any) {
                         <span id="switch_register_button" className="switch_card_button" onClick={switchRegister}>
                             註冊</span>
                     </div>
+
+                    <div className={styles.remind_word}>
+                        <div style={{color:"none"}}>✔信箱格式@gmail.com</div>
+                        <div style={{color:"none"}}>✔密碼六個字元以上</div>
+                        <div style={{color:"none"}}>✔欄位不可空白</div>
+                    </div>
+                
                     <div className='user_button_box'>
                         <div id="register_button" className='user_button' onClick={enterAccount}>SUBMIT</div>
                     </div>

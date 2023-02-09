@@ -4,9 +4,12 @@ import styles from '/public/css/toDoListDialogBox.module.css';
 import TimeInformation from './toDoListDialog/TimeDuraction';
 import ColorSelector from './toDoListDialog/ColorSelector';
 import { tagData } from './MonthCell';
+import { memberStatus } from "../../index"
 import db from "../../firebase/firebase"
 
+const remindWriteTitleWord = ()=>{
 
+}
 
 const writeTitleOnTag = (e:any) =>{
 
@@ -14,20 +17,46 @@ const writeTitleOnTag = (e:any) =>{
 
 export default function ToDoListDialogBox(props:any){
     const closedDialog = (e:any) =>  {
-    props.setCardStatus(false)
+        props.setCardStatus(false)
+        setShowRemind("none")
+        //let emendArray = [...isTagsArray]
+        //emendArray.pop()
+        //setTagsArray(emendArray)
+        //let emendChooseCell = [...chooseCell]
+        //emendChooseCell.pop()
+        //setChooseCell(emendChooseCell)
     }
 
     const saveData = (e:any) => {
-        console.log(toDoListDate)
+        console.log(toDoListData)
+        let time = `${toDoListData.yearStart}Y${toDoListData.monthStart}M`
+        if(toDoListData.title === ""){
+            return
+        }
+        if(memberNowStatus){
+            db.saveToDoList(time,toDoListData,tagStartCell)
+        }
     }
-
+    const { memberNowStatus } = useContext(memberStatus)
     const { tagStartCell } = useContext(tagData);
     const { tagEndCell } = useContext(tagData);
     const { setTagsArray } = useContext(tagData);
     const { isTagsArray } = useContext(tagData);
     const { searchMonth } = useContext(tagData);
+    const { setChooseCell } = useContext(tagData);
+    const { chooseCell } = useContext(tagData);
+    const [showRemind,setShowRemind] = useState("none")
     //const [data,setData] = useState()
-    let toDoListDate = {title:"",color:"",yearStart:"",yearEnd:"",monthStart:"",monthEnd:"",dayStart:"",dayEnd:"",description:"",daylong:"",dayStartCell:""}
+    let toDoListData = {title:"",
+                        color:"#FDCD47",
+                        yearStart:"",
+                        yearEnd:"",
+                        monthStart:"",
+                        monthEnd:"",
+                        dayStart:"",
+                        dayEnd:"",
+                        description:"",
+                        status:"未完成"}
 
     let tagArray = [...isTagsArray]
     const perRowStartNumber = [1, 8, 15, 22, 29, 36];
@@ -51,7 +80,8 @@ export default function ToDoListDialogBox(props:any){
                 width = 700
             }
             //const tagItem = {[tagId]:width}
-            const tagItem = {[tagId]:[width,title,description,connectWidth]}
+            //const tagItem = {[tagId]:[width,title,description,connectWidth]}
+            const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth}
             tagArray.push(tagItem)
         }
     }else if( startRow> endRow){
@@ -68,7 +98,8 @@ export default function ToDoListDialogBox(props:any){
             }
 
             //const tagItem = {[tagId]:width}
-            const tagItem = {[tagId]:[width,title,description,connectWidth]}
+             const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth}
+            //const tagItem = {[tagId]:[width,title,description,connectWidth]}
             tagArray.push(tagItem)
         }
 
@@ -79,7 +110,7 @@ export default function ToDoListDialogBox(props:any){
             tagId = tagStartCell
         }
         width = (Math.abs(tagStartCell-tagEndCell)+1)*100
-        const tagItem = {[tagId]:[width,title,description,connectWidth]}
+        const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth}
         tagArray.push(tagItem)
     }
     
@@ -108,13 +139,22 @@ export default function ToDoListDialogBox(props:any){
                                    className={styles.toDoList_title} 
                                    type="text" 
                                    placeholder='Add title'
+                                   onChange={(e)=>{
+                                    if(e.target.value !== ""){
+                                        toDoListData.title=e.target.value
+                                        setShowRemind("none")
+                                    }else{
+                                        setShowRemind("block")
+                                    }}}
+                             
                                    />
                             <div className={styles.under_line}></div>
+                            <div className={styles.remind_word} style={{display:showRemind}}>請填寫標題⬆</div>
                         </div>
 
-                        <ColorSelector data={toDoListDate}/>
+                        <ColorSelector data={toDoListData}/>
 
-                        <TimeInformation month={searchMonth} data={toDoListDate}/>
+                        <TimeInformation month={searchMonth} data={toDoListData}/>
                         <div className={styles.description_container}>
                             <span className={styles.description_icon}>描</span>
                             <textarea
@@ -123,8 +163,13 @@ export default function ToDoListDialogBox(props:any){
                                 cols={25}
                                 placeholder={"Add description"}
                                 className={styles.description}
+                                onChange={(e)=>{
+                                    if(e.target.value !== ""){
+                                        toDoListData.description=e.target.value
+                                    }
+                                }}
                             ></textarea>
-                        <div className={styles.description_under_line}></div>
+                            <div className={styles.description_under_line}></div>
                         </div>
                         <div className={styles.save_button_container}>
                             <div className={styles.save_button} onClick={saveData}>save</div>

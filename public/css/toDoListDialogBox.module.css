@@ -3,7 +3,7 @@
 @value dialogBoxBg from "./colors.module.css";
 @value grayLine from "./colors.module.css";
 @value inputFocus from "./colors.module.css";
-@value boxSize  700px;
+@value boxSize  730px;
 .icon{
     -webkit-user-select:none;
     -moz-user-select:none;
@@ -91,6 +91,11 @@
     padding: 10px;
     box-sizing: border-box;
     margin-left: 40px;
+}
+
+.remind_word{
+    color: #f04444;
+    margin-top: 10px;
 }
 
 .toDoList_title:focus+.under_line {

@@ -6,9 +6,6 @@ import { RootState } from '../store';
 
 
 function MonthBlock() {
-    /*const searchMonth = useSelector((state: RootState) =>
-        console.log(state.timeControlReducer.searchMonth)
-    );*/
     return (
         <div className={styles.monthPage_container}>
             <div>
@@ -29,27 +26,4 @@ function MonthBlock() {
     );
 }
 
-/*const MonthBlock = () => (
-    <div>
-        <ul className={styles.week_title}>
-            <ol className="week">MON</ol>
-            <ol className="week">TUE</ol>
-            <ol className="week">WED</ol>
-            <ol className="week">THU</ol>
-            <ol className="week">FRI</ol>
-            <ol className="week">SAT</ol>
-            <ol className="week">SUN</ol>
-        </ul>
-        <MonthCell/>
-    </div>
-);*/
-
 export default MonthBlock;
-
-
-/*<div className={styles.testMom}>
-                    <MonthCell />
-                    <div id = "test"className={styles.test}>
-                        <MonthCell/>
-                    </div>
-</div>*/
