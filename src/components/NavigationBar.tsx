@@ -7,9 +7,7 @@ import ChangeTime from './navigation/ChangeTime';
 import Search from './navigation/Search';
 import ChangeTimeItem from './navigation/ChangeTimeItem';
 import { NEXT_MONTH } from '../store/action/timeControl';
-import { memberStatus } from '..';
-import Register from "./navigation/member/Register"
-import SingIn from './navigation/member/SignIn';
+import { memberStatus } from '../';
 import db from "../firebase/firebase"
 
 
@@ -21,35 +19,17 @@ const NavigationBar = () => {
     //const { setSignInCardStatus} = useContext(memberStatus)
     //const { registerCardStatus} = useContext(memberStatus)
     //const { signInCardStatus} = useContext(memberStatus)
-    const [signInCardStatus,setSignInCardStatus] = useState(false)
-    const [registerCardStatus,setRegisterCardStatus] = useState(false)
-    const[logIn,setLogIn] =useState("登出")
     const dispatch = useDispatch();
-    console.log(memberNowStatus)
-    useEffect(()=>{
-        if(!memberNowStatus){
-            setLogIn("登入")
-        }else{
-            setLogIn("登出")
-        }
-    },[memberNowStatus])
+
 
     const changeMemberStatus = (e:any) => {
-        if(!memberNowStatus){
-            setSignInCardStatus(true)
-        }else{
-            const result = db.leaveAccount()
-            dispatch(logOut())
-           
-            result.then((msg)=>{
-                if(msg === "success"){
-                    setMemberStatus(false)
-                    setLogIn("登入")
-                }
-            })
-
-        }
-        
+        const result = db.leaveAccount()
+        dispatch(logOut())
+        result.then((msg)=>{
+            if(msg === "success"){
+                setMemberStatus(false)
+            }
+        })
     }
 
     return(
@@ -65,21 +45,11 @@ const NavigationBar = () => {
                 </div>
                 <div className="nav_group" >
                     <ChangeTimeItem />
-                    <div className={styles.login} onClick={changeMemberStatus} >{logIn}</div>
+                    <div className={styles.login} onClick={changeMemberStatus} >登出</div>
                 </div>
             </div>
         </nav>
-        {signInCardStatus? (<>
-        <SingIn setRegister={setRegisterCardStatus} 
-                registerStatus={registerCardStatus}
-                setSignInCard={setSignInCardStatus}
-                signStatus={signInCardStatus}/>
-        </>) : null}
-        {registerCardStatus? (<>
-        <Register setRegister={setRegisterCardStatus} 
-                  registerStatus={registerCardStatus}
-                  setSignInCard={setSignInCardStatus}
-                  signStatus={signInCardStatus}/></>) : null}
+        
     </>
     )
 };

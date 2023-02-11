@@ -1,6 +1,17 @@
 @value grayLine from "./colors.module.css";
 @value grayWorld from "./colors.module.css";
 
+.monthPage_background{
+  background-image: url(/public/assets/main_background.jpg);
+  background-size:cover;
+  background-color: var(--navBgColor);
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  margin-bottom: 0px;
+  box-sizing: border-box;
+}
+
 .monthPage_container{
     margin-top: 30px;
 
@@ -54,7 +65,6 @@
 	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     font-size: 5px;
     margin: auto auto;
-    margin-bottom: 20px;
 }
 
 :global(.date){

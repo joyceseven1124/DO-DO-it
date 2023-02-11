@@ -3,13 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 //import { RootState } from '../../../store/index';
 //import { addTime, minusTime } from '../../../store/action/timeControl';
 import styles from '/public/css/member.module.css';
-import db from "../../../firebase/firebase"
-
-
-
-
-
-
+import db from "../../firebase/firebase"
 
 export default function Register(props:any) {
     const openRegister = props.setRegister
@@ -18,13 +12,21 @@ export default function Register(props:any) {
     const [passwordCheck,setPassWordCheck] = useState("none")
     const [emailCheck,setEmailCheck] = useState("none")
     const [inputCheck,setInputCheck] = useState("none")
+    const [name,setName] = useState("")
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
     //記得正規化檢查輸入的東西
+    // let user = {
+    // email: "",
+    // password: "",
+    // name:"",
+    // };
     let user = {
-    email: "",
-    password: "",
-    name:"",
+     email: email,
+     password: password,
+     name:name,
     };
-     const switchSignIn = (e:any) => {
+    const switchSignIn = (e:any) => {
         openRegister(false)
         openLogIn(true)
     }
@@ -38,9 +40,20 @@ export default function Register(props:any) {
 
 
     const buildAccount = (e:any) =>{
-        console.log(user)
         if(user.email !== "" && user.password !==""){
-            db.buildAccount(user.email,user.password,user.name)
+            const msg = db.buildAccount(user.email,user.password,user.name)
+            msg.then((msg)=>{
+                 if(msg !== "fail"){
+                    props.setSuccessCard(true)
+                    props.registerMsg("註冊成功")
+                 }else{
+                    props.setErrorCard(true)
+                    props.registerMsg("註冊失敗")
+                 }
+             })
+            setEmail("")
+            setPassword("")
+            setName("")
         }
     }
 
@@ -58,19 +71,21 @@ export default function Register(props:any) {
                     <div>PASS CARD</div>
                 </div>
                 <div id="register_box" className={styles.user_box}>
-                    <div className='close_icon_box'>
-                        <div className='close_icon' onClick={closeCard}>叉</div>
-                    </div>
+                    
                     <h2 className="card_title">Register</h2>
                     <div>
                         <div className='user_box'>
                             <input  id="register_name" 
                                     className='user_input' 
                                     type="text" 
-                                    name=''  
+                                    name=''
                                     required
                                     autoFocus={true}
-                                    onChange={(e)=>{user.name = e.target.value}}
+                                    value={name}
+                                    onChange={(e)=>{
+                                        //user.name = e.target.value
+                                        setName(e.target.value)
+                                    }}
                                     />
                             <label className='user_label'>Username</label>
                         </div>
@@ -82,8 +97,11 @@ export default function Register(props:any) {
                                     className='user_input' 
                                     type="text" 
                                     name=''  
+                                    value={email}
                                     required
-                                    onChange={(e)=>{user.email = e.target.value}}/>
+                                    onChange={(e)=>{//user.email = e.target.value
+                                        setEmail(e.target.value)
+                                    }}/>
                             <label  className='user_label'>Email</label>
                         </div>
                     </div>
@@ -93,9 +111,12 @@ export default function Register(props:any) {
                             <input  id="register_password" 
                                     className='user_input' 
                                     type={passwordType} 
-                                    name=''  
+                                    name=''
+                                    value={password}
                                     required
-                                    onChange={(e)=>{user.password = e.target.value}}
+                                    onChange={(e)=>{//user.password = e.target.value
+                                        setPassword(e.target.value)
+                                    }}
                                     />
                             <span className="fakePass" id="fakePass">解析密碼中....</span>
                             <label className='user_label'>Password</label>
@@ -129,3 +150,8 @@ export default function Register(props:any) {
         
     );
 }
+
+
+{/* <div className='close_icon_box'>
+    <div className='close_icon' onClick={closeCard}>叉</div>
+</div> */}

@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { v4 as uuidv4 } from "uuid";
 import { getAuth, 
          createUserWithEmailAndPassword ,
          signInWithEmailAndPassword,
@@ -35,7 +36,7 @@ const analytics = getAnalytics(app);
 const db = getFirestore();
 
 
-async function saveToDoList(time:string,toDoListData:{},id:number){
+async function saveToDoList(time:string,toDoListData:{},uuid:any){
     let msg =""
     try {
         let email =""
@@ -43,17 +44,18 @@ async function saveToDoList(time:string,toDoListData:{},id:number){
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 email = user.email
-                let x =setDoc(doc(db, email, time), {[id]:toDoListData},{ merge: true });
-                msg="success"
+                toDoListData
+                setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
             }
-        
         })
-        
+        msg="success"
     } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
         msg = "fail"
     }finally{
+        console.log("訊息消失")
+        console.log(msg)
         return msg
     }
 }
@@ -63,13 +65,24 @@ async function saveToDoList(time:string,toDoListData:{},id:number){
 async function getToDoListData(email:string,time:string){
     //await getDoc(doc(db, email,time));
     //const querySnapshot = await getDocs(collection(db, email));
-    let msg
-    let monthData =await getDoc(doc(db, email,time));
-    if(monthData.exists()) {
-        msg = monthData.data()
-        console.log(msg)
+    let msg:{[key:string]:{[key:string]:string}}
+    try{
+        const monthData =await getDoc(doc(db, email,time));
+        if(monthData.exists()) {
+            msg = monthData.data()
+            let dataKey =Object.keys(msg)
+            let data = dataKey.map((element:string)=>{
+                return msg[element]
+            })
+            return  data
+        }else{
+            return null
+        }
+    }catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        return "fail"
     }
-    
 }
 
 async function getMemberInformation(email:string){
@@ -117,7 +130,6 @@ async function buildAccount(email:string, password:string,name:string){
         const auth = getAuth();
         const userCredential =await createUserWithEmailAndPassword(auth, email, password)
         const user = userCredential.user;
-        //uid拿到
         const uid =(user.uid)
         await setDoc(doc(db, email, "memberInformation"), {
         name:{name},
@@ -145,10 +157,6 @@ async function enterAccount(email:string, password:string){
   try{
     const auth = getAuth();
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    console.log("我想獲取登入的資料")
-    console.log(userCredential)
-    console.log(userCredential.user)
-    console.log(userCredential.user.email)
     //msg = "success"
     msg = userCredential.user.email
   }
@@ -169,19 +177,9 @@ async function memberStatus(){
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
                 //const uid = user.uid;
-                //console.log(uid)
-                //console.log(user)
-                //console.log(user.email)
                 msg = user.email
-                console.log("firebase")
-                console.log(msg)
-                // ...
             } else {
-                // User is signed out
-                // ...
                 msg = "登出"
             }
         });
@@ -192,12 +190,8 @@ async function memberStatus(){
         msg = "fail"
     }
     finally{
-        console.log("我傳了啥")
-        console.log(msg)
         return msg
     }
-
-    
 }
 
 async function leaveAccount(){
@@ -221,10 +215,11 @@ async function leaveAccount(){
 
 
 export default {
-  saveToDoList: saveToDoList,
-  buildAccount: buildAccount,
-  enterAccount: enterAccount,
-  leaveAccount: leaveAccount,
-  getToDoListData:getToDoListData,
-  getMemberInformation:getMemberInformation
+  saveToDoList,
+  buildAccount,
+  enterAccount,
+  leaveAccount,
+  getToDoListData,
+  getMemberInformation,
+  memberStatus
 };

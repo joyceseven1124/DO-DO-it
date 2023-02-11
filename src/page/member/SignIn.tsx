@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
+import { NavLink,useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '/public/css/member.module.css';
-import db from "../../../firebase/firebase"
-import {memberStatus} from "../../../index"
-import { RootState } from '../../../store/index';
-import { logIn } from '../../../store/action/logInControl';
+import db from "../../firebase/firebase"
+import {memberStatus} from "../../"
+import { RootState } from '../../store/index';
+import { logIn } from '../../store/action/logInControl';
 
 
 export default function SingIn(props:any) {
@@ -18,6 +19,7 @@ export default function SingIn(props:any) {
     const [emailCheck,setEmailCheck] = useState("none")
     const [inputCheck,setInputCheck] = useState("none")
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     let user = {
         email:"",
         password:""
@@ -25,17 +27,19 @@ export default function SingIn(props:any) {
     const enterAccount = (e:any)=>{
         const result = db.enterAccount(user.email,user.password)
         let email =''
-        console.log(result)
         result.then((msg)=>{
             if(msg !== "fail"){
                 let memberData = db.getMemberInformation(msg)
                 memberData.then((msg:{[key:string]:string}) =>{
                     dispatch(logIn(msg.name,msg.email))
                 })
-                   
                 setMemberStatus(true)
                 setMemberInformation(msg)
                 openLogIn(false)
+                navigate("/")
+            }else{
+                props.setErrorCard(true)
+                props.signInMsg("帳號或密碼錯誤")
             }
         })
     }
@@ -56,15 +60,14 @@ export default function SingIn(props:any) {
     }
     return (
         <div id="sing_in" className={styles.user_background}>
+           
             <div className= "user_card_box">
                 <div className= "user_decorate_box">
                     <div className= "user_logo_pic">主</div>
                     <div>PASS CARD</div>
                 </div>
                 <div id="sign_in_box" className={styles.user_box}>
-                    <div className='close_icon_box'>
-                        <div className='close_icon' onClick={closeCard}>叉</div>
-                    </div>
+                  
                     <h2 className="card_title">Sign In</h2>
 
                     <div>
@@ -112,7 +115,9 @@ export default function SingIn(props:any) {
                     </div>
                 
                     <div className='user_button_box'>
-                        <div id="register_button" className='user_button' onClick={enterAccount}>SUBMIT</div>
+                            <button id="register_button" 
+                                    className='user_button' 
+                                    onClick={enterAccount}>SUBMIT</button>
                     </div>
                 </div>
             </div>
@@ -120,3 +125,7 @@ export default function SingIn(props:any) {
         
     );
 }
+
+//  <div className='close_icon_box'>
+//     <div className='close_icon' onClick={closeCard}>叉</div>
+// </div>

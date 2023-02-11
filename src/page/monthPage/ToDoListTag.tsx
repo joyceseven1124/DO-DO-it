@@ -1,4 +1,4 @@
-import { Console } from 'console';
+import { title } from 'process';
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
@@ -14,8 +14,11 @@ interface Tag {
 
 const Tag = styled.div<Tag>`
     box-sizing: border-box;
-    background-color: var(--tagBgColor);
+    background-color: ${(props)=>props.color};
     width: ${(props) => props.width};
+    height: 20px;
+    line-height:20px;
+    border-radius:3px;
     position: absolute;
     top: ${(props) => props.top};
     text-align: left;
@@ -71,38 +74,19 @@ export default function ToDoListTag(props: any) {
         const startOldTag = e.target.id.split("-")[1]
         const endOldTag:number = Number(startOldTag) + Math.ceil(e.target.offsetWidth/cellSize)-1
         const insertPlace:number=clickElementPlace
-        const description:string=""
+        const description:string=e.target.firstChild.getAttribute("description")
         const allConnectWidth  = e.target.firstChild.getAttribute("connect-width")
+        const color = e.target.getAttribute("color")
         e.dataTransfer.setData("startOldTag",startOldTag)
         e.dataTransfer.setData("endOldTag",endOldTag)
-        e.dataTransfer.setData("color","red")
+        e.dataTransfer.setData("color",color)
         e.dataTransfer.setData("insertPlace",insertPlace)
         e.dataTransfer.setData("title",title)
         e.dataTransfer.setData("date","hello")
-        e.dataTransfer.setData("description","")
+        e.dataTransfer.setData("description",description)
         e.dataTransfer.setData("allConnectWidth",allConnectWidth)
 
         let test = Math.ceil(e.target.offsetWidth/cellSize)*100
-
-        //之前算點擊的位置
-        /*const elementPosition = getPosition(e.target);
-        const cellSize = document.getElementById('cell-1-1').offsetWidth;
-        let clickElementPlace = (e.clientX - elementPosition.x) / cellSize;
-        if (clickElementPlace < 0) {
-            clickElementPlace = 1;
-        } else {
-            clickElementPlace = Math.ceil(clickElementPlace);
-        }
-        commonValue.insertPlace = clickElementPlace;
-        //e.dataTransfer.setData('width',`${e.target.offsetWidth}px`)
-        commonValue.cellWidth = `${e.target.offsetWidth}px`;*/
-
-        //INSERT的運用
-        /*if (commonValue.insertPlace !== 0) {
-            id = id - (commonValue.insertPlace - 1);
-            commonValue.insertPlace = 0;
-        }*/
-
     }
 
     const dragend = (e: any) => {
@@ -114,7 +98,10 @@ export default function ToDoListTag(props: any) {
     if(props.tagOrder>1){
         tagTop = props.tagOrder*30+20
     }
-
+    let title="(No title)"
+    if(props.title){
+        title = props.title
+    }
     return (
         <Tag
             id={props.id}
@@ -125,14 +112,14 @@ export default function ToDoListTag(props: any) {
             draggable="true"
             width={props.width}
             top={`${tagTop}px`}
+            color={props.color}
         >
             <div
-                title=""
+                title= {props.title}
                 connect-width = {props.connectWidth}
             >
-            {props.title}
+            {title}
             </div>
-            
         </Tag>
     );
 }

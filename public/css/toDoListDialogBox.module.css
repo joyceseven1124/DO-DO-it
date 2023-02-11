@@ -197,6 +197,7 @@
     box-sizing: border-box;
     width: 100%;
     height: 50px;
+    line-height: 50px;
     outline: none;
     font-size: 20px;
     text-align: center;

@@ -1,28 +1,30 @@
 import {StrictMode, useEffect, useState,createContext} from 'react';
+import { getAuth, 
+         createUserWithEmailAndPassword ,
+         signInWithEmailAndPassword,
+         onAuthStateChanged,
+         signOut } from "firebase/auth";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes ,useNavigate,Navigate} from "react-router-dom";
 import "../public/css/index.css"
 import store from './store';
-import {Provider} from "react-redux"
+import { RootState } from './store/index';
+import {Provider, useSelector} from "react-redux"
 import db from "./firebase/firebase"
-import  MonthBlock  from './page/monthPage';
 import DayBlock from './page/dayPage';
-import NavigationBar from './components/NavigationBar';
-import ToDoListDialogBox from "./page/monthPage/ToDoListDialogBox"
-import Register from "./components/navigation/member/Register"
-import SingIn from './components/navigation/member/SignIn';
-import AllToDoListDayDialogBox from './components/AllToDoListDayDialogBox';
+import LonInPage from './page/LogInPage';
 import Footer from './components/Footer';
-import { stat } from 'fs';
+import MonthPage from './page/MonthPage';
 
 export const memberStatus = createContext({
   memberNowStatus:undefined,
   setMemberStatus:undefined,
   memberInformation:undefined,
   setMemberInformation:undefined,
-  thisMonthData:undefined
+  thisMonthData:undefined,
+  setThisMonthData:undefined
   //signInCardStatus:undefined,
   //setSignInCardStatus:undefined,
   //registerCardStatus:undefined,
@@ -37,19 +39,33 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 //<ToDoListDialogBox/>
 //</StrictMode>
 const App = () => {
+  /*const memberStatus = useSelector(
+        (state: RootState) => state.logInReducer.status
+    );*/
   let memberRoute
-  const [memberNowStatus,setMemberStatus] = useState(false)
-  const [memberInformation,setMemberInformation] = useState([])
+  const [memberNowStatus,setMemberStatus] = useState(true)
+  const [memberInformation,setMemberInformation] = useState("")
   const [thisMonthData,setThisMonthData] = useState([])
+
+  //const navigate = useNavigate()
+  //const navigate = useNavigate();
   //const [signInCardStatus,setSignInCardStatus] = useState(false)
   //const [registerCardStatus,setRegisterCardStatus] = useState(false)
-  useEffect(()=>{
-    if(memberNowStatus){
-      //let y =db.getToDoListData("2023Y2M")
-      console.log("我在首頁")
-      console.log(memberInformation)
-    }
-  },[memberNowStatus])
+  
+    
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+  if (user) {
+    setMemberStatus(true)
+    setMemberInformation(user.email)
+  }else{
+    setMemberStatus(false)
+    //navigate("/logIn")
+  }
+  })
+    //setMemberStatus(false)
+
+
  
   return (
       <Provider store={store}>
@@ -58,17 +74,17 @@ const App = () => {
                     setMemberStatus,
                     setMemberInformation,
                     memberInformation,
-                    thisMonthData}}>
+                    thisMonthData,
+                    setThisMonthData
+                    }}>
           <MainContainer>
-              <NavigationBar/>
-              <AllToDoListDayDialogBox/>
               <BrowserRouter>
               <Routes>
-                  <Route  path="/" element={<MonthBlock />} />
-                  <Route  path="/day" element={<DayBlock/>} />
+                <Route path="/day" element={memberNowStatus ? <DayBlock/> : <Navigate to="/login" replace />} />
+                <Route path="/logIn" element={<LonInPage/>}/>
+                <Route  path="/" element={memberNowStatus ? <MonthPage/> : <Navigate to="/login" replace/>} />
               </Routes>
               </BrowserRouter>
-              <Footer/>
           </MainContainer>
         </memberStatus.Provider>
       </Provider>
@@ -76,3 +92,4 @@ const App = () => {
   );
 };
 root.render(<App />);
+//<Route  path="/home" element={memberNowStatus ? <MonthPage/> : <Navigate to="/login" replace/>} />

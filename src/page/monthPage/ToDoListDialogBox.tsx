@@ -4,8 +4,9 @@ import styles from '/public/css/toDoListDialogBox.module.css';
 import TimeInformation from './toDoListDialog/TimeDuraction';
 import ColorSelector from './toDoListDialog/ColorSelector';
 import { tagData } from './MonthCell';
-import { memberStatus } from "../../index"
+import { memberStatus } from "../../"
 import db from "../../firebase/firebase"
+import { v4 as uuidv4 } from "uuid";
 
 const remindWriteTitleWord = ()=>{
 
@@ -19,6 +20,15 @@ export default function ToDoListDialogBox(props:any){
     const closedDialog = (e:any) =>  {
         props.setCardStatus(false)
         setShowRemind("none")
+        let newData = [...isTagsArray]
+        let newChooseCell = [...chooseCell]
+        const cleanTags = Math.abs(startRow-endRow)+1
+            for(let i=0 ; i<cleanTags;i++){
+                newData.pop()
+                newChooseCell.pop()
+        }
+        setTagsArray(newData)
+        setChooseCell(newChooseCell)
         //let emendArray = [...isTagsArray]
         //emendArray.pop()
         //setTagsArray(emendArray)
@@ -28,16 +38,77 @@ export default function ToDoListDialogBox(props:any){
     }
 
     const saveData = (e:any) => {
-        console.log(toDoListData)
         let time = `${toDoListData.yearStart}Y${toDoListData.monthStart}M`
         if(toDoListData.title === ""){
+            setShowRemind("block")
             return
         }
         if(memberNowStatus){
-            db.saveToDoList(time,toDoListData,tagStartCell)
+            //let yearChangeDay = Math.abs(Number(toDoListData.yearEnd)-Number(toDoListData.yearStart))
+            //if(toDoListData.yearEnd-toDoListData.yearStart)
+            //const [saveResult,setSaveResult] = useState(false)
+            let newData = [...isTagsArray]
+            
+            const cleanTags = Math.abs(startRow-endRow)+1
+            for(let i=0 ; i<cleanTags;i++){
+                newData.pop()
+            }
+            if(tagIdWidthArray.length>1){
+                let sendData:any = []
+                let uuidDate = new Date();
+                //const uuid = uuidv4()
+                tagIdWidthArray.forEach((element)=>{
+                    let moreRowsListData={
+                        title:toDoListData.title,
+                        color:toDoListData.color,
+                        yearStart:toDoListData.yearStart,
+                        yearEnd:toDoListData.yearEnd,
+                        monthStart:toDoListData.monthStart,
+                        monthEnd:toDoListData.monthEnd,
+                        dayStart:toDoListData.dayStart,
+                        dayEnd:toDoListData.dayEnd,
+                        description:toDoListData.description,
+                        status:toDoListData.status,
+                        //index:uuid,
+                        index:uuidDate,
+                        id:element[0],
+                        connectWidth:toDoListData.connectWidth,
+                        width:element[1]
+                    }
+                    sendData.push(moreRowsListData)
+                    
+                })
+                //const result = db.saveToDoList(time,sendData,uuid)
+                const result = db.saveToDoList(time,sendData,uuidDate)
+                result.then((msg)=>{
+                    if(msg === "success"){
+                        console.log("地一次會不見")
+                        props.setCardStatus(false)
+                        console.log(sendData)
+                        newData.push(sendData)
+                        console.log(newData)
+                        setTagsArray(sendData)
+                    }
+                })
+            }else if(tagIdWidthArray.length === 1){
+                //db.saveToDoList(time,toDoListData,index)
+               // const result = db.saveToDoList(time,toDoListData,index)
+               
+               const result = db.saveToDoList(time,toDoListData,uuidDate)
+                result.then((msg)=>{
+                    if(msg === "success"){
+                        props.setCardStatus(false)
+                        newData.push(toDoListData)
+                        setTagsArray(newData)
+                    }
+                })
+            }
+            
+            //db.saveToDoList(time,toDoListData,index)
         }
     }
     const { memberNowStatus } = useContext(memberStatus)
+    const {memberInformation} = useContext(memberStatus)
     const { tagStartCell } = useContext(tagData);
     const { tagEndCell } = useContext(tagData);
     const { setTagsArray } = useContext(tagData);
@@ -45,8 +116,10 @@ export default function ToDoListDialogBox(props:any){
     const { searchMonth } = useContext(tagData);
     const { setChooseCell } = useContext(tagData);
     const { chooseCell } = useContext(tagData);
+    const {setSaveResult} = useContext(tagData)
     const [showRemind,setShowRemind] = useState("none")
     //const [data,setData] = useState()
+    let uuidDate = new Date();
     let toDoListData = {title:"",
                         color:"#FDCD47",
                         yearStart:"",
@@ -56,7 +129,12 @@ export default function ToDoListDialogBox(props:any){
                         dayStart:"",
                         dayEnd:"",
                         description:"",
-                        status:"未完成"}
+                        status:"未完成",
+                        //index:index,
+                        index:uuidDate,
+                        id:0,
+                        connectWidth:0,
+                        width:0}
 
     let tagArray = [...isTagsArray]
     const perRowStartNumber = [1, 8, 15, 22, 29, 36];
@@ -65,8 +143,12 @@ export default function ToDoListDialogBox(props:any){
     let width:number
     let connectWidth:number = (Math.abs(tagStartCell - tagEndCell)+1)*100
     let tagId:number
+    type Tuple = [number, number];
+    let tagIdWidthArray:Tuple[]=[]
     let title:string =""
     let description:string =""
+    toDoListData.connectWidth = connectWidth
+    
     if(startRow < endRow){
         for(let i = startRow; i<= endRow ; i++ ){
             if(i ===startRow){
@@ -81,7 +163,8 @@ export default function ToDoListDialogBox(props:any){
             }
             //const tagItem = {[tagId]:width}
             //const tagItem = {[tagId]:[width,title,description,connectWidth]}
-            const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth}
+            tagIdWidthArray.push([tagId,width])
+            const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth,color:toDoListData.color}
             tagArray.push(tagItem)
         }
     }else if( startRow> endRow){
@@ -96,9 +179,9 @@ export default function ToDoListDialogBox(props:any){
                 tagId = perRowStartNumber[i-1]
                 width = 700
             }
-
+            tagIdWidthArray.push([tagId,width])
             //const tagItem = {[tagId]:width}
-             const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth}
+             const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth,color:toDoListData.color}
             //const tagItem = {[tagId]:[width,title,description,connectWidth]}
             tagArray.push(tagItem)
         }
@@ -109,11 +192,15 @@ export default function ToDoListDialogBox(props:any){
         }else{
             tagId = tagStartCell
         }
+        
         width = (Math.abs(tagStartCell-tagEndCell)+1)*100
-        const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth}
+        console.log(tagId)
+        tagIdWidthArray.push([tagId,width])
+        toDoListData.id = tagId
+        const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth,color:toDoListData.color}
         tagArray.push(tagItem)
     }
-    
+    toDoListData.width = width
     useEffect(()=>{
         if(props.status === true){
             setTagsArray(tagArray)

@@ -206,6 +206,7 @@ input:checked + :global(.show_password_label):after {
   transition: .5s;
   border:1px solid white;
   border-radius: 5px;
+  background-color: black;
 }
 
 :global(.user_button):hover {
