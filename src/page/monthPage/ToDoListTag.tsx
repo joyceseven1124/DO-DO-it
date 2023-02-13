@@ -23,6 +23,10 @@ const Tag = styled.div<Tag>`
     top: ${(props) => props.top};
     text-align: left;
     z-index: 5;
+    cursor:pointer;
+    :active{
+        cursor:grabbing;
+    }
 `;
 
 function getPosition(element: any) {
@@ -43,20 +47,11 @@ export default function ToDoListTag(props: any) {
     const {setTagEndCell} = useContext(tagData);
     const { setTagsArray } = useContext(tagData);
     const { isTagsArray } = useContext(tagData);
+    const { setShowTagIndex } =useContext(tagData);
+    const { setShowListDialog } = useContext(tagData)
 
     let x = useContext(tagData);
     let id = tagStartCell;
-    /*let x = useContext(tagData)
-    console.log(x)
-    console.log(tagStartCell)
-    let y = [...isTagsArray]
-    let tag = <Tag>(No title)</Tag>
-    useEffect(() => {
-    // 使用瀏覽器 API 更新文件標題
-    y.push(tag)
-    setTagsArray(tag)
-        
-    },[tagStartCell]);*/
     function dragstart(e: any) {
         const elementPosition = getPosition(e.target);
         const cellSize = document.getElementById('cell-1-1').offsetWidth;
@@ -66,32 +61,26 @@ export default function ToDoListTag(props: any) {
         } else {
             clickElementPlace = Math.ceil(clickElementPlace);
         }
-        //被拖移的元素起始樣子
-        //傳遞元素(width、title、description、data、color、插入的位置)
-        //e.dataTransfer.setData('text/plain', 'This text   may be dragged')
-        //之後要放在標籤上的東西
         const title:string = e.target.firstChild.getAttribute("title")
         const startOldTag = e.target.id.split("-")[1]
         const endOldTag:number = Number(startOldTag) + Math.ceil(e.target.offsetWidth/cellSize)-1
         const insertPlace:number=clickElementPlace
-        const description:string=e.target.firstChild.getAttribute("description")
+        const description:string=e.target.firstChild.getAttribute("description-word")
         const allConnectWidth  = e.target.firstChild.getAttribute("connect-width")
         const color = e.target.getAttribute("color")
+        const index = e.target.firstChild.getAttribute("index-time")
         e.dataTransfer.setData("startOldTag",startOldTag)
         e.dataTransfer.setData("endOldTag",endOldTag)
         e.dataTransfer.setData("color",color)
         e.dataTransfer.setData("insertPlace",insertPlace)
         e.dataTransfer.setData("title",title)
-        e.dataTransfer.setData("date","hello")
+        //e.dataTransfer.setData("date","hello")
         e.dataTransfer.setData("description",description)
         e.dataTransfer.setData("allConnectWidth",allConnectWidth)
-
-        let test = Math.ceil(e.target.offsetWidth/cellSize)*100
+        e.dataTransfer.setData("index",index)
     }
 
     const dragend = (e: any) => {
-        //拖曳刪除要放在這
-        setTagEndCell(20)
     };
 
     let tagTop = 50
@@ -117,6 +106,12 @@ export default function ToDoListTag(props: any) {
             <div
                 title= {props.title}
                 connect-width = {props.connectWidth}
+                index-time = {props.index}
+                description-word={props.description}
+                onClick={(e)=>{
+                    setShowTagIndex(props.index)
+                    setShowListDialog(true)
+                }}
             >
             {title}
             </div>

@@ -48,14 +48,14 @@ export default function ToDoListDialogBox(props:any){
             //if(toDoListData.yearEnd-toDoListData.yearStart)
             //const [saveResult,setSaveResult] = useState(false)
             let newData = [...isTagsArray]
-            
+  
             const cleanTags = Math.abs(startRow-endRow)+1
             for(let i=0 ; i<cleanTags;i++){
                 newData.pop()
             }
             if(tagIdWidthArray.length>1){
                 let sendData:any = []
-                let uuidDate = new Date();
+                let uuidDate = new Date().getTime().toString();
                 //const uuid = uuidv4()
                 tagIdWidthArray.forEach((element)=>{
                     let moreRowsListData={
@@ -75,25 +75,21 @@ export default function ToDoListDialogBox(props:any){
                         connectWidth:toDoListData.connectWidth,
                         width:element[1]
                     }
+                    newData.push(moreRowsListData)
                     sendData.push(moreRowsListData)
-                    
                 })
                 //const result = db.saveToDoList(time,sendData,uuid)
                 const result = db.saveToDoList(time,sendData,uuidDate)
                 result.then((msg)=>{
                     if(msg === "success"){
-                        console.log("地一次會不見")
                         props.setCardStatus(false)
-                        console.log(sendData)
-                        newData.push(sendData)
-                        console.log(newData)
-                        setTagsArray(sendData)
+                        //newData.push(sendData)
+                        setTagsArray(newData)
                     }
                 })
             }else if(tagIdWidthArray.length === 1){
                 //db.saveToDoList(time,toDoListData,index)
                // const result = db.saveToDoList(time,toDoListData,index)
-               
                const result = db.saveToDoList(time,toDoListData,uuidDate)
                 result.then((msg)=>{
                     if(msg === "success"){
@@ -116,10 +112,9 @@ export default function ToDoListDialogBox(props:any){
     const { searchMonth } = useContext(tagData);
     const { setChooseCell } = useContext(tagData);
     const { chooseCell } = useContext(tagData);
-    const {setSaveResult} = useContext(tagData)
     const [showRemind,setShowRemind] = useState("none")
     //const [data,setData] = useState()
-    let uuidDate = new Date();
+    let uuidDate = new Date().getTime().toString();
     let toDoListData = {title:"",
                         color:"#FDCD47",
                         yearStart:"",
@@ -194,7 +189,6 @@ export default function ToDoListDialogBox(props:any){
         }
         
         width = (Math.abs(tagStartCell-tagEndCell)+1)*100
-        console.log(tagId)
         tagIdWidthArray.push([tagId,width])
         toDoListData.id = tagId
         const tagItem = {id:tagId,width:width,title:title,description:description,connectWidth:connectWidth,color:toDoListData.color}

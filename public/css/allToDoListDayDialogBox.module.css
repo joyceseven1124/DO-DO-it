@@ -1,5 +1,5 @@
 .dialog_background{
-    display: none;
+    display: flex;
     position: absolute;
     background-color: rgba(50, 50, 50, 0.9);
     width: 100%;

@@ -4,6 +4,7 @@ import { Provider, useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
 import ToDoListDialogBox from './ToDoListDialogBox';
 import ToDoListTag from './ToDoListTag';
+import AllToDoListDayDialogBox from './AllToDoListDayDialogBox';
 import {memberStatus} from "../../"
 import db from "../../firebase/firebase"
 import styled from 'styled-components';
@@ -31,7 +32,9 @@ export const tagData = createContext({
     endDayInit:undefined,
     setChooseCell:undefined,
     chooseCell:undefined,
-    setSaveResult:undefined
+    setShowTagIndex:undefined,
+    showTagIndex:undefined,
+    setShowListDialog:undefined
 });
 
 interface DayCell {
@@ -71,19 +74,17 @@ const DayCell = styled.div<DayCell>`
 
 
 export default function MonthCell() {
-    //const [signInCardStatus,setSignInCardStatus] = useState(false)
-    //const [registerCardStatus,setRegisterCardStatus] = useState(false)
     const [isTagsArray, setTagsArray] = useState([]);
     const [dayStart,setDayStart] = useState(0)
     const [dayEnd,setDayEnd] = useState(0)
-    const [tagTitle, setTagTitle] = useState('(No Title)');
+    const [showTagIndex, setShowTagIndex] = useState(0);
+    const [showListDialog,setShowListDialog] = useState(false)
     const [tagStartCell, setTagStartCell] = useState(0);
     const [tagEndCell, setTagEndCell] = useState(0);
     const [activeCell,setActiveCell] = useState(false)
     const [showCardDisplay, setShowCardDisplay] = useState(false);
     const [chooseCell,setChooseCell] = useState([])
     const [monthCellHeight,setMonthCellHeight] = useState(900)
-    const [saveResult,setSaveResult] = useState(false)
     const startDayInit = useRef(0);
     const endDayInit = useRef(0)
     const {memberNowStatus} = useContext(memberStatus)
@@ -101,11 +102,14 @@ export default function MonthCell() {
          (state: RootState) => state.timeControlReducer.year
     )
     const memberEmail = useSelector((state:RootState) => state.logInReducer.email)
+    
+    
 
 
     useEffect(() => {
         setTagsArray([]);
         setMonthCellHeight(900)
+        setChooseCell([])
         if(memberInformation !== ""){
             const searchDataTime = `${yearNumber}Y${monthNumber}M`
             let monthData = db.getToDoListData(memberInformation,searchDataTime)
@@ -120,21 +124,15 @@ export default function MonthCell() {
                         data.push(element)
                         const startId = element.id
                         const endId = startId+element.connectWidth/100-1
-                        const result = makeChooseCellArray(startId,endId)
+                        const result = makeChooseCellArray(startId,endId,"change")
                         chooseCellData.push(result[0])
                     })
-
-                    
-                    
-
                     moreRowsTag.map((element:any,index)=>{
-                        console.log(element)
                         if(element[0]){
                             data.push(element[0])
                             const startId = element[0].id
                             const endId = startId+element[0].connectWidth/100-1
-
-                            const result = makeChooseCellArray(startId,endId)
+                            const result = makeChooseCellArray(startId,endId,"change")
                             chooseCellData.push(result[0])
                         }
                         if(element[1]){
@@ -143,7 +141,6 @@ export default function MonthCell() {
 
                         if(element[2]){
                             data.push(element[2])
-                          
                         }
 
                         if(element[3]){
@@ -152,7 +149,6 @@ export default function MonthCell() {
 
                         if(element[4]){
                             data.push(element[4])
-                            console.log(1)
                         }
                         if(element[5]){
                             data.push(element[5])
@@ -167,7 +163,6 @@ export default function MonthCell() {
         setChooseCell([])
         }
     }, [searchMonth,memberInformation]);
-
 
     function handleClick() {
         
@@ -264,7 +259,6 @@ export default function MonthCell() {
                 if (startPlace === i) {
                     const tagWidth = `${element.width}%`
                     const connectWidth = element.connectWidth
-                    
                     return (
                         <ToDoListTag
                             key={`tag-content-${i}-${orderNumber}`}
@@ -275,6 +269,8 @@ export default function MonthCell() {
                             tagOrder={orderNumber}
                             date={date}
                             color={element.color}
+                            index={element.index}
+                            description={element.description}
                         />
                     );
                 }
@@ -300,7 +296,7 @@ export default function MonthCell() {
                         onPointerEnter={EnterCell}
                     >
                         <div className="date_word">{date}</div>
-                        <div onClick={test}>{newTagArray}</div>
+                        <div>{newTagArray}</div>
                     </DayCell>
                 );
                 monthDataArray.push(dayHtml);
@@ -315,7 +311,7 @@ export default function MonthCell() {
                         bgColor={activeStatus}
                     >
                         <div className="date_word">{date}</div>
-                        <div onClick={test}>{newTagArray}</div>
+                        <div>{newTagArray}</div>
                     </DayCell>
                 );
                 monthDataArray.push(dayHtml);
@@ -324,20 +320,17 @@ export default function MonthCell() {
         return <>{monthDataArray}</>;
     }
 
-    //標籤點擊打開清單
-    function test() {
-    }
-
     function EnterCell(e:any) {
         const id = Number(e.target.id.split("-")[1])
         setTagEndCell(id)
     }
 
     function mouseDown(e: any) {
-        if (e.target.className.includes('toDoListTag')) {
+        if (e.target.parentNode.className.includes('toDoListTag')) {
             return
         }
         setActiveCell(true)
+        e.target.style.cursor = "grab"
         let cellId = Number(e.target.id.split('-')[1]);
         let chooseDate = e.target.classList[3]
         setDayStart(chooseDate)
@@ -345,8 +338,15 @@ export default function MonthCell() {
         startDayInit.current = chooseDate
     }
 
-    function makeChooseCellArray(tagStartCell:number,tagEndCell:number){
-        let prevChooseCell = [...chooseCell]
+    function makeChooseCellArray(tagStartCell:number,tagEndCell:number,status:string){
+        let prevChooseCell:any
+        if(status === "usual"){
+            prevChooseCell = [...chooseCell]
+        }else{
+            prevChooseCell=[]
+        }
+        //let prevChooseCell = [...chooseCell]
+        //let prevChooseCell=[]
         let nowChooseCell = []
         if(tagStartCell>tagEndCell){
             for(let i= tagEndCell; i<=tagStartCell;i++){
@@ -365,14 +365,13 @@ export default function MonthCell() {
     }
 
     function mouseUp(e: any) {
-        if (e.target.className.includes('toDoListTag')) {
+        if (!e.target.id.includes('cell')) {
             return
         }
         setActiveCell(false)
-        
         let chooseDate = e.target.classList[3]
         setDayEnd(chooseDate)
-        const newChooseAllCells = makeChooseCellArray(tagStartCell,tagEndCell)
+        const newChooseAllCells = makeChooseCellArray(tagStartCell,tagEndCell,"usual")
         setChooseCell(newChooseAllCells)
         setShowCardDisplay(true);
         endDayInit.current = chooseDate
@@ -380,21 +379,34 @@ export default function MonthCell() {
 
     const dragDrop = (e: any) => {
         if(e.target.id){
+            const searchDataTime = `${yearNumber}Y${monthNumber}M`
             const allConnectWidth = Number(e.dataTransfer.getData('allConnectWidth'))
             const startOldTag = Number(e.dataTransfer.getData('startOldTag'))
             const endOldTag = startOldTag+allConnectWidth/100-1
             const insertPlace = e.dataTransfer.getData('insertPlace')
             const title = e.dataTransfer.getData('title')
             const description = e.dataTransfer.getData('description')
-            
+            const color = e.dataTransfer.getData('color')
+            const index = e.dataTransfer.getData("index")
+            let date = Number(e.target.className.split(" ")[3])
+            let startDate:number = date
+            let endDate:number = startDate+allConnectWidth/100 -1
             let startId:number = Number(e.target.id.split("-")[1])
             let endId:number = (startId+allConnectWidth/100)-1
             let tagArray = [...isTagsArray];
             let chooseCellArray = [...chooseCell]
+            let toDoListStatus
+            let yearStart
+            let yearEnd
+            let monthStart
+            let monthEnd
+            let updateData
 
 
             if(allConnectWidth <=700){
                 if (insertPlace !== 0) {
+                    startDate = date - (insertPlace - 1)
+                    endDate = startDate  -1 +allConnectWidth/100
                     startId = startId - (insertPlace - 1);
                     endId = startId+allConnectWidth/100-1
                 }
@@ -402,14 +414,15 @@ export default function MonthCell() {
             const perRowStartNumber = [1, 8, 15, 22, 29, 36];
             const perRowEndNumber = [7, 14, 21, 28, 35, 42];
             let newTagArray = tagArray.filter((element)=>{
-                let connectTagValueTitle = element.title
-                let connectTagValueDescription =element.description
-                let connectTagValueWidth = element.connectWidth
-                if(connectTagValueTitle !== title ||
-                connectTagValueDescription !== description ||
-                connectTagValueWidth !== allConnectWidth){
+                let connectTagValueIndex = element.index
+                toDoListStatus = element.status
+                yearStart = element.yearStart
+                yearEnd=element.yearEnd
+                monthStart = element.monthStart
+                monthEnd = element.monthEnd
+                 if(connectTagValueIndex.toString() !== index){
                     return element
-                }
+                 }
 
             })
 
@@ -419,33 +432,50 @@ export default function MonthCell() {
             const rowStart = Math.ceil(startId/7)
             let allWidth = allConnectWidth
             if(rowEnd !== rowStart){
+                let upDateArray = []
                 let tagItem ={}
                 let firstTagWidth = (Math.abs(startId-firstRowEndId)+1)*100
                 if(startId === firstRowEndId){
                     firstTagWidth = 100
                 }
-                tagItem = {id:startId,width:firstTagWidth,title:title,description:description,connectWidth:allConnectWidth}
+                tagItem = {id:startId,width:firstTagWidth,title:title,description:description,
+                            connectWidth:allConnectWidth,color:color,index:index,status:toDoListStatus,
+                            yearStart:yearStart,yearEnd:yearEnd,monthStart:monthStart,monthEnd:monthEnd,
+                            dayStart:startDate,dayEnd:endDate}
                 newTagArray.push(tagItem)
+                upDateArray.push(tagItem)
                 allWidth = allWidth - firstTagWidth
                 if(Math.abs(rowEnd-rowStart)>=2){
                     for(let i = rowStart+1; i<rowEnd;i++ ){
                         let otherTagStartId = perRowStartNumber[i-1]
                         let otherTagWidth = 700
-                        const tagItem = {id:otherTagStartId,width:otherTagWidth,title:title,description:description,connectWidth:allConnectWidth}
+                        const tagItem = {id:otherTagStartId,width:otherTagWidth,title:title,description:description,
+                                        connectWidth:allConnectWidth,color:color,index:index,status:toDoListStatus,
+                                        yearStart:yearStart,yearEnd:yearEnd,monthStart:monthStart,monthEnd:monthEnd,
+                                        dayStart:startDate,dayEnd:endDate}
                         newTagArray.push(tagItem)
+                        upDateArray.push(tagItem)
                         allWidth = allWidth - otherTagWidth
                     }
                 }
                 let endTagWidth = allWidth
                 if(endTagWidth>0){
                     let endTagStartId = perRowStartNumber[Math.ceil(endId/7)-1]
-                    const tagItem = {id:endTagStartId,width:endTagWidth,title:title,description:description,connectWidth:allConnectWidth}
+                    const tagItem = {id:endTagStartId,width:endTagWidth,title:title,description:description,
+                                    connectWidth:allConnectWidth,color:color,index:index,status:toDoListStatus,
+                                    yearStart:yearStart,yearEnd:yearEnd,monthStart:monthStart,monthEnd:monthEnd,
+                                    dayStart:startDate,dayEnd:endDate}
                     newTagArray.push(tagItem)
+                    upDateArray.push(tagItem)
                 }
-
+                updateData = [...upDateArray]
             }else{
-                const tagItem = {id:startId,width:allWidth,title:title,description:description,connectWidth:allConnectWidth}
+                const tagItem = {id:startId,width:allWidth,title:title,description:description,
+                                connectWidth:allConnectWidth,color:color,index:index,status:toDoListStatus,
+                                yearStart:yearStart,yearEnd:yearEnd,monthStart:monthStart,monthEnd:monthEnd,
+                                dayStart:startDate,dayEnd:endDate}
                 newTagArray.push(tagItem)
+                updateData = tagItem
             }
             let newChooseAllCells = chooseCellArray.filter((element)=>{
                 const start = element[0]
@@ -459,6 +489,7 @@ export default function MonthCell() {
                 newChooseCell.push(i)
             }
             newChooseAllCells.push(newChooseCell)
+            db.updateData(memberInformation,searchDataTime,Number(index),updateData)
             setChooseCell(newChooseAllCells)
             setTagsArray(newTagArray)
         }
@@ -495,7 +526,9 @@ export default function MonthCell() {
                 setDayEnd,
                 startDayInit,
                 endDayInit,
-                setSaveResult
+                setShowTagIndex,
+                showTagIndex,
+                setShowListDialog
             }}
         >
             <div
@@ -510,6 +543,8 @@ export default function MonthCell() {
             >
                 <Cell />
             </div>
+            
+            {showListDialog?(<><AllToDoListDayDialogBox/></>):null}
             {showCardDisplay?(<><ToDoListDialogBox status={showCardDisplay} setCardStatus={setShowCardDisplay}/></>):null}
         </tagData.Provider>
     );

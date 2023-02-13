@@ -13,7 +13,8 @@ import { getFirestore,
          setDoc,
          getDoc,
          getDocs,
-         collection
+         collection,
+         updateDoc
         }from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -54,8 +55,6 @@ async function saveToDoList(time:string,toDoListData:{},uuid:any){
         const errorMessage = error.message;
         msg = "fail"
     }finally{
-        console.log("訊息消失")
-        console.log(msg)
         return msg
     }
 }
@@ -84,6 +83,31 @@ async function getToDoListData(email:string,time:string){
         return "fail"
     }
 }
+
+
+//email:string,time:string
+async function updateData(email:string,time:string,index:number,data:{}){
+    let msg =''
+    try{
+        await setDoc(doc(db, 
+            email, 
+            time),
+            {[index]:data},{ merge: true });
+    }
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = "fail"
+    }
+    finally{
+        return msg
+    }
+
+}
+
+
+
+
 
 async function getMemberInformation(email:string){
     let msg
@@ -214,6 +238,8 @@ async function leaveAccount(){
 
 
 
+
+
 export default {
   saveToDoList,
   buildAccount,
@@ -221,5 +247,6 @@ export default {
   leaveAccount,
   getToDoListData,
   getMemberInformation,
-  memberStatus
+  memberStatus,
+  updateData
 };

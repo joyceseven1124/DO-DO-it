@@ -5,7 +5,9 @@ import MonthCell from './monthPage/MonthCell';
 import { RootState } from '../store';
 import NavigationBar from '../components/NavigationBar';
 import Footer from '../components/Footer';
+import SideBar from '../components/SideBar';
 import db from "../firebase/firebase"
+import AllToDoListDayDialogBox from './monthPage/AllToDoListDayDialogBox';
 
 function MonthPage() {
     //let x =  db.getToDoListData()
@@ -27,6 +29,7 @@ function MonthPage() {
                     </div>
                     <MonthCell />
                 </div>
+                <SideBar/>
             </div>
             <Footer/>
         </div>

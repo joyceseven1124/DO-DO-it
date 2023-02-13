@@ -1,0 +1,104 @@
+.invite_wrapper{
+    top: 0px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(124, 124, 124, 0.6);
+    display: flex;
+    justify-content: center;
+    color: white;
+    z-index: 10;
+}
+
+.invite_content{
+    width:500px;
+    height: auto;
+    background-color: rgb(40, 40, 40);
+    margin: auto auto;
+    border-radius: 10px;
+    text-align: left;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.close_container{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+
+.close_button{
+    background-image: url(/public/assets/close_icon.png);
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: rgba(0, 0, 0, 0);
+}
+
+.invite_receiver{
+    text-align: left;
+}
+
+.invite_pic{
+    background-image: url(/public/assets/invite_card.png);
+    width: 200px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: rgba(0,0,0,0);
+    margin: 0px auto;
+    margin-top: 20px;
+}
+
+.invite_information{
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.invite_information > div{
+    margin-bottom: 10px;
+}
+
+.buttons_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.invite_button{
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: darkturquoise;
+    color: white;
+}
+
+.invite_button {
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  color: #94d6ff;
+  transition: 0.25s;
+  
+}
+
+.invite_button:hover,.invite_button:focus{
+    border-color: #60f4ff;
+    color: #fff;
+    box-shadow: 0 0.5em 0.5em -0.4em #60f4ff;
+    transform: translateY(-0.25em);
+}
+
+:global(#reject){
+    color: #ffb294;
+    margin-left: 40px;
+}
+
+:global(#reject):hover,:global(#reject):focus{
+    border-color: #f57953;
+    box-shadow: 0 0.5em 0.5em -0.4em #f57953;
+}
+
