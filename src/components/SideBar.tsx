@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import styles from "../../public/css/sideBar.module.css"
 import InviteCard from './sideBar/InviteCard';
 import MenuItem from './sideBar/MenuItem';
+import MenuFriend from './sideBar/MenuFriend';
 
 
 //<InviteCard/>
@@ -47,7 +48,17 @@ import MenuItem from './sideBar/MenuItem';
 }*/
 const SideBar= (props:any)=>{
     return(
-        <MenuItem/>
+    <div className={styles.sideBar_wrapper}>
+        <input type="radio" name="" id="sideMenu-active"></input>
+        <div className={styles.menu_wrapper}>
+            <MenuItem today={"hello"}/>
+            <MenuFriend friend={"111@gmail.com"}/>
+            <MenuFriend friend={"111@gmail.com"}/>
+        </div>
+        <label htmlFor="sideMenu-active">
+   		    <div className="fa-angle-right">888</div>
+   	    </label>
+    </div>
     )
 }
 export default SideBar

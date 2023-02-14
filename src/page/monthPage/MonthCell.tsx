@@ -4,7 +4,7 @@ import { Provider, useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
 import ToDoListDialogBox from './ToDoListDialogBox';
 import ToDoListTag from './ToDoListTag';
-import AllToDoListDayDialogBox from './AllToDoListDayDialogBox';
+import EditTagDialog from './EditTagDialog';
 import {memberStatus} from "../../"
 import db from "../../firebase/firebase"
 import styled from 'styled-components';
@@ -543,8 +543,7 @@ export default function MonthCell() {
             >
                 <Cell />
             </div>
-            
-            {showListDialog?(<><AllToDoListDayDialogBox/></>):null}
+            {showListDialog?(<><EditTagDialog/></>):null}
             {showCardDisplay?(<><ToDoListDialogBox status={showCardDisplay} setCardStatus={setShowCardDisplay}/></>):null}
         </tagData.Provider>
     );

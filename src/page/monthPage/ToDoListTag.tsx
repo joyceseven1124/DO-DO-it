@@ -16,14 +16,20 @@ const Tag = styled.div<Tag>`
     box-sizing: border-box;
     background-color: ${(props)=>props.color};
     width: ${(props) => props.width};
-    height: 20px;
-    line-height:20px;
-    border-radius:3px;
+    height: 25px;
+    line-height:25px;
+    border-radius:10px;
     position: absolute;
     top: ${(props) => props.top};
     text-align: left;
     z-index: 5;
     cursor:pointer;
+    font-size:20px;
+    font-family:Noto Sans TC;
+    font-weight:700;
+    color:white;
+    text-shadow: rgb(71, 71, 71) 1px 1px 0px;
+    padding-left:10px;
     :active{
         cursor:grabbing;
     }

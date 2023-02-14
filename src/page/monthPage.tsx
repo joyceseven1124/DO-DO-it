@@ -7,7 +7,7 @@ import NavigationBar from '../components/NavigationBar';
 import Footer from '../components/Footer';
 import SideBar from '../components/SideBar';
 import db from "../firebase/firebase"
-import AllToDoListDayDialogBox from './monthPage/AllToDoListDayDialogBox';
+import EditTagDialog from './monthPage/EditTagDialog';
 
 function MonthPage() {
     //let x =  db.getToDoListData()

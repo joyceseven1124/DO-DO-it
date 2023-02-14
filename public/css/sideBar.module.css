@@ -1,6 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Noto+Sans+TC&family=Potta+One&display=swap');
+.sideBar_wrapper{
+  display: flex;
+  position: relative;
+  top:0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+}
+:global(#sideMenu-active){
+  width: 100px;
+  z-index: 20;
+}
 
-.wrapper{
+.menu_wrapper{
+    z-index: 10;
     font-family: 'Lilita One', cursive;
     position: fixed;
     top:0px;
@@ -11,6 +24,30 @@
     font-size: 30px;
     padding: 10px;
     box-sizing: border-box;
+    overflow-y: scroll;
+}
+
+.menu_wrapper::-webkit-scrollbar {
+  width: 7px;
+}
+
+.menu_wrapper::-webkit-scrollbar-button {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.menu_wrapper::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+
+.menu_wrapper::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid slategrey;
+}
+
+.menu_wrapper::-webkit-scrollbar-track {
+  box-shadow: transparent;
 }
 
 ul,li{
@@ -22,35 +59,49 @@ ul,li{
 .today_content{
     width: 100%;
     height: auto;
-    background-color: white;
+    background-color: #EEE;
     border-radius: 5px;
     text-align: center;
-}
-
-.today_button{
-    width:300px;
-    height: 50px;
-    border-radius: 5px;
-    background-color: aqua;
-
 }
 
 .check_box::before{
-    content: "TODAY'S  TASK";
-    position: absolute;
-    box-sizing: border-box;
-    top:0px;
-    width:100%;
-    text-align: center;
-    height: 50px;
-    display: block;
-    color: white;
-    background: #2ccbcb;
-    -moz-box-shadow: 0 1px 0 #40bdbd inset, 0 -1px 0 #329a9a inset;
-    -webkit-box-shadow: 0 1px 0 #40bdbd inset, 0 -1px 0 #329a9a inset;
-    box-shadow: 0 1px 0 #40bdbd inset, 0 -1px 0 #329a9a inset;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.486);
-    padding: 10px;
+  content: "TODAY'S  TASK";
+  position: absolute;
+  box-sizing: border-box;
+  top:0px;
+  width:100%;
+  text-align: center;
+  height: 50px;
+  display: block;
+  color: white;
+  background: #2ccbcb;
+  -moz-box-shadow: 0 1px 0 #40bdbd inset, 0 -1px 0 #329a9a inset;
+  -webkit-box-shadow: 0 1px 0 #40bdbd inset, 0 -1px 0 #329a9a inset;
+  box-shadow: 0 1px 0 #40bdbd inset, 0 -1px 0 #329a9a inset;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.486);
+  padding: 10px;
+}
+
+.check_box:after{
+  display: block;
+  position: absolute;
+  top:10px;
+  right: 5px;
+  z-index: 5;
+  color: white;
+  content: '\25BC';
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -moz-transition: -moz-transform 0.6s;
+  -o-transition: -o-transform 0.6s;
+  -webkit-transition: -webkit-transform 0.6s;
+  transition: transform 0.6s;
+}
+
+:global(#friend)::before{
+  content: "FRIEND'S EMAIL";
 }
 
 .check_box{
@@ -60,15 +111,48 @@ ul,li{
     top:0;
     cursor: pointer;
     position: relative;
+
 }
 
 
-.today_menu{
+
+.check_box:checked::after{
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -webkit-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+    -moz-transition: -moz-transform 0.6s;
+    -o-transition: -o-transform 0.6s;
+    -webkit-transition: -webkit-transform 0.6s;
+    transition: transform 0.6s;
+}
+
+.menu_item{
   display:none;
 }
 
+.menu_item > li{
+    margin-top: 0px;
+    color: #6f6f6f;
+    background: #EEE;
+    -moz-box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+    -webkit-box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+    box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+    text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);
+    padding: 10px 10px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+}
 
-.check_box:checked ~ .today_menu{
+
+
+.menu_item > li:hover {
+  background: #f6f6f6;
+}
+
+
+.check_box:checked ~ .menu_item{
   display: block;
   animation: showAnimation 0.5s ease-in-out;
   -moz-animation: showAnimation 0.5s ease-in-out;

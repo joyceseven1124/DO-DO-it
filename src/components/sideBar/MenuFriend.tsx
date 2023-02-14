@@ -5,14 +5,14 @@ import styles from "../../../public/css/sideBar.module.css"
 
 
 //<InviteCard/>
-const MenuItem= (props:any)=>{
+const MenuFriend= (props:any)=>{
     const [check,setCheck] = useState(false)
     console.log(props.friend)
     return(
         <>
             <ul>
                 <li className={styles.today_content}>
-                    <input type="radio" className={styles.check_box} id="today"
+                    <input type="radio" className={styles.check_box} id="friend"
                         checked={check} onClick={(e)=>{
                             if(!check){
                                 setCheck(true)
@@ -23,7 +23,7 @@ const MenuItem= (props:any)=>{
                         onChange={()=>{}}
                     />
                     <ul className={styles.menu_item}>
-                        <li>買東西</li>
+                        <li>新增夥伴+</li>
                         <li>買東西</li>
                         <li>買東西</li>
                         <li>買東西</li>
@@ -37,4 +37,4 @@ const MenuItem= (props:any)=>{
     )
 }
 
-export default MenuItem
+export default MenuFriend
