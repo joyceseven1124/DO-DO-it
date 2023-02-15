@@ -2,12 +2,15 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import styles from '/public/css/InviteCard.module.css';
 
 
-const InviteCard = () =>{
+const InviteCard = (props:any) =>{
     return(
         <>
         <div className={styles.invite_wrapper}>
             <div className={styles.invite_content}>
-                <div className={styles.close_container}>
+                <div className={styles.close_container}
+                     onClick={(e)=>{
+                        props.setInformation(false)
+                     }}>
                     <div className={styles.close_button}>關</div>
                 </div>
                 <h2>邀請卡</h2>

@@ -1,0 +1,75 @@
+.addFriend_card_wrapper{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(126, 126, 126, 0.8);
+    z-index: 15;
+    text-align: center;
+    font-weight: 900;
+}
+
+.addFriend_card_container{
+    margin: auto auto;
+    padding: auto;
+    margin-top: 200px;
+    width: 400px;
+    height: 400px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.close_container{
+    position: absolute;
+    top:10px;
+    right: 10px;
+    background-image: url(/public/assets/close_icon.png);
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: rgba(0,0,0,0);
+    cursor: pointer;
+}
+
+.addFriend_card_container > div {
+    margin-bottom: 10px;
+}
+
+.addFriend_pic{
+    margin: auto auto;
+    color: rgba(0,0,0,0);
+    background-image: url(/public/assets/people_pic.png);
+    width: 200px;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+}
+
+.email_search_input{
+    height: 40px;
+    width: 300px;
+    border-radius: 10px;
+    padding-left: 10px;
+    margin: 20px auto;
+    border: 1px solid black;
+}
+
+.add_button_wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.add_button{
+    border:1px solid black;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+}

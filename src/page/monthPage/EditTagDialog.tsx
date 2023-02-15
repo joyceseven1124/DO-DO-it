@@ -4,13 +4,14 @@ import styles from '/public/css/editTagDialog.module.css';
 import { tagData } from './MonthCell';
 import {memberStatus} from "../../"
 import db from "../../firebase/firebase"
+import { commonData } from '../MonthPage';
 
 export default function EditTagDialog(props:any){
     const {memberInformation} = useContext(memberStatus)
     const { setShowListDialog } = useContext(tagData)
-    const {isTagsArray} = useContext(tagData)
-    const {setTagsArray} = useContext(tagData)
-    const {showTagIndex} = useContext(tagData)
+    const {isTagsArray} = useContext(commonData)
+    const {setTagsArray} = useContext(commonData)
+    const {showTagIndex} = useContext(commonData)
     const [editDescription,setEditDescription] = useState(true)
     const [editTitle,setEditTitle] = useState(true)
     const [editColor,setEditColor] = useState(true)
@@ -97,11 +98,8 @@ export default function EditTagDialog(props:any){
         if(dialogData.length >1){
             db.updateData(memberInformation,time,index,dialogData)
         }
-        
-        console.log(dialogData)
-        
-        console.log(newDataArray)
         setTagsArray(newDataArray)
+        
     }
     
     return(

@@ -2,6 +2,7 @@ import { title } from 'process';
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
+import { commonData } from '../MonthPage';
 import { tagData } from './MonthCell';
 
 
@@ -51,14 +52,15 @@ export default function ToDoListTag(props: any) {
     const { tagStartCell } = useContext(tagData);
     const { tagEndCell } = useContext(tagData);
     const {setTagEndCell} = useContext(tagData);
-    const { setTagsArray } = useContext(tagData);
-    const { isTagsArray } = useContext(tagData);
-    const { setShowTagIndex } =useContext(tagData);
+    const { setTagsArray } = useContext(commonData);
+    const { isTagsArray } = useContext(commonData);
+    const { setShowTagIndex } =useContext(commonData);
     const { setShowListDialog } = useContext(tagData)
+    
 
-    let x = useContext(tagData);
     let id = tagStartCell;
     function dragstart(e: any) {
+        console.log(isTagsArray)
         const elementPosition = getPosition(e.target);
         const cellSize = document.getElementById('cell-1-1').offsetWidth;
         let clickElementPlace = (e.clientX - elementPosition.x) / cellSize;

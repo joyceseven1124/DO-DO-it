@@ -7,6 +7,7 @@ import { tagData } from './MonthCell';
 import { memberStatus } from "../../"
 import db from "../../firebase/firebase"
 import { v4 as uuidv4 } from "uuid";
+import { commonData } from '../MonthPage';
 
 const remindWriteTitleWord = ()=>{
 
@@ -107,8 +108,8 @@ export default function ToDoListDialogBox(props:any){
     const {memberInformation} = useContext(memberStatus)
     const { tagStartCell } = useContext(tagData);
     const { tagEndCell } = useContext(tagData);
-    const { setTagsArray } = useContext(tagData);
-    const { isTagsArray } = useContext(tagData);
+    const { setTagsArray } = useContext(commonData);
+    const { isTagsArray } = useContext(commonData);
     const { searchMonth } = useContext(tagData);
     const { setChooseCell } = useContext(tagData);
     const { chooseCell } = useContext(tagData);

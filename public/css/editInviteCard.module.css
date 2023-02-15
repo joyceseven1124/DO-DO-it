@@ -1,0 +1,150 @@
+.edit_invite_wrapper{
+    position: absolute;
+    width:100%;
+    height: 100%;
+    background-color: rgba(107, 107, 107, 0.8);
+    z-index: 15;
+    top:0px;
+}
+
+.edit_invite_container{
+    margin: auto auto;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    color: white;
+    width: 600px;
+    height: 450px;
+    border-radius: 10px;
+    background-color: black;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+.edit_invite_decorate{
+    background-image: url(/public/assets/invite_edit_card.png);
+    width: 100%;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.color_selector_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.color_selector{
+  color: rgba(0, 0, 0, 0);
+  font-size: 1px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-left: 5px;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.edit_invite_information{
+    position: relative;
+}
+
+.edit_invite_information > input{
+    padding: 5px;
+    border-radius: 5px;
+    height: 40px;
+    width: 80%;
+}
+
+.close_container{
+    color: rgba(0, 0, 0, 0);
+    position: absolute;
+    top:0px;
+    right: 10px;
+}
+
+.close_button{
+    background-image: url(/public/assets/close_icon.png);
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.edit_invite_title_wrapper{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.edit_invite_title_wrapper > input{
+    width: 80%;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding-left: 5px;
+}
+
+
+.edit_invite_day_word_wrapper{
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.edit_invite_day_word_wrapper>div{
+    width: 40%;
+}
+
+.edit_invite_day_wrapper{
+    margin: auto auto;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.edit_invite_day{
+    width: 40%;
+    height: 30px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+input{
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+}
+
+.edit_invite_description_wrapper>textarea{
+    border-radius: 5px;
+    width: 80%;
+    height: 100px;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+.edit_invite_description_wrapper{
+    margin: 20px auto;
+}
+
+.send_invite_button_wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+.send_invite_button{
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid white;
+    border-radius: 10px;
+}

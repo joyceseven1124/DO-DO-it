@@ -1,26 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Noto+Sans+TC&family=Potta+One&display=swap');
-.sideBar_wrapper{
-  display: flex;
-  position: relative;
-  top:0px;
-  right: 0px;
+.menu_container{
   width: 100%;
   height: 100%;
-}
-:global(#sideMenu-active){
-  width: 100px;
-  z-index: 20;
+  background-color: rgba(89, 91, 91, 0.8);
 }
 
 .menu_wrapper{
     z-index: 10;
     font-family: 'Lilita One', cursive;
-    position: fixed;
-    top:0px;
-    right: 0px;
-    width: 350px;
-    height: 100%;
-    background-color: rgb(89, 91, 91);
+    width: 100%;
+    height: 850px;
     font-size: 30px;
     padding: 10px;
     box-sizing: border-box;
@@ -104,6 +93,14 @@ ul,li{
   content: "FRIEND'S EMAIL";
 }
 
+:global(#Message)::before{
+  content: "INFORMATION";
+}
+
+:global(#tomorrow)::before{
+  content: "TOMORROW'S  TASK";
+}
+
 .check_box{
     z-index: 8;
     width: 100%;
@@ -143,12 +140,65 @@ ul,li{
     font-family: 'Noto Sans TC', sans-serif;
     font-size: 20px;
     font-weight: 800;
+    display: flex;
+    cursor: pointer;
 }
-
-
 
 .menu_item > li:hover {
   background: #f6f6f6;
+}
+
+.add_item{
+  text-align: center;
+  margin-top: 0px;
+  color: #6f6f6f;
+  background: #EEE;
+  -moz-box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+  -webkit-box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+  box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);
+  padding: 10px 10px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.add_item:hover{
+  background: #f6f6f6;
+}
+
+.item_container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.email_icon{
+  width:30px;
+  height: 100%;
+  background-image: url(/public/assets/email_icon.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: rgba(0,0,0,0);
+}
+
+.person_icon{
+  height: 30px;
+  width: 25px;
+  background-image: url(/public/assets/person_icon.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: rgba(0,0,0,0);
+}
+
+.today_icon{
+  height: 25px;
+  width: 30px;
+  background-image: url(/public/assets/today_icon.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: rgba(0,0,0,0);
 }
 
 

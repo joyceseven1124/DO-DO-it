@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     color: white;
-    z-index: 10;
+    z-index: 15;
 }
 
 .invite_content{
@@ -26,6 +26,7 @@
     width: 100%;
     display: flex;
     justify-content: right;
+    cursor: pointer;
 }
 
 .close_button{

@@ -6,6 +6,7 @@ import ToDoListDialogBox from './ToDoListDialogBox';
 import ToDoListTag from './ToDoListTag';
 import EditTagDialog from './EditTagDialog';
 import {memberStatus} from "../../"
+import { commonData } from '../MonthPage';
 import db from "../../firebase/firebase"
 import styled from 'styled-components';
 import styles from '/public/css/monthPage.module.css';
@@ -17,11 +18,11 @@ dayjs.extend(toObject);
 dayjs.extend(weekday);
 
 export const tagData = createContext({
-    isTagsArray: undefined,
+    //isTagsArray: undefined,
     tagStartCell: undefined,
     tagEndCell: undefined,
     searchMonth:undefined,
-    setTagsArray: undefined,
+    //setTagsArray: undefined,
     setTagStartCell:undefined,
     setTagEndCell:undefined,
     dayStart:undefined,
@@ -73,8 +74,8 @@ const DayCell = styled.div<DayCell>`
 `;
 
 
-export default function MonthCell() {
-    const [isTagsArray, setTagsArray] = useState([]);
+export default function MonthCell(props:any) {
+    //const [isTagsArray, setTagsArray] = useState([]);
     const [dayStart,setDayStart] = useState(0)
     const [dayEnd,setDayEnd] = useState(0)
     const [showTagIndex, setShowTagIndex] = useState(0);
@@ -90,6 +91,8 @@ export default function MonthCell() {
     const {memberNowStatus} = useContext(memberStatus)
     const {memberInformation} = useContext(memberStatus)
     const {setThisMonthData} = useContext(memberStatus)
+    const {setTagsArray} = useContext(commonData)
+    const {isTagsArray} = useContext(commonData)
 
 
     const searchMonth = useSelector(
@@ -103,8 +106,8 @@ export default function MonthCell() {
     )
     const memberEmail = useSelector((state:RootState) => state.logInReducer.email)
     
-    
 
+    
 
     useEffect(() => {
         setTagsArray([]);
@@ -164,9 +167,7 @@ export default function MonthCell() {
         }
     }, [searchMonth,memberInformation]);
 
-    function handleClick() {
-        
-    }
+
     //<div ref={tagRef}></div>
     function Cell() {
         let nowMonthMaxDay = findMaxDay(monthNumber);
@@ -379,6 +380,7 @@ export default function MonthCell() {
 
     const dragDrop = (e: any) => {
         if(e.target.id){
+            console.log(isTagsArray)
             const searchDataTime = `${yearNumber}Y${monthNumber}M`
             const allConnectWidth = Number(e.dataTransfer.getData('allConnectWidth'))
             const startOldTag = Number(e.dataTransfer.getData('startOldTag'))
@@ -511,10 +513,10 @@ export default function MonthCell() {
     return (
         <tagData.Provider
             value={{
-                setTagsArray,
+                //setTagsArray,
                 setTagEndCell,
                 setTagStartCell,
-                isTagsArray,
+                //isTagsArray,
                 setChooseCell,
                 chooseCell,
                 tagStartCell,
