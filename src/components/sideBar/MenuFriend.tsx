@@ -1,14 +1,44 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import styles from "../../../public/css/sideBar.module.css"
 import AddFriendCard from './AddFriendCard';
+import { memberStatus } from '../..';
+import db from "../../firebase/firebase"
 
 
 
 //<InviteCard/>
 const MenuFriend= (props:any)=>{
     const [check,setCheck] = useState(false)
+    const {memberInformation} = useContext(memberStatus)
 
+    useEffect(()=>{
+        if(memberInformation){
+            const result = db.getFriendData(memberInformation)
+            result.then((msg)=>{
+                if(msg.result !== null || !msg.result){
+                    props.setFriendList(msg)
+                }
+            })
+        }
+    },[memberInformation])
+
+    let itemArray:any = []
+    const friendData = Object.keys(props.friendList)
+    friendData.map((element)=>{
+        let friendEmail = props.friendList[element]
+        let item = (<li className={styles.item_container} 
+                        key = {`menuFriend-${element}`}
+                        id={friendEmail} onClick={(e)=>{
+                        props.setEditInvite(true)
+                        props.setChooseEmail(element)
+                        console.log(element)
+                }}>
+                    <div>{friendEmail}</div>
+                    <div className={styles.email_icon}>1</div>
+                </li>)
+        itemArray.push(item)
+    })
     return(
         <>
             <ul>
@@ -30,12 +60,7 @@ const MenuFriend= (props:any)=>{
                             <div>新增夥伴</div>
                             <div>+</div>
                         </div>
-                        <li className={styles.item_container} onClick={(e)=>{
-                            props.setEditInvite(true)
-                        }}>
-                            <div>111@gmail.com</div>
-                            <div className={styles.email_icon}>1</div>
-                        </li>
+                        {itemArray}
                     </ul>
                 </li>
             </ul>

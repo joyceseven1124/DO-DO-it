@@ -36,6 +36,8 @@ const Tag = styled.div<Tag>`
     }
 `;
 
+
+
 function getPosition(element: any) {
     let x = 0;
     let y = 0;
@@ -55,7 +57,7 @@ export default function ToDoListTag(props: any) {
     const { setTagsArray } = useContext(commonData);
     const { isTagsArray } = useContext(commonData);
     const { setShowTagIndex } =useContext(commonData);
-    const { setShowListDialog } = useContext(tagData)
+    const { setShowListDialog } = useContext(commonData)
     
 
     let id = tagStartCell;
@@ -121,6 +123,9 @@ export default function ToDoListTag(props: any) {
                     setShowListDialog(true)
                 }}
             >
+            {props.status==="完成" ?
+                <span style={{marginRight:"10px",color:"#08f508"}}>✔</span> :
+                null}
             {title}
             </div>
         </Tag>

@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import styles from "../../../public/css/sideBar.module.css"
 import { commonData } from '../../page/MonthPage';
@@ -8,26 +8,37 @@ import { commonData } from '../../page/MonthPage';
 //<InviteCard/>
 const MenuTomorrow= (props:any)=>{
     const [check,setCheck] = useState(false)
+    const [tomorrowItem,setTomorrowItem] = useState([])
     const {isTagsArray} = useContext(commonData)
     const {setShowTagIndex} = useContext(commonData)
-
+    const {setShowListDialog} = useContext(commonData)
     const tomorrowData = [...isTagsArray]
     let tomorrowDay = new Date().getDate()+1;
-    tomorrowData.forEach((element)=>{
-        if(element.dayStart <= tomorrowDay <= element.dayEnd){
+    let dataArray:any = []
+    tomorrowData.forEach((element,index)=>{
+        if(element.dayStart <= tomorrowDay  && tomorrowDay <= element.dayEnd){
             let item = (<li id={element.index}
                             className={styles.item_container}
+                            key={`menu-tomorrow-${index}`}
                             onClick={
                             (e)=>{
-                                console.log(e.target)
-                                //setShowTagIndex(e.target.id)
+                                setShowTagIndex(element.index)
+                                setShowListDialog(true)
                             }
                         }>
-                            <div>element.title</div>
+                            <div>{element.title}</div>
                             <div className={styles.today_icon}>1</div>
                         </li>)
+            dataArray.push(item)
+            
         }
     })
+
+    // useEffect(()=>{
+    //     if(dataArray!==[])
+    //     setTomorrowItem(dataArray)
+    // },[ dataArray])
+    
     return(
         <>
             <ul>
@@ -43,7 +54,7 @@ const MenuTomorrow= (props:any)=>{
                         onChange={()=>{}}
                     />
                     <ul className={styles.menu_item}>
-                        
+                        {dataArray}
                     </ul>
                 </li>
             </ul>

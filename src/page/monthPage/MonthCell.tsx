@@ -18,11 +18,9 @@ dayjs.extend(toObject);
 dayjs.extend(weekday);
 
 export const tagData = createContext({
-    //isTagsArray: undefined,
     tagStartCell: undefined,
     tagEndCell: undefined,
     searchMonth:undefined,
-    //setTagsArray: undefined,
     setTagStartCell:undefined,
     setTagEndCell:undefined,
     dayStart:undefined,
@@ -31,11 +29,6 @@ export const tagData = createContext({
     setDayEnd:undefined,
     startDayInit:undefined,
     endDayInit:undefined,
-    setChooseCell:undefined,
-    chooseCell:undefined,
-    setShowTagIndex:undefined,
-    showTagIndex:undefined,
-    setShowListDialog:undefined
 });
 
 interface DayCell {
@@ -75,24 +68,22 @@ const DayCell = styled.div<DayCell>`
 
 
 export default function MonthCell(props:any) {
-    //const [isTagsArray, setTagsArray] = useState([]);
     const [dayStart,setDayStart] = useState(0)
     const [dayEnd,setDayEnd] = useState(0)
-    const [showTagIndex, setShowTagIndex] = useState(0);
-    const [showListDialog,setShowListDialog] = useState(false)
     const [tagStartCell, setTagStartCell] = useState(0);
     const [tagEndCell, setTagEndCell] = useState(0);
     const [activeCell,setActiveCell] = useState(false)
     const [showCardDisplay, setShowCardDisplay] = useState(false);
-    const [chooseCell,setChooseCell] = useState([])
+    //const [chooseCell,setChooseCell] = useState([])
     const [monthCellHeight,setMonthCellHeight] = useState(900)
     const startDayInit = useRef(0);
     const endDayInit = useRef(0)
     const {memberNowStatus} = useContext(memberStatus)
     const {memberInformation} = useContext(memberStatus)
-    const {setThisMonthData} = useContext(memberStatus)
     const {setTagsArray} = useContext(commonData)
     const {isTagsArray} = useContext(commonData)
+    const {chooseCell} = useContext(commonData)
+    const {setChooseCell} = useContext(commonData)
 
 
     const searchMonth = useSelector(
@@ -272,6 +263,7 @@ export default function MonthCell(props:any) {
                             color={element.color}
                             index={element.index}
                             description={element.description}
+                            status = {element.status}
                         />
                     );
                 }
@@ -380,7 +372,6 @@ export default function MonthCell(props:any) {
 
     const dragDrop = (e: any) => {
         if(e.target.id){
-            console.log(isTagsArray)
             const searchDataTime = `${yearNumber}Y${monthNumber}M`
             const allConnectWidth = Number(e.dataTransfer.getData('allConnectWidth'))
             const startOldTag = Number(e.dataTransfer.getData('startOldTag'))
@@ -513,12 +504,8 @@ export default function MonthCell(props:any) {
     return (
         <tagData.Provider
             value={{
-                //setTagsArray,
                 setTagEndCell,
                 setTagStartCell,
-                //isTagsArray,
-                setChooseCell,
-                chooseCell,
                 tagStartCell,
                 tagEndCell,
                 searchMonth,
@@ -528,9 +515,6 @@ export default function MonthCell(props:any) {
                 setDayEnd,
                 startDayInit,
                 endDayInit,
-                setShowTagIndex,
-                showTagIndex,
-                setShowListDialog
             }}
         >
             <div
@@ -545,7 +529,7 @@ export default function MonthCell(props:any) {
             >
                 <Cell />
             </div>
-            {showListDialog?(<><EditTagDialog/></>):null}
+            
             {showCardDisplay?(<><ToDoListDialogBox status={showCardDisplay} setCardStatus={setShowCardDisplay}/></>):null}
         </tagData.Provider>
     );

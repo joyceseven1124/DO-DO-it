@@ -16,7 +16,10 @@ export const commonData = createContext({
     isTagsArray:undefined,
     setTagsArray:undefined,
     showTagIndex:undefined,
-    setShowTagIndex:undefined
+    setShowTagIndex:undefined,
+    setShowListDialog:undefined,
+    chooseCell:undefined,
+    setChooseCell:undefined
 })
 
 function MonthPage() {
@@ -28,27 +31,39 @@ function MonthPage() {
     const [friendCard ,setFriendCard] = useState(false)
     const [informationCard,setInformationCard] = useState(false)
     const [editInviteCard,setEditInviteCard] = useState(false)
+    const [showListDialog,setShowListDialog] = useState(false)
     //const [commonData,setCommonData] = useState([])
     const [isTagsArray, setTagsArray] = useState([]);
+    const [chooseCell,setChooseCell] = useState([])
     const [showTagIndex, setShowTagIndex] = useState(0);
+    const [chooseEmail,setChooseEmail] = useState("")
+    const [friendList,setFriendList] = useState([])
     //let x =  db.getToDoListData()
     return (
         <commonData.Provider value={{isTagsArray,
                                     setTagsArray,
                                     setShowTagIndex,
-                                    showTagIndex}}>
+                                    showTagIndex,
+                                    setShowListDialog,
+                                    chooseCell,
+                                    setChooseCell}}>
             <div className={styles.monthPage_background}>
                 <NavigationBar/>
                 {friendCard?(
-                    <AddFriendCard setFriend={setFriendCard}/>
+                    <AddFriendCard  setFriend={setFriendCard} 
+                                    setFriendList={setFriendList}/>
                 ):null}
 
                 {informationCard?
                 (<InviteCard setInformation={setInformationCard}/>
                 ):null}
 
-                {editInviteCard?(<EditInviteCard setEditInvite={setEditInviteCard}/>
+                {editInviteCard?(<EditInviteCard 
+                                    setEditInvite={setEditInviteCard}
+                                    chooseEmail={chooseEmail}/>
                 ):null}
+
+                {showListDialog?(<><EditTagDialog/></>):null}
 
                 <div className={styles.monthPage_container} style={{gridTemplateColumns:`${gridRow}`}}>
                     <div>
@@ -84,6 +99,9 @@ function MonthPage() {
                         {sideBarStatus?(<SideBar setFriend={setFriendCard}
                         setInformation={setInformationCard}
                         setEditInvite={setEditInviteCard}
+                        friendList={friendList}
+                        setFriendList = {setFriendList}
+                        setChooseEmail = {setChooseEmail}
                         />):null}
                     </div>
                 </div>

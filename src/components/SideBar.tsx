@@ -15,7 +15,11 @@ const SideBar= (props:any)=>{
             <MenuToday />
             <MenuTomorrow/>
             <MenuFriend setFriend={props.setFriend}
-            setEditInvite={props.setEditInvite}/>
+            setEditInvite={props.setEditInvite}
+            friendList={props.friendList}
+            setFriendList = {props.setFriendList}
+            setChooseEmail = {props.setChooseEmail}
+            />
             <MenuMessage setInformation={props.setInformation}/>
         </div>
     </div>

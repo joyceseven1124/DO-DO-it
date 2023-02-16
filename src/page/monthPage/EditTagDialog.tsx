@@ -5,13 +5,16 @@ import { tagData } from './MonthCell';
 import {memberStatus} from "../../"
 import db from "../../firebase/firebase"
 import { commonData } from '../MonthPage';
+import { electron } from 'webpack';
 
 export default function EditTagDialog(props:any){
     const {memberInformation} = useContext(memberStatus)
-    const { setShowListDialog } = useContext(tagData)
+    const { setShowListDialog } = useContext(commonData)
     const {isTagsArray} = useContext(commonData)
     const {setTagsArray} = useContext(commonData)
     const {showTagIndex} = useContext(commonData)
+    const {chooseCell} = useContext(commonData)
+    const {setChooseCell} = useContext(commonData)
     const [editDescription,setEditDescription] = useState(true)
     const [editTitle,setEditTitle] = useState(true)
     const [editColor,setEditColor] = useState(true)
@@ -28,31 +31,24 @@ export default function EditTagDialog(props:any){
     let descriptionWord:string
     let colorWord:string
     let statusWord:string
-    const closeDialog = (e:any) =>{
-        setShowListDialog(false)
-    }
-   
+    let saveStatus:string
+    let databaseFileName:string
+    
+
     const dialogData = isTagsArray.filter((element:any)=>{
-        let count = 0
         if(element.index === showTagIndex){
-            // count++
-            // if(count>1){
-            //     return
-            // }
             const startDate = `${element.yearStart}/${element.monthStart}/${element.dayStart}`
             const endDate = `${element.yearEnd}/${element.monthEnd}/${element.dayEnd}`
             dateWord = `${startDate}-${endDate}`
             titleWord = element.title
             descriptionWord = element.description
             colorWord = element.color
+            databaseFileName = `${element.yearStart}Y${element.monthStart}M`
             if(element.status === "未完成"){
                 statusWord = "任務進行中"
             }else{
                 statusWord = "任務完成囉"
             }
-            //setDate(`${startDate}-${endDate}`)
-            //setTitle(element.title)
-            //setDescription(element.description)
             return element
         }
     })
@@ -81,13 +77,12 @@ export default function EditTagDialog(props:any){
         let time
         let index
 
-
         dialogData.map((element:any)=>{
             element.title = title
             element.description = description
             element.color = color
-            element.status = status
-            //element.startYear
+            element.status = saveStatus
+        
             time = `${element.yearStart}Y${element.monthStart}M`
             index = element.index
             newDataArray.push(element)
@@ -99,21 +94,46 @@ export default function EditTagDialog(props:any){
             db.updateData(memberInformation,time,index,dialogData)
         }
         setTagsArray(newDataArray)
-        
+    }
+
+    const deleteHandle = ()=>{
+        const dataArray = [...isTagsArray]
+        const chooseCellArray = [...chooseCell]
+        let startCell:number
+        let connectWidth:number
+        let newTagArray = dataArray.filter((element)=>{
+            if(element.index !== showTagIndex){
+                return element
+            }else{
+                if(startCell < element.id){
+                    startCell = element.id
+                    connectWidth = element.connectWidth
+                }
+            }
+        })
+        let endCell = startCell + connectWidth/100 - 1
+        console.log(chooseCellArray)
+        const newChooseCellArray = chooseCellArray.filter((element)=>{
+             if(element[0] !== startCell && element[element.length-1] !== endCell){
+                return element
+             }
+         })
+         setChooseCell(newChooseCellArray)
+         setTagsArray(newTagArray)
     }
     
     return(
         <div className={styles.edit_card_wrapper}>
             <div className={styles.edit_card_content}>
                 <div className={styles.edit_card_decorate}>
-                    <h2 className={styles.task_word}>TASK STATUS</h2>
+                    <h1 className={styles.task_word}>TASK STATUS</h1>
                     <div className={styles.edit_card_pic}>1</div>
-                    <h3>{statusSentence}</h3>
+                    <h2>{statusSentence}</h2>
                 </div>
                 
                 <div className={styles.list_information}>
                     <div className={styles.close_container}>
-                        <div className={styles.close_button} onClick={closeDialog}>關</div>
+                        <div className={styles.close_button} onClick={(e)=>{setShowListDialog(false)}}>關</div>
                     </div>
                     <div className={styles.list_title_content}>
                         
@@ -142,7 +162,7 @@ export default function EditTagDialog(props:any){
                             <div className={styles.description_mark_tool}
                              onClick={(e)=>{setEditTitle(false)
                                             setEditColor(false)
-                            }}
+                        }}
                         >筆</div>
                         ):(
                             <div className={styles.save_word}
@@ -180,18 +200,29 @@ export default function EditTagDialog(props:any){
                                 }}
                             >儲存</div>
                         )}
-                       
                     </div>
                     <div className={styles.button_wrapper}>
-                        <div className={styles.delete_button}>刪除任務</div>
+                        <div className={styles.delete_button}
+                             onClick={(e)=>{
+                                const result = db.deleteData(memberInformation,databaseFileName,showTagIndex)
+                                result.then((msg)=>{
+                                    if(msg === "success"){
+                                        setShowListDialog(false)
+                                        deleteHandle()
+                                    }
+                                })
+                             }}
+                        >刪除任務</div>
                         <div className={styles.finish_button}
                              onClick={(e)=>{
                                 if(status === "未完成"){
-                                    setStatus("完成")
+                                    //setStatus("完成")
+                                    saveStatus = "完成"
                                     setStatusSentence("任務完成囉")
                                     setButtonWord("任務未達")
                                 }else{
-                                    setStatus("未完成")
+                                    //setStatus("未完成")
+                                    saveStatus = "未完成"
                                     setStatusSentence("任務進行中")
                                     setButtonWord("達成任務")
                                 }

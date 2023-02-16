@@ -14,14 +14,22 @@
     box-sizing: border-box;
     color: white;
     width: 600px;
-    height: 450px;
+    height: 500px;
     border-radius: 10px;
     background-color: black;
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 45% 55%;
     align-items: center;
     justify-content: center;
     margin-top: 200px;
+}
+
+.friend_email{
+    width: 100%;
+    height: auto;
+    color: #66c7a8;
+    margin-bottom: 20px;
+    font-size: 20px;
 }
 
 .edit_invite_decorate{
@@ -30,6 +38,7 @@
     height: 200px;
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .color_selector_wrapper{
@@ -76,6 +85,9 @@
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
+    position: absolute;
+    top:-40px;
+    right: 0px;
 }
 
 .edit_invite_title_wrapper{
@@ -139,6 +151,7 @@ input{
 .send_invite_button_wrapper{
     display: flex;
     justify-content: center;
+    
 }
 
 .send_invite_button{
@@ -147,4 +160,5 @@ input{
     line-height: 40px;
     border: 1px solid white;
     border-radius: 10px;
+    cursor: pointer;
 }

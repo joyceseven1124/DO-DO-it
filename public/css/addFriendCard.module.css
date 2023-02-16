@@ -73,3 +73,7 @@
     line-height: 40px;
     cursor: pointer;
 }
+
+.result_msg{
+    margin-bottom: 10px;
+}

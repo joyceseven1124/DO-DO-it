@@ -110,9 +110,9 @@ export default function ToDoListDialogBox(props:any){
     const { tagEndCell } = useContext(tagData);
     const { setTagsArray } = useContext(commonData);
     const { isTagsArray } = useContext(commonData);
+    const { setChooseCell } = useContext(commonData);
+    const { chooseCell } = useContext(commonData);
     const { searchMonth } = useContext(tagData);
-    const { setChooseCell } = useContext(tagData);
-    const { chooseCell } = useContext(tagData);
     const [showRemind,setShowRemind] = useState("none")
     //const [data,setData] = useState()
     let uuidDate = new Date().getTime().toString();

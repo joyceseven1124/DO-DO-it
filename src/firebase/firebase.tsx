@@ -14,7 +14,10 @@ import { getFirestore,
          getDoc,
          getDocs,
          collection,
-         updateDoc
+         updateDoc,
+         query,
+         where,
+         deleteField
         }from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -106,6 +109,26 @@ async function updateData(email:string,time:string,index:number,data:{}){
 }
 
 
+async function deleteData(email:string,time:string,index:number){
+    let msg =''
+    try{
+        await updateDoc(doc(db, email, time), {
+            [index]: deleteField()
+        });
+        msg="success"
+    }
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = "fail"
+    }
+    finally{
+        return msg
+    }
+}
+
+
+
 
 
 
@@ -146,6 +169,52 @@ async function getMemberInformation(email:string){
         return msg
     }
 }*/
+
+
+async function addFriend(email:string,myEmail:string){
+    let msg:boolean
+    try{
+        const docSnap = await getDoc(doc(db, email, "memberInformation"));
+        if(docSnap.exists()) {
+            await setDoc(doc(db, myEmail, "friend"), {[email]:email}, { merge: true });
+            msg = true
+        }else{
+            msg = false
+        }
+    }
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = false
+    }
+    finally{
+        return msg
+    }
+}
+
+async function getFriendData(email:string) {
+    let msg
+    try{
+        const docSnap = await getDoc(doc(db, email, "friend"));
+        if(docSnap.exists()) {
+            const result = docSnap.data()
+            msg = result
+        }else{
+            msg={result:null}
+        }
+    }
+    
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = {result:false}
+    }
+    finally{
+        return msg
+    }
+}
+
+
 
 //註冊
 async function buildAccount(email:string, password:string,name:string){
@@ -248,5 +317,8 @@ export default {
   getToDoListData,
   getMemberInformation,
   memberStatus,
-  updateData
+  updateData,
+  addFriend,
+  getFriendData,
+  deleteData
 };

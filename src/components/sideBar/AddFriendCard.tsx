@@ -1,8 +1,14 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import styles from '/public/css/addFriendCard.module.css';
+import db from "../../firebase/firebase"
+import {memberStatus} from "../../index"
 
 
 const AddFriendCard = (props:any) =>{
+    const [inputEmail,setInputEmail] = useState("")
+    const [resultMsg,setResultMsg] = useState("")
+    const [color,setColor] = useState("#048517fa")
+    const {memberInformation} = useContext(memberStatus)
     return(
         <>
             <div className={styles.addFriend_card_wrapper}>
@@ -18,9 +24,29 @@ const AddFriendCard = (props:any) =>{
                         <input  type="text" 
                                 placeholder='111@gmail.com'
                                 className={styles.email_search_input}
-                                maxLength={30}/>
+                                maxLength={30}
+                                onChange={(e)=>{
+                                    setInputEmail(e.target.value)
+                                }}
+                                />
+                        <div className={styles.result_msg} style={{color:`${color}`}}>{resultMsg}</div>
                         <div className={styles.add_button_wrapper}>
-                            <div className={styles.add_button}>加好友</div>
+                            <div className={styles.add_button}
+                                 onClick = {(e)=>{
+                                    console.log("是否有此人")
+                                    console.log(inputEmail)
+                                    const result = db.addFriend(inputEmail,memberInformation)
+                                    result.then((msg)=>{
+                                        if(msg){
+                                            setResultMsg("恭喜結交一名星際探警")
+                                            setColor("#048517fa")
+                                        }else{
+                                            setResultMsg("逼波逼波~查無此人")
+                                            setColor("#ae0000fa")
+                                        }
+                                    })
+                                 }}
+                            >加好友</div>
                         </div>
                         
                     </div>
@@ -31,3 +57,5 @@ const AddFriendCard = (props:any) =>{
 }
 
 export default AddFriendCard
+
+// /<div className={styles.result_msg} style={{color:`${color}`}}>{resultMsg}</div>
