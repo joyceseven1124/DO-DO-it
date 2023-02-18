@@ -29,6 +29,7 @@ const Tag = styled.div<Tag>`
     font-family:Noto Sans TC;
     font-weight:700;
     color:white;
+    letter-spacing: 1.2px;
     text-shadow: rgb(71, 71, 71) 1px 1px 0px;
     padding-left:10px;
     :active{

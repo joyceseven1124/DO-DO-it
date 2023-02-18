@@ -99,7 +99,7 @@
 }
 
 :global(#reject):hover,:global(#reject):focus{
-    border-color: #f57953;
-    box-shadow: 0 0.5em 0.5em -0.4em #f57953;
+    border-color: var(--deleteButtonColor);
+    box-shadow: 0 0.5em 0.5em -0.4em var(--deleteButtonShadow);
 }
 

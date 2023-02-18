@@ -8,7 +8,6 @@ import { commonData } from '../../page/MonthPage';
 //<InviteCard/>
 const MenuTomorrow= (props:any)=>{
     const [check,setCheck] = useState(false)
-    const [tomorrowItem,setTomorrowItem] = useState([])
     const {isTagsArray} = useContext(commonData)
     const {setShowTagIndex} = useContext(commonData)
     const {setShowListDialog} = useContext(commonData)
@@ -33,11 +32,6 @@ const MenuTomorrow= (props:any)=>{
             
         }
     })
-
-    // useEffect(()=>{
-    //     if(dataArray!==[])
-    //     setTomorrowItem(dataArray)
-    // },[ dataArray])
     
     return(
         <>

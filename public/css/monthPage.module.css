@@ -2,10 +2,9 @@
 @value grayWorld from "./colors.module.css";
 
 .monthPage_background{
-  background-image: url(/public/assets/main_background.jpg);
-  background-size:cover;
+
+  background-repeat: repeat;
   background-color: var(--navBgColor);
-  background-repeat: no-repeat;
   height: 100%;
   width: 100%;
   margin-bottom: 0px;

@@ -17,6 +17,7 @@ export default function EditTagDialog(props:any){
     const {setChooseCell} = useContext(commonData)
     const [editDescription,setEditDescription] = useState(true)
     const [editTitle,setEditTitle] = useState(true)
+    const [cursorStatus,setCursorStatus] = useState(null)
     const [editColor,setEditColor] = useState(true)
     const [title,setTitle] = useState(" ")
     const [date,setDate] = useState(" ")
@@ -25,7 +26,8 @@ export default function EditTagDialog(props:any){
     const [color,setColor] = useState("")
     const [status,setStatus] = useState("未完成")
     const [statusSentence,setStatusSentence] = useState("任務進行中...")
-    const [buttonWord,setButtonWord] = useState("達成任務")
+    const [buttonWord,setButtonWord] = useState("FINISH")
+
     let titleWord:string
     let dateWord:string
     let descriptionWord:string
@@ -127,8 +129,26 @@ export default function EditTagDialog(props:any){
             <div className={styles.edit_card_content}>
                 <div className={styles.edit_card_decorate}>
                     <h1 className={styles.task_word}>TASK STATUS</h1>
-                    <div className={styles.edit_card_pic}>1</div>
-                    <h2>{statusSentence}</h2>
+                    <div className={styles.edit_card_pic}></div>
+                    <div className={styles.task_sentence_word}>{statusSentence}</div>
+
+                    <div className={styles.finish_button}
+                             onClick={(e)=>{
+                                
+                                if(status === "未完成"){
+                                    //setStatus("完成")
+                                    saveStatus = "完成"
+                                    setStatusSentence("任務完成囉")
+                                    setButtonWord("任務未達")
+                                }else{
+                                    //setStatus("未完成")
+                                    saveStatus = "未完成"
+                                    setStatusSentence("任務進行中")
+                                    setButtonWord("FINISH")
+                                }
+                                updateData()
+                             }}
+                        >{buttonWord}</div>
                 </div>
                 
                 <div className={styles.list_information}>
@@ -138,18 +158,20 @@ export default function EditTagDialog(props:any){
                     <div className={styles.list_title_content}>
                         
                         <input type="color" 
-                               style={{backgroundColor:`${color}`}}
+                               style={{backgroundColor:`${color}`,cursor:`${cursorStatus}`}}
                                className={styles.list_color}
                                disabled = {editColor}
                                onChange={(e)=>{
                                 e.target.click()
                                 setColor(e.target.value)
                                }}/>
+                        
                         <textarea   className={styles.list_title}
                                     cols={10} 
                                     rows={titleRow} 
                                     value={`${title}`} 
                                     readOnly={editTitle}
+                                    disabled={editTitle}
                                     onChange={(e)=>{
                                         setTitle(e.target.value)
                                         if(e.target.value.length<10){
@@ -158,17 +180,24 @@ export default function EditTagDialog(props:any){
                                             setTitleRow(2)
                                         }
                                     }}/>
+                        <div className={styles.a_cont}></div>
+                        <div className={styles.b_cont}></div>
+                        <div className={styles.c_cont}></div>
+                        <div className={styles.d_cont}></div>
+                        <div className={styles.e_cont}></div>
                         {editTitle ? (
                             <div className={styles.description_mark_tool}
                              onClick={(e)=>{setEditTitle(false)
                                             setEditColor(false)
+                                            setCursorStatus("pointer")
                         }}
-                        >筆</div>
+                        ></div>
                         ):(
                             <div className={styles.save_word}
                                 onClick={(e)=>{
                                     setEditTitle(true)
                                     setEditColor(true)
+                                    setCursorStatus("default")
                                     updateData()
                                 }}
                             >儲存</div>
@@ -177,11 +206,13 @@ export default function EditTagDialog(props:any){
                     </div>
                     <div className={styles.list_date}>{date}</div>
                     <div  className={styles.description_content}>
-                        <textarea id="content" 
+                        
+                        <textarea id="edit_description_content" 
                                   value={description}
                                   cols={25} 
                                   rows={8}
                                   readOnly={editDescription}
+                                  disabled={editDescription}
                                   onChange={(e)=>{
                                     setDescription(e.target.value)
                                   }}
@@ -190,7 +221,7 @@ export default function EditTagDialog(props:any){
                              <div className={styles.description_mark_tool}
                              onClick={(e)=>{
                                 setEditDescription(false)
-                             }}>筆</div>
+                             }}></div>
                         ):(
                             <div className={styles.save_word}
                                 id="description_save_word"
@@ -213,22 +244,7 @@ export default function EditTagDialog(props:any){
                                 })
                              }}
                         >刪除任務</div>
-                        <div className={styles.finish_button}
-                             onClick={(e)=>{
-                                if(status === "未完成"){
-                                    //setStatus("完成")
-                                    saveStatus = "完成"
-                                    setStatusSentence("任務完成囉")
-                                    setButtonWord("任務未達")
-                                }else{
-                                    //setStatus("未完成")
-                                    saveStatus = "未完成"
-                                    setStatusSentence("任務進行中")
-                                    setButtonWord("達成任務")
-                                }
-                                updateData()
-                             }}
-                        >{buttonWord}</div>
+                        
                     </div>
                 </div>
             </div>

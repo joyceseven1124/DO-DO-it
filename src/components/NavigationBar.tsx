@@ -41,7 +41,6 @@ const NavigationBar = () => {
                 </div>
                 <div className="nav_group">
                     <ChangeTime />
-                    <Search />
                 </div>
                 <div className="nav_group" >
                     <ChangeTimeItem />

@@ -11,6 +11,7 @@ const Wrapper = styled.div`
     font-size:12px;
     color:white;
     display:flex;
+    border-top:1px solid white
 `;
 
 const Container = styled.div`

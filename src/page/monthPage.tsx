@@ -12,6 +12,7 @@ import InviteCard from '../components/sideBar/InviteCard';
 import EditInviteCard from "../components/SideBar/EditInviteCard"
 import AddFriendCard from '../components/sideBar/AddFriendCard';
 
+
 export const commonData = createContext({
     isTagsArray:undefined,
     setTagsArray:undefined,
@@ -40,6 +41,7 @@ function MonthPage() {
     const [friendList,setFriendList] = useState([])
     //let x =  db.getToDoListData()
     return (
+
         <commonData.Provider value={{isTagsArray,
                                     setTagsArray,
                                     setShowTagIndex,
@@ -105,6 +107,7 @@ function MonthPage() {
                         />):null}
                     </div>
                 </div>
+                
                 <Footer/>
             </div>
         </commonData.Provider>

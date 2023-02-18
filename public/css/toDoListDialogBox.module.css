@@ -108,7 +108,7 @@
 	height: 2px;
 	width: 300px;
     margin-left: 60px;
-	background-color: #4158D0;
+	background-color: var(--brightMainDecorateColor);
 	transform: scaleX(0);
 	transition:transform 0.3s ease;
 }
@@ -188,7 +188,7 @@
 .time_information >.time_item{
     width: 100px;
     height: 80px;
-    border: #4158D0 1px solid;
+    border: var(--mainDecorateColor) 1px solid;
     border-radius: 5px;
     margin-right: 20px;
 }
@@ -203,18 +203,18 @@
     text-align: center;
     border: 0px;
     border-radius: 5px 5px 0px 0px;
-    border-bottom: #4158D0 1px solid;
-    caret-color:#4158D0;
+    border-bottom: var(--mainDecorateColor) 1px solid;
+    caret-color:var(--mainDecorateColor);
 }
 
 .time_bottom_word{
     line-height: 30px;
-    color: #4158D0;
+    color: var(--mainDecorateColor);
 }
 
 .dividing_line_day{
     margin:10px auto;
-    color: #4158D0;
+    color: var(--mainDecorateColor);
     margin-right: 20px;
 }
 
@@ -254,7 +254,7 @@
 	width: 300px;
     bottom:0px;
     margin-left: 40px;
-	background-color: #4158D0;
+	background-color: var(--brightMainDecorateColor);
 	transform: scaleX(0);
 	transition:transform 0.3s ease;
 }

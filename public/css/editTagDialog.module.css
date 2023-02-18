@@ -5,10 +5,15 @@ textarea{
   padding: 10px;
 }
 
+.list_title[readonly="readonly"] {
+  pointer-events: none;
+}
+
 .edit_card_wrapper{
   width: 100%;
   height: 100%;
-  background-color: rgba(74, 74, 74, 0.837);
+  background-color: var(--cardCommonBackground);
+  color: var(--cardWordColor);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,27 +29,63 @@ textarea{
   background-color: black;
   display: grid;
   grid-template-columns: 40% 60%;
-  color: aliceblue;
-  font-family: 'Lilita One', cursive;
+  color: var(--cardWordColor);
   padding: 10px;
   border-radius: 10px;
   margin: auto auto;
+  -webkit-box-shadow: 0px 0px 12px 3px rgba(178, 178, 178, 0.73);
+  box-shadow: 0px 0px 12px 3px rgba(81, 80, 80, 0.73);
 }
 
 
 .edit_card_decorate{
   text-align: center;
-  border-right: 1px solid white;
+  border-right: 1px solid var(--borderColor);
 }
 
 .task_word{
   margin-top: 90px;
 }
 
+.task_sentence_word{
+  height: 70px;
+  border-right: 2px solid var(--buttonColor);
+  line-height: 70px;
+  overflow: hidden;
+  animation: moveRight 1500ms steps(12) , borderBlink 200ms;
+  font-size: 40px;
+  white-space: nowrap;
+}
+
+
+@keyframes moveRight {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 270px;
+  }
+}
+
+@keyframes borderBlink {
+  0%,
+  100% {
+    border-right-color: transparent;
+  }
+
+  50% {
+    border-right-color: var(--buttonColor);
+  }
+}
+
+
+
+
 .edit_card_pic{
   background-image: url(/public/assets/edit_card.png);
-  width:200px;
-  height: 200px;
+  width:100px;
+  height: 100px;
   background-repeat: no-repeat;
   background-size:contain;
   color: rgba(0, 0, 0, 0);
@@ -52,72 +93,101 @@ textarea{
   font-family: 'Noto Sans TC', sans-serif;
 }
 
-.button_wrapper{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px;
-}
 
-.finish_button{
+
+
+.finish_button {
   text-align: center;
+  position: relative;
+  margin: auto auto;
+  margin-top: 90px;
   font-size: 20px;
   font-weight: bold;
   width: 120px;
   height: 50px;
   line-height: 50px;
   border-radius: 5px;
-  border: 1px solid white;
-  margin:  auto auto;
+  border: 1px solid var(--buttonColor);
+  color:var(--buttonColor);
   cursor: pointer;
-  -webkit-animation: shadowFloat 1.2s linear alternate infinite;
-  animation: shadowFloat 1.2s linear alternate infinite;
+  transition: all 500ms linear;
+}
+.finish_button::after {
+  background-color: rgba(255, 255, 255, 0.4);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: none;
+  width: 0;
+}
+.finish_button:hover {
+  background-color: rgba(11, 204, 255, 0.8);
+  box-shadow: 0 0 10px 0 #0bccff;
+  color: #fff;
+  text-decoration: none;
+}
+.finish_button:hover::after {
+  background-color: rgba(11, 204, 255);
+  transition: all 300ms ease-out;
+  width: 100%;
+  content: "Good Job";
+  overflow: hidden;
+  position: absolute;
 }
 
-.finish_button:hover{
-  background-color: white;
-  color: purple;
-}
 
-@-webkit-keyframes shadowFloat {
-  0% {
-    box-shadow: 0 2px 20px #c7c7c7;
-    transform: translateY(-3px);
-  }
-  100% {
-    box-shadow: 0 4px 10px #bababa;
-    transform: translateY(3px);
-  }
-}
 
-@keyframes shadowFloat {
-  0% {
-    box-shadow: 0 2px 20px #c7c7c7;
-    transform: translateY(-3px);
-  }
-  100% {
-    box-shadow: 0 4px 10px #bababa;
-    transform: translateY(3px);
-  }
-}
 
-.delete_button{
+
+
+.delete_button {
+  text-align: center;
+  position: relative;
+  margin: auto auto;
+  margin-top: 40px;
   font-size: 20px;
   font-weight: bold;
-  text-align: center;
   width: 120px;
   height: 50px;
   line-height: 50px;
   border-radius: 5px;
-  border: 1px solid white;
-  margin:  auto auto;
+  border: 2px solid var(--deleteButtonShadow);
+  color:var(--deleteButtonShadow);
   cursor: pointer;
+  transition: all 500ms linear;
+}
+.delete_button::after {
+  background-color: rgba(255, 255, 255, 0.4);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: none;
+  width: 0;
+}
+.delete_button:hover {
+  background-color: rgba(245, 121, 83, 0.8);
+  box-shadow: 0 0 10px 0 var(--deleteButtonShadow);
+  color: #fff;
+  text-decoration: none;
+}
+.delete_button:hover::after {
+  background-color: rgba(245, 121, 83);
+  transition: all 300ms ease-out;
+  width: 100%;
+  content: "Why??";
+  overflow: hidden;
+  position: absolute;
 }
 
-.delete_button:hover{
-  background-color: white;
-  color: purple;
-}
+
+
+
+
+
 
 .list_information{
   margin-left: 30px;
@@ -126,15 +196,6 @@ textarea{
   position: relative;
 }
 
-.list_title_content{
-  font-size: 30px;
-  margin-bottom: 20px;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  background-color: beige;
-  border-radius: 10px;
-}
 
 .close_container{
   position: absolute;
@@ -148,9 +209,129 @@ textarea{
   cursor: pointer;
 }
 
+.list_title_content{
+  position: relative;
+  font-size: 30px;
+  margin-bottom: 20px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  border-bottom: 1px solid var(--mainDecorateColor);
+  box-sizing: border-box;
+
+}
+
+
+
+
+
+
+
+
+
+
+
 .list_title{
   width: 100%;
   border-radius: 10px;
+  background-color: black;
+  color: var(--cardWordColor);
+}
+
+.list_title:focus + .a_cont{
+  position: absolute;
+  top:-1px;
+  background-color: var(--buttonColor);
+  height: 1px;
+  width: 0;
+  animation: animate-a 1s;
+  animation-fill-mode: forwards;
+}
+
+.list_title:focus ~ .b_cont{
+  position: absolute;
+  background-color:  var(--buttonColor);
+  right: -3px;
+  height: 0px;
+  width: 1px;
+  border-radius: 5px;
+  animation: animate-b 1s 1s;
+  animation-fill-mode: forwards;
+}
+
+.list_title:focus ~ .c_cont{
+  position: absolute;
+  background-color:  var(--buttonColor);
+  bottom: -1px;
+  right: 0px;
+  height: 1px;
+  width: 0px;
+  animation: animate-c 1s 2s;
+  animation-fill-mode: forwards;
+}
+.list_title:focus ~ .d_cont{
+  position: absolute;
+  background-color:  var(--buttonColor);
+  left: 0px;
+  height: 0px;
+  bottom: -1px;
+  width: 1px;
+  animation: animate-d 1s 3s;
+  animation-fill-mode: forwards;
+}
+
+.list_title:focus ~ .e_cont{
+  position: absolute;
+  border: 3px solid  var(--buttonColor);
+  border-radius: 5px;
+  width:100%;
+  height: 100%;
+  animation: animate-e 1s 4s;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+@keyframes animate-a{
+  0%{
+    width: 0%;
+  }
+  100%{
+    width: 100%;
+  }
+}
+
+@keyframes animate-b{
+  0%{
+    height: 0%;
+  }
+  100%{
+    height: 98%;
+  }
+}
+@keyframes animate-c{
+  0%{
+    width: 0%;
+  }
+  100%{
+    width: 98%;
+  }
+}
+@keyframes animate-d{
+  0%{
+    height: 0%;
+  }
+  100%{
+    height: 98%;
+  }
+}
+
+@keyframes animate-e{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 
 .list_color{
@@ -162,7 +343,7 @@ textarea{
   margin-right: 10px;
   margin-left: 5px;
   padding: 20px;
-  cursor: pointer;
+
 }
 
 .list_date{
@@ -173,15 +354,18 @@ textarea{
     margin: 20px auto;
     width: 350px;
     height: 200px;
-    background-color: white;
+    background-color: var(--cardInputBg);
     border-radius: 12px;
-    color:black;
+    color:var(--cardWordColor);
+    border: 1px solid var(--buttonColor);
     text-align: left;
     box-sizing: border-box;
     font-size: 20px;
     position: relative;
     overflow-y: hidden
 }
+
+
 
 .description_mark_tool{
     background-image: url("/public/assets/pen_icon.png");
@@ -197,26 +381,37 @@ textarea{
     cursor: pointer;
 }
 
+:global(#edit_description_content){
+  background-color: var(--cardInputBg);
+  color: var(--cardWordColor);
+}
+
 .save_word{
   font-size: 18px;
   width: 60px;
   margin-left: 5px;
   cursor: pointer;
   font-weight: 600;
-  color: black;
+  color: var(--cardWordColor);
 }
 
 :global(#description_save_word){
-  color: black;
+  color: var(--cardWordColor);
   position: absolute;
-  width: 80px;
-  top:5px;
-  right: 0px;
+  width: auto;
+  top: 10px;
+  right: 10px;
 }
 :global(#description_save_word):hover{
-  color: purple;
+  color: var(--buttonColor);
 }
 
 .save_word:hover{
-  color: purple;
+  color: var(--buttonColor);
 }
+
+
+
+
+
+

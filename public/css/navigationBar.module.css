@@ -27,6 +27,7 @@
     box-sizing: border-box;
     padding-top: 20px;
     background-color: var(--navBgColor);
+    border-bottom: 1px solid var(--borderColor);
     opacity: 1;
     margin-top: 0px;
 }
@@ -37,7 +38,7 @@
     align-items: center;
     justify-content: space-between;
     height: 50px;
-    color: white;
+    color: var(--navWordColor);
     
 }
 
@@ -71,7 +72,6 @@
     height: 80px;
     width: 300px;
     font-size: 30px;
-    font-weight: 600;
     margin-right: 80px;
     cursor: pointer;
 }

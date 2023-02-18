@@ -1,8 +1,29 @@
+.icon{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    width: 20px;
+    height: 20px;
+    background-size:contain;
+    background-position:center;
+    background-repeat: no-repeat;
+    color: rgba(0,0,0,0);
+    font-size: 1px;
+    cursor: pointer;
+}
+
+
+input{
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+}
+
 .edit_invite_wrapper{
     position: absolute;
     width:100%;
     height: 100%;
-    background-color: rgba(107, 107, 107, 0.8);
+    background-color: var(--mainBgColor);
     z-index: 15;
     top:0px;
 }
@@ -18,7 +39,7 @@
     border-radius: 10px;
     background-color: black;
     display: grid;
-    grid-template-columns: 45% 55%;
+    grid-template-columns: 40% 60%;
     align-items: center;
     justify-content: center;
     margin-top: 200px;
@@ -71,6 +92,8 @@
     width: 80%;
 }
 
+
+
 .close_container{
     color: rgba(0, 0, 0, 0);
     position: absolute;
@@ -86,67 +109,169 @@
     background-repeat: no-repeat;
     cursor: pointer;
     position: absolute;
-    top:-40px;
+    top:0px;
     right: 0px;
 }
 
 .edit_invite_title_wrapper{
     margin-top: 30px;
     margin-bottom: 20px;
+    position: relative;
+    width: 100%;
 }
 
 .edit_invite_title_wrapper > input{
-    width: 80%;
+    width: 90%;
     height: 40px;
     font-size: 20px;
-    border-radius: 5px;
     margin-top: 10px;
     padding-left: 5px;
+    background-color: black;
+    color: white;
+    border-bottom: 1px solid var(--underLineGray);
 }
 
 
-.edit_invite_day_word_wrapper{
-    margin: 10px auto;
+.edit_invite_title:focus+.under_line{
+    transform: scaleX(1)
+}
+
+.under_line{
+    margin: auto;
+	content: "";
+	height: 2px;
+	width: 90%;
+	background-color: var(--brightMainDecorateColor);
+	transform: scaleX(0);
+	transition:transform 0.3s ease;
+}
+
+.time_container{
+    width: 100%;
     display: flex;
-    justify-content: space-between;
-    width: 80%;
+    justify-content: center;
+    margin: 20px auto;
 }
 
-.edit_invite_day_word_wrapper>div{
-    width: 40%;
+.time_icon{
+    background-image: url(/public/assets/time_icon.png);
+    composes:icon;
+    margin-right: 20px;
 }
 
-.edit_invite_day_wrapper{
-    margin: auto auto;
+.time_information{
+    width: 300px;
+    padding-left: 0px;
     display: flex;
-    justify-content: space-between;
-    width: 80%;
+}
+
+.time_information >.time_item{
+    width: 80px;
+    height: 80px;
+    border: var(--mainDecorateColor) 1px solid;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.time_input{
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    outline: none;
+    font-size: 20px;
+    text-align: center;
+    border: 0px;
+    border-radius: 5px 5px 0px 0px;
+    background-color: black;
+    color: var(--cardWordColor);
+    border-bottom: var(--mainDecorateColor) 1px solid;
+    caret-color:var(--mainDecorateColor);
+}
+
+.time_bottom_word{
+    line-height: 30px;
+    color: var(--mainDecorateColor);
+}
+
+.edit_invite_days_wrapper{
+    display: flex;
 }
 
 .edit_invite_day{
-    width: 40%;
+    display: flex;
+    letter-spacing: 10px;
+    margin-left: 20px;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.edit_invite_day_button{
+    width: 30px;
     height: 30px;
-    border-radius: 5px;
+    line-height: 30px;
     text-align: center;
+    border-radius: 15px;
+    background-color: #929191;
 }
 
-input{
-    outline: none;
-    border: none;
-    box-sizing: border-box;
+.remind_word{
+    margin-top: 5px;
+    font-size: 14px;
+    color: #929191;
 }
 
-.edit_invite_description_wrapper>textarea{
-    border-radius: 5px;
-    width: 80%;
-    height: 100px;
-    box-sizing: border-box;
-    margin-top: 10px;
-}
+
+
+
+
+
+
 
 .edit_invite_description_wrapper{
-    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 10% 88%;
+    justify-content: center;
+    width:100%;
+    position: relative;
 }
+
+.description_icon{
+    background-image: url(/public/assets/description_icon.png);
+    composes:icon;
+    margin-right: 20px;
+}
+
+.edit_invite_description{
+    width: 100%;
+    border: 0px;
+    padding: 10px;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: var(--underLineGray);
+}
+
+.edit_invite_description:focus + .description_under_line{
+    transform: scaleX(1)
+}
+
+.description_under_line{
+    content: "";
+	height: 2px;
+	width: 100%;
+    margin-top: 0px;
+	background-color: var(--brightMainDecorateColor);
+	transform: scaleX(0);
+	transition:transform 0.3s ease;
+}
+
+
+
+
+
+
 
 .send_invite_button_wrapper{
     display: flex;

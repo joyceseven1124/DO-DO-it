@@ -127,6 +127,17 @@ async function deleteData(email:string,time:string,index:number){
     }
 }
 
+//對方的email 自己的email 訊息
+async function sendEmail(){
+    let msg=""
+    try{
+
+    }
+    catch(error){
+        
+    }
+}
+
 
 
 

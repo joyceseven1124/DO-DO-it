@@ -33,6 +33,7 @@ const MenuFriend= (props:any)=>{
                         props.setEditInvite(true)
                         props.setChooseEmail(element)
                         console.log(element)
+        
                 }}>
                     <div>{friendEmail}</div>
                     <div className={styles.email_icon}>1</div>
