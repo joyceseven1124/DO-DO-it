@@ -11,16 +11,29 @@ import { memberStatus } from '../';
 import db from "../firebase/firebase"
 
 
-const NavigationBar = () => {
+const NavigationBar = (props:any) => {
     //const [memberStatus,setMemberStatus] = useState("登入")
-    const {memberNowStatus} = useContext(memberStatus)
+    //const {memberNowStatus} = useContext(memberStatus)
     const {setMemberStatus} = useContext(memberStatus)
     const {setMemberInformation} = useContext(memberStatus)
+    const {memberInformation} = useContext(memberStatus)
+    const {memberName} = useContext(memberStatus)
+    const {setMemberName} = useContext(memberStatus)
     //const { setSignInCardStatus} = useContext(memberStatus)
     //const { registerCardStatus} = useContext(memberStatus)
     //const { signInCardStatus} = useContext(memberStatus)
     const dispatch = useDispatch();
 
+    useEffect(()=>{
+        if(memberInformation){
+            console.log(memberInformation)
+            const result = db.getMemberInformation(memberInformation)
+            result.then((msg)=>{
+                setMemberName(msg.name)
+            })
+        }
+
+    },[memberInformation])
 
     const changeMemberStatus = (e:any) => {
         const result = db.leaveAccount()
@@ -43,7 +56,7 @@ const NavigationBar = () => {
                     <ChangeTime />
                 </div>
                 <div className="nav_group" >
-                    <ChangeTimeItem />
+                    <div className={styles.member_name}>{memberName}</div>
                     <div className={styles.login} onClick={changeMemberStatus} >登出</div>
                 </div>
             </div>

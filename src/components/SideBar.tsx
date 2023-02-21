@@ -12,15 +12,23 @@ const SideBar= (props:any)=>{
     return(
     <div className={styles.menu_container}>
         <div className={styles.menu_wrapper}>
-            <MenuToday />
-            <MenuTomorrow/>
-            <MenuFriend setFriend={props.setFriend}
-            setEditInvite={props.setEditInvite}
-            friendList={props.friendList}
-            setFriendList = {props.setFriendList}
-            setChooseEmail = {props.setChooseEmail}
-            />
-            <MenuMessage setInformation={props.setInformation}/>
+            <div className={styles.menu_close_button_container}>
+                <div className={styles.menu_close_button}>關閉</div>
+            </div>
+
+            <div>
+                <MenuToday />
+                <MenuTomorrow/>
+                <MenuFriend setFriend={props.setFriend}
+                setEditInvite={props.setEditInvite}
+                friendList={props.friendList}
+                setFriendList = {props.setFriendList}
+                setChooseEmail = {props.setChooseEmail}
+                />
+                <MenuMessage setInformation={props.setInformation}
+                            setChooseInformationIndex = {props.setChooseInformationIndex}
+                            setInformationList = {props.setInformationList}/>
+            </div>
         </div>
     </div>
     )

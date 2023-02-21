@@ -48,6 +48,11 @@ const MenuTomorrow= (props:any)=>{
                         onChange={()=>{}}
                     />
                     <ul className={styles.menu_item}>
+                        {dataArray.length === 0 ? (
+                            <li>
+                                <div className={styles.no_item}>明日沒有任務</div>
+                            </li>
+                        ):null}
                         {dataArray}
                     </ul>
                 </li>

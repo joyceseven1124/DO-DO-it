@@ -27,6 +27,7 @@ export default function EditTagDialog(props:any){
     const [status,setStatus] = useState("未完成")
     const [statusSentence,setStatusSentence] = useState("任務進行中...")
     const [buttonWord,setButtonWord] = useState("FINISH")
+    const [friend,setFriend] = useState("")
 
     let titleWord:string
     let dateWord:string
@@ -35,7 +36,7 @@ export default function EditTagDialog(props:any){
     let statusWord:string
     let saveStatus:string
     let databaseFileName:string
-    
+    let friendEmail:string
 
     const dialogData = isTagsArray.filter((element:any)=>{
         if(element.index === showTagIndex){
@@ -50,6 +51,14 @@ export default function EditTagDialog(props:any){
                 statusWord = "任務進行中"
             }else{
                 statusWord = "任務完成囉"
+            }
+
+            if(element.receiveEmail){
+                if( element.receiveEmail === memberInformation){
+                    friendEmail = element.sendEmail
+                }else{
+                    friendEmail = element.receiveEmail
+                }
             }
             return element
         }
@@ -66,6 +75,9 @@ export default function EditTagDialog(props:any){
         if(statusWord !== "任務進行中"){
             setButtonWord("任務未達")
             setStatus("完成")
+        }
+        if(friendEmail){
+            setFriend(friendEmail)
         }
     },[])
 
@@ -130,6 +142,14 @@ export default function EditTagDialog(props:any){
                 <div className={styles.edit_card_decorate}>
                     <h1 className={styles.task_word}>TASK STATUS</h1>
                     <div className={styles.edit_card_pic}></div>
+
+                    {friend?(
+                        <div className={styles.friend_email_container}>
+                            <div>Together with</div>
+                            <div className={styles.friend_email}>{friend}</div>
+                        </div>
+                    ):null}
+                    
                     <div className={styles.task_sentence_word}>{statusSentence}</div>
 
                     <div className={styles.finish_button}
@@ -207,7 +227,7 @@ export default function EditTagDialog(props:any){
                     <div className={styles.list_date}>{date}</div>
                     <div  className={styles.description_content}>
                         
-                        <textarea id="edit_description_content" 
+                        <textarea id="edit_description_content"
                                   value={description}
                                   cols={25} 
                                   rows={8}

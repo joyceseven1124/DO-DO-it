@@ -1,12 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Noto+Sans+TC&family=Potta+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
 @value mainBgColor from "./colors.module.css";
+@value English 'Noto Sans', sans-serif;
+@value Chinese 'Noto Sans TC', sans-serif;
 
 body,
 html {
 	-webkit-user-select:none;
   -moz-user-select:none;
   -o-user-select:none;
-	font-family: 'Noto Sans TC', sans-serif;
+	font-family: 'Noto Sans', sans-serif;
+  font-family: 'Noto Sans TC', sans-serif;
 	margin: 0px;
 	padding: 0px;
 }
@@ -14,7 +17,7 @@ html {
 body{
   box-sizing: border-box;
   position: relative;
-  
+  background-color: var(--mainBgColor);
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 

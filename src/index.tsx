@@ -24,11 +24,9 @@ export const memberStatus = createContext({
   memberInformation:undefined,
   setMemberInformation:undefined,
   thisMonthData:undefined,
-  setThisMonthData:undefined
-  //signInCardStatus:undefined,
-  //setSignInCardStatus:undefined,
-  //registerCardStatus:undefined,
-  //setRegisterCardStatus:undefined
+  setThisMonthData:undefined,
+  memberName:undefined,
+  setMemberName:undefined
 })
 
 const MainContainer = styled.div`
@@ -46,6 +44,7 @@ const App = () => {
   const [memberNowStatus,setMemberStatus] = useState(true)
   const [memberInformation,setMemberInformation] = useState("")
   const [thisMonthData,setThisMonthData] = useState([])
+  const [memberName,setMemberName] = useState("")
 
   //const navigate = useNavigate()
   //const navigate = useNavigate();
@@ -75,7 +74,9 @@ const App = () => {
                     setMemberInformation,
                     memberInformation,
                     thisMonthData,
-                    setThisMonthData
+                    setThisMonthData,
+                    memberName,
+                    setMemberName
                     }}>
           <MainContainer>
               <BrowserRouter>

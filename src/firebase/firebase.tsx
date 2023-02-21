@@ -128,13 +128,25 @@ async function deleteData(email:string,time:string,index:number){
 }
 
 //對方的email 自己的email 訊息
-async function sendEmail(){
-    let msg=""
+async function sendMessage(myEmail:string,
+                           friendEmail:string,
+                           index:number,
+                           data:{},
+                           time:string)
+{
+    let msg:Boolean
     try{
-
+        await setDoc(doc(db, friendEmail, "message"), {[index]:data}, { merge: true });
+        await setDoc(doc(db, myEmail, time), {[index]:data}, { merge: true });
+        msg = true
     }
     catch(error){
-        
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = false
+    }
+    finally{
+        return msg
     }
 }
 
@@ -224,6 +236,32 @@ async function getFriendData(email:string) {
         return msg
     }
 }
+
+
+
+async function getMessageData(email:string) {
+    let msg
+    try{
+        const docSnap = await getDoc(doc(db, email, "message"));
+        if(docSnap.exists()) {
+            const result = docSnap.data()
+            msg = result
+        }else{
+            msg={result:null}
+        }
+    }
+    
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = {result:false}
+    }
+    finally{
+        return msg
+    }
+}
+
+
 
 
 
@@ -331,5 +369,7 @@ export default {
   updateData,
   addFriend,
   getFriendData,
-  deleteData
+  deleteData,
+  sendMessage,
+  getMessageData
 };

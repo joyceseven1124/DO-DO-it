@@ -63,7 +63,6 @@ export default function ToDoListTag(props: any) {
 
     let id = tagStartCell;
     function dragstart(e: any) {
-        console.log(isTagsArray)
         const elementPosition = getPosition(e.target);
         const cellSize = document.getElementById('cell-1-1').offsetWidth;
         let clickElementPlace = (e.clientX - elementPosition.x) / cellSize;
@@ -125,7 +124,20 @@ export default function ToDoListTag(props: any) {
                 }}
             >
             {props.status==="完成" ?
-                <span style={{marginRight:"10px",color:"#08f508"}}>✔</span> :
+            <>
+                <span style={{marginRight:"10px",
+                              color:"rgb(0,187,201)",
+                              backgroundColor:"white",
+                              borderRadius:"50%"}}>✔</span> 
+            </>
+                :
+                null}
+            
+            {props.friend?
+            <>
+                <span style={{marginRight:"10px",color:"#08f508"}}>👩🏿‍🚀</span> 
+            </>
+                :
                 null}
             {title}
             </div>

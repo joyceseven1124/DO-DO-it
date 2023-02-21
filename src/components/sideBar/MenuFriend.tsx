@@ -26,14 +26,15 @@ const MenuFriend= (props:any)=>{
     let itemArray:any = []
     const friendData = Object.keys(props.friendList)
     friendData.map((element)=>{
+        if(element === "result"){
+            return
+        }
         let friendEmail = props.friendList[element]
         let item = (<li className={styles.item_container} 
                         key = {`menuFriend-${element}`}
                         id={friendEmail} onClick={(e)=>{
                         props.setEditInvite(true)
                         props.setChooseEmail(element)
-                        console.log(element)
-        
                 }}>
                     <div>{friendEmail}</div>
                     <div className={styles.email_icon}>1</div>
@@ -61,6 +62,11 @@ const MenuFriend= (props:any)=>{
                             <div>新增夥伴</div>
                             <div>+</div>
                         </div>
+                        {itemArray.length === 0 ? (
+                            <li>
+                                <div className={styles.no_item}>目前沒有朋友</div>
+                            </li>
+                        ):null}
                         {itemArray}
                     </ul>
                 </li>

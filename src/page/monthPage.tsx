@@ -39,6 +39,8 @@ function MonthPage() {
     const [showTagIndex, setShowTagIndex] = useState(0);
     const [chooseEmail,setChooseEmail] = useState("")
     const [friendList,setFriendList] = useState([])
+    const [informationList,setInformationList] = useState([])
+    const [chooseInformationIndex,setChooseInformationIndex] = useState("")
     //let x =  db.getToDoListData()
     return (
 
@@ -57,7 +59,10 @@ function MonthPage() {
                 ):null}
 
                 {informationCard?
-                (<InviteCard setInformation={setInformationCard}/>
+                (<InviteCard setInformation={setInformationCard}
+                             chooseInformationIndex = {chooseInformationIndex}
+                             informationList = {informationList}
+                            />
                 ):null}
 
                 {editInviteCard?(<EditInviteCard 
@@ -83,27 +88,31 @@ function MonthPage() {
                         <MonthCell/>
                     </div>
                     <div className={styles.sideBar_container}>
-                        <div className={styles.sideBar_button}
-                            style={{right:`${buttonRight}`}}
-                            onClick={()=>{
-                                if(sideBarStatus){
-                                    setSideBarStatus(false)
-                                    setButtonWord("OPEN")
-                                    setButtonRight("0px")
-                                    setGridRow("100%")
-                                }else{
-                                    setSideBarStatus(true)
-                                    setButtonWord("CLOSE")
-                                    setButtonRight('380px')
-                                    setGridRow("80% 20%")
-                                }
-                            }}>{buttonWord}</div>
+                        <div className={styles.sideBar_button_container}>
+                            <div className={styles.sideBar_button}
+                                style={{right:`${buttonRight}`}}
+                                onClick={()=>{
+                                    if(sideBarStatus){
+                                        setSideBarStatus(false)
+                                        setButtonWord("OPEN")
+                                        setButtonRight("0px")
+                                        setGridRow("100%")
+                                    }else{
+                                        setSideBarStatus(true)
+                                        setButtonWord("CLOSE")
+                                        setButtonRight('360px')
+                                        setGridRow("80% 20%")
+                                    }
+                                }}>{buttonWord}</div>
+                            </div>
                         {sideBarStatus?(<SideBar setFriend={setFriendCard}
                         setInformation={setInformationCard}
                         setEditInvite={setEditInviteCard}
                         friendList={friendList}
                         setFriendList = {setFriendList}
                         setChooseEmail = {setChooseEmail}
+                        setChooseInformationIndex = {setChooseInformationIndex}
+                        setInformationList = {setInformationList}
                         />):null}
                     </div>
                 </div>

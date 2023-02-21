@@ -7,13 +7,15 @@
 
 .menu_wrapper{
     z-index: 10;
-    font-family: 'Lilita One', cursive;
+    font-family: 'Noto Sans', sans-serif;
     width: 100%;
-    height: 850px;
+    height: 100%;
     font-size: 30px;
     padding-right: 10px;
     box-sizing: border-box;
     overflow-y: scroll;
+    display: grid;
+    grid-template-columns: 5% 95%;
 }
 
 .menu_wrapper::-webkit-scrollbar {
@@ -39,6 +41,24 @@
   box-shadow: transparent;
 }
 
+.menu_close_button_container{
+  height: 100%;
+  width: 100%;
+  background-color: #6f6f6f;
+  display: flex;
+  align-items: center;
+  padding: 1px;
+}
+
+.menu_close_button{
+  
+  width:100%;
+  background-image: url(/public/assets/right_arrow_icon.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: rgba(0,0,0,0);
+}
+
 ul,li{
     list-style: none;
     padding: 0px;
@@ -55,6 +75,7 @@ ul,li{
 
 .check_box::before{
   content: "TODAY'S  TASK";
+  font-weight: 800;
   position: absolute;
   box-sizing: border-box;
   top:0px;
@@ -139,13 +160,17 @@ ul,li{
     padding: 10px 10px;
     font-family: 'Noto Sans TC', sans-serif;
     font-size: 20px;
-    font-weight: 800;
+    font-weight: 600;
     display: flex;
     cursor: pointer;
 }
 
 .menu_item > li:hover {
   background: #f6f6f6;
+}
+.no_item{
+  text-align: center;
+  width: 100%;
 }
 
 .add_item{
@@ -160,7 +185,7 @@ ul,li{
   padding: 10px 10px;
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
 }
 

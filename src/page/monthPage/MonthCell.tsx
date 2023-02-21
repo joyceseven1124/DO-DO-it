@@ -264,6 +264,7 @@ export default function MonthCell(props:any) {
                             index={element.index}
                             description={element.description}
                             status = {element.status}
+                            friend = {element.receiveEmail}
                         />
                     );
                 }

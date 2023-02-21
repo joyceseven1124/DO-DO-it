@@ -14,7 +14,12 @@
     width:500px;
     height: auto;
     background-color: rgb(40, 40, 40);
+    box-shadow: 5px 5px 5px 1px #242424;
+    -webkit-box-shadow: 5px 5px 5px 1px #242424;
+    -moz-box-shadow: 5px 5px 5px 1px #242424;
+    -o-box-shadow: 5px 5px 5px 1px #242424;
     margin: auto auto;
+    margin-bottom: 400px;
     border-radius: 10px;
     text-align: left;
     padding: 20px;
@@ -38,9 +43,7 @@
     color: rgba(0, 0, 0, 0);
 }
 
-.invite_receiver{
-    text-align: left;
-}
+
 
 .invite_pic{
     background-image: url(/public/assets/invite_card.png);
@@ -62,40 +65,103 @@
     margin-bottom: 10px;
 }
 
+.title_and_name_container{
+    padding: 20px;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.invite_receiver{
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.item_title_word{
+    margin-bottom: 5px;
+}
+
+.time_and_description_container{
+    display: grid;
+    grid-template-columns: 40% 50%;
+    column-gap: 10%;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid white;
+}
+
+.time_container{
+    border-right: 1px solid white;
+    padding-right: 20px;
+
+}
+
+.date_weekday{
+    font-size: 18px;
+}
+
+.date_number{
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.schedule_content{
+    font-size: 25px;
+}
+
+.schedule_content_word{
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.send_name_container{
+    margin: 20px auto;
+    text-align: center;
+}
+
+.send_name{
+    font-weight: 600;
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
 .buttons_container{
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.invite_button{
-    width: 80px;
-    height: 40px;
-    border-radius: 10px;
-    background-color: darkturquoise;
-    color: white;
-}
-
 .invite_button {
+  width: 80px;
+  height: 40px;
+  border-radius: 10px;
   background: none;
   border: 2px solid;
   font: inherit;
   line-height: 1;
-  color: #94d6ff;
   transition: 0.25s;
-  
 }
 
 .invite_button:hover,.invite_button:focus{
-    border-color: #60f4ff;
     color: #fff;
-    box-shadow: 0 0.5em 0.5em -0.4em #60f4ff;
     transform: translateY(-0.25em);
+}
+
+:global(#agree){
+    color: #94d6ff;
+    margin-left: 40px;
+}
+
+:global(#agree):hover,:global(#agree):focus{
+    border-color: #60f4ff;
+    box-shadow: 0 0.5em 0.5em -0.4em #60f4ff;
 }
 
 :global(#reject){
     color: #ffb294;
-    margin-left: 40px;
 }
 
 :global(#reject):hover,:global(#reject):focus{

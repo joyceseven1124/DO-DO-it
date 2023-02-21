@@ -31,7 +31,7 @@
 
 .toDoListDialogBox_container{
     display: flex;
-    align-items: center;
+    margin-top: 100px;
     justify-content: center;
     width: 1600px;
     top:25%;
@@ -57,12 +57,12 @@
     text-align: center;
     width: 400px;
     height: boxSize;
-    background-color: dialogBoxBg;
+    background-color: #f8f8f8;
     border-radius: 0px 5px 5px 0px;
     padding: 10px;
     box-sizing: border-box;
-    -webkit-box-shadow: 0px 0px 12px 3px rgba(178, 178, 178, 0.73);
-    box-shadow: 0px 0px 12px 3px rgba(81, 80, 80, 0.73);
+    -webkit-box-shadow: 0px 0px 12px 10px rgb(1 1 1);
+    box-shadow: 0px 0px 12px 10px rgb(1 1 1);
 }
 
 .close_container{
@@ -83,6 +83,7 @@
 
 .toDoList_title{
     outline: none;
+    background-color: #f8f8f8;
     border: 0px black solid;
     border-bottom:1px grayLine solid ;
     width:300px;
@@ -150,11 +151,11 @@
 }
 
 .color_item_style:nth-child(4){
-    background-color: #7AE9C9;
+    background-color: #057499;
 }
 
 .color_item_style:nth-child(6){
-    background-color: #FDCD47;
+    background-color: #f6be21;
 }
 
 .color_item_style:nth-child(8){

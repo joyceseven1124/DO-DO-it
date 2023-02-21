@@ -3,7 +3,11 @@ import styles from '/public/css/editInviteCard.module.css';
 import dayjs from 'dayjs';
 import toObject from 'dayjs/plugin/toObject';
 import weekday from 'dayjs/plugin/weekday';
-import { Console } from 'console';
+import { memberStatus } from '../..';
+import { commonData } from '../../page/MonthPage';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/index';
+import db from "../../firebase/firebase"
 dayjs.extend(toObject);
 dayjs.extend(weekday);
 
@@ -11,111 +15,283 @@ const EditInviteCard = (props:any) =>{
     const [color,setColor] = useState("#f0900a")
     const [startBorderColor,setStartBorderColor] = useState(null)
     const [startShadow,setStartShadow] = useState(null)
-    const [endShadow,setEndShadow] = useState(null)
-    const [endBorderColor,setEndBorderColor] = useState(null)
-    const [remindWord,setRemindWord] = useState("#929191")
+    const [daysNumber,setDaysNumber] = useState(1)
+    const [remindTimeWord,setRemindTimeWord] = useState("")
+    const [remindTitleWord,setRemindTitleWord] = useState("")
+    const {memberInformation} = useContext(memberStatus)
+    const {isTagsArray} = useContext(commonData)
+    const {setTagsArray} = useContext(commonData)
+    const monthNumber = useSelector(
+        (state: RootState) => state.timeControlReducer.monthNumber
+    );
+    const year = useSelector(
+        (state: RootState) => state.timeControlReducer.year
+    );
+
     // 1px solid red
-    let description:string
-    let title:string
-    let startTime:string
-    let endTime:string
+
+    // let description:string=""
+    // let title:string
+    // let startYear:string
+    // let startMonth:string
+    // let startDay:string
+    
+    let description = useRef("")
+    let title = useRef("")
+    let startYear = useRef(0)
+    let startMonth = useRef(0)
+    let startDay =useRef(0)
+
+
 
     const sendInvite = (e:any)=>{
-        
+
+        if(!title || !startYear || !startMonth || !startDay){
+            if(!title){
+                setRemindTitleWord("請填寫標題")
+            }
+            if(!startYear || !startMonth || !startDay){
+                setRemindTimeWord("請填寫年月日")
+            }
+            return
+        }
+
         //檢查時間串是否為三且正確是數字，用正規
         //props.chooseEmail
 
-        // if(!description || !title || !startTime || !endTime){
-        //     console.log("不可空白")
-        //     return
-        // }
+        const checkStartDate = new Date(`${startYear.current}/${startMonth.current}/${startDay.current}`).toLocaleString();
 
-
-        const checkStartDate = new Date(startTime).toLocaleString();
-        const checkEndDate = new Date(endTime).toLocaleString();
-        console.log(1)
-        console.log(startTime)
-        console.log(endTime)
-        let startTimeArray = startTime.split("/")
-        let endTimeArray = endTime.split("/")
-        console.log(2)
-
-        if(checkStartDate === "Invalid Date" || 
-           checkEndDate === "Invalid Date" ||
-           startTimeArray.length < 3 ||
-           endTimeArray.length < 3){
-            console.log("判斷式中")
-            if(checkStartDate === "Invalid Date"){
-                console.log("沒有此日期1")
-                setStartBorderColor("2px solid red")
-                setStartShadow("1px 1px 3px 2px rgba(20%,20%,40%,0.5) inset")
-            }
-
-            if(checkEndDate === "Invalid Date"){
-                console.log("沒有此日期2")
-                setEndBorderColor("2px solid red")
-                setEndShadow("1px 1px 3px 2px rgba(20%,20%,40%,0.5) inset")
-            }
-    
-            if(startTimeArray.length < 3){
-                console.log("長度不一樣1")
-                setStartBorderColor("2px solid red")
-                setStartShadow("1px 1px 3px 2px rgba(20%,20%,40%,0.5) inset")
-            }
-            if(endTimeArray.length <3){
-                console.log("長度不一樣2")
-                setEndBorderColor("2px solid red")
-                setEndShadow("1px 1px 3px 2px rgba(20%,20%,40%,0.5) inset")
-            }
+        if(checkStartDate === "Invalid Date"){
+            setRemindTimeWord("請填寫正確日期")
             return
         }
 
-        
-        
-        const startYear = Number(startTimeArray[0])
-        const startMonth = Number(startTimeArray[1])
-        const startDay = Number(startTimeArray[2])
-
-        const endYear = Number(endTimeArray[0])
-        const endMonth = Number(endTimeArray[1])
-        const endDay = Number(endTimeArray[2])
-
-        if( startYear !== endYear){
-            console.log("年分不一樣")
-            setRemindWord("var(--deleteButtonColor)")
-            
-            return
+        if(checkStartDate){
+            const checkDateArray = checkStartDate.split("/")
+            if(Number(checkDateArray[1]) !== startMonth.current){
+                setRemindTimeWord("請填寫正確日期")
+                return
+            }
         }
 
-        if( startMonth !== endMonth){
-            console.log("月份不一樣")
-            setRemindWord("var(--deleteButtonColor)")
-            return
+        const maxDay = new Date(startYear.current,startMonth.current,0).getDate();
+        let endYear:number = startYear.current
+        let endMonth:number = startMonth.current
+        let endDay = startDay.current+daysNumber-1
+        let connectWidth = daysNumber * 100
+        let width = daysNumber * 100
+        let data = []
+        let allData = [...isTagsArray]
+        let uuidDate = new Date().getTime().toString();
+
+
+        //获取当前星期X(0-6,0代表星期天)
+        let myDateWeek = new Date(startYear.current, 
+                                    startMonth.current-1, 
+                                    startDay.current).getDay();
+
+        let monthStartWeek: number = new Date(startYear.current, 
+                                                startMonth.current-1, 
+                                                1).getDay();
+
+        let monthEndWeek : number = new Date(startYear.current, 
+                                                startMonth.current-1, 
+                                                maxDay).getDay();
+
+        if(monthStartWeek === 0){
+            monthStartWeek = 7
+        }
+        if(monthEndWeek === 0){
+            monthEndWeek = 7
+        }
+        if(myDateWeek === 0){
+            myDateWeek = 7
+        }
+        const thisTagId = monthStartWeek+startDay.current-1
+        console.log("這個月分",startMonth.current)
+        console.log("這個月底",monthEndWeek)
+        let  thisTagEndId = monthStartWeek + endDay -1
+        console.log("monthStartWeek",monthStartWeek )
+        console.log("endDay",endDay)
+        const rowStartId = [1,8,15,22,29,36]
+        //檢查是否換行
+        const checkEndDayPlace = myDateWeek + daysNumber-1
+        console.log("thisTagEndId",thisTagEndId)
+        //第二行要插在哪個位置
+        if(checkEndDayPlace > 7){
+            const rowNumber = Math.ceil(thisTagEndId/7)
+            const endRowNumber = Math.ceil((maxDay+monthStartWeek)/7)
+            console.log(rowNumber,endRowNumber)
+            if(endDay>maxDay){
+                endMonth = endMonth+1
+                endDay = endDay - maxDay
+                if(endMonth>12){
+                    endMonth = 1
+                    endYear = endYear + 1
+                }
+            }
+
+            if(rowNumber > endRowNumber){
+                //會也兩種width 兩種connectWidth，不用push先送出去給資料
+                //知道下個月的起始時間
+                console.log("換頁")
+                let nextMonthStartWeek: number = new Date(startYear.current, 
+                                            startMonth.current-1+1,
+                                            1).getDay();
+                
+                console.log("下個月星期幾", nextMonthStartWeek)
+                if(nextMonthStartWeek === 0){
+                    nextMonthStartWeek = 7
+                }
+                connectWidth = (7 - myDateWeek +1)*100
+                width = (7 - myDateWeek+1)*100
+
+                thisTagEndId = nextMonthStartWeek + (7-monthEndWeek)
+                const allDayWidth = daysNumber*100
+                //聯絡資料庫
+                console.log("thisTagEndId",thisTagEndId)
+                let toDoListData = {title:title.current,
+                                    color:color,
+                                    yearStart:startYear.current,
+                                    yearEnd:endYear,
+                                    monthStart:startMonth.current,
+                                    monthEnd:endMonth,
+                                    dayStart:startDay.current,
+                                    dayEnd:endDay,
+                                    description:description.current,
+                                    status:"未完成",
+                                    index:uuidDate,
+                                    id:thisTagEndId,
+                                    connectWidth:allDayWidth-connectWidth,
+                                    width:allDayWidth-connectWidth,
+                                    receiveEmail:props.chooseEmail,
+                                    sendEmail:memberInformation
+                                }
+                const result = db.sendMessage(memberInformation,
+                               props.chooseEmail,
+                               Number(uuidDate),
+                               toDoListData,
+                               `${endYear}Y${endMonth}M`)
+                result.then((msg)=>{
+                    if(msg){
+                        console.log(monthNumber,endYear)
+                        console.log(year,endMonth)
+                        if(monthNumber ===  endMonth && year ===endYear){
+                            //data.push(toDoListData)
+                            allData.push(toDoListData)
+                            setTagsArray(allData)
+                        }
+                        props.setEditInvite(false)
+                    }
+
+                })
+                
+            }else{
+                console.log("換行")
+                thisTagEndId = rowStartId[rowNumber-1]
+                //會有兩種width 1個connect
+                width = (7-myDateWeek+1)*100
+                //第二條的資料
+                let toDoListData = {title:title.current,
+                                    color:color,
+                                    yearStart:startYear.current,
+                                    yearEnd:endYear,
+                                    monthStart:startMonth.current,
+                                    monthEnd:endMonth,
+                                    dayStart:startDay.current,
+                                    dayEnd:endDay,
+                                    description:description.current,
+                                    status:"未完成",
+                                    index:uuidDate,
+                                    id:thisTagEndId,
+                                    connectWidth:connectWidth,
+                                    width:connectWidth-width,
+                                    receiveEmail:props.chooseEmail,
+                                    sendEmail:memberInformation
+                                }
+                //成功才能push 且要是當日
+                if(monthNumber === startMonth.current && year === startYear.current){
+                    data.push(toDoListData)
+                    allData.push(toDoListData)
+                }
+                //set回Array
+            }
         }
 
+ 
+        //const thisTagEndId=thisTagId+daysNumber-1
 
+        //得知道是否有換行
+        //if(thisTagEndId)
 
+        //第一條線的資料，檢查是否有第二條，沒有就送出
+        let toDoListData = {title:title.current,
+            color:color,
+            yearStart:startYear.current,
+            yearEnd:endYear,
+            monthStart:startMonth.current,
+            monthEnd:endMonth,
+            dayStart:startDay.current,
+            dayEnd:endDay,
+            description:description.current,
+            status:"未完成",
+            index:uuidDate,
+            id:thisTagId,
+            connectWidth:connectWidth,
+            width:width,
+            receiveEmail:props.chooseEmail,
+            sendEmail:memberInformation
+        }
+        if(data.length > 0){
+            data.push(toDoListData)
+            const result = db.sendMessage(memberInformation,
+                               props.chooseEmail,
+                               Number(uuidDate),
+                               data,
+                               `${startYear.current}Y${startMonth.current}M`)
+            //成功才能push 且要是當日
+            result.then((msg)=>{
+                if(msg){
+                    if(monthNumber === startMonth.current && year === startYear.current){
+                        allData.push(toDoListData)
+                        setTagsArray(allData)
+                    }
+                    props.setEditInvite(false)
+                    setTagsArray(allData)
+                }
+            })
+        }else{
+            //聯絡資料庫
+            const result = db.sendMessage(memberInformation,
+                               props.chooseEmail,
+                               Number(uuidDate),
+                               toDoListData,
+                               `${startYear.current}Y${startMonth.current}M`)
+            //成功才能push 且要是當日
+            result.then((msg)=>{
+                if(msg){
+                    if(monthNumber === startMonth.current && year === startYear.current){
+                        allData.push(toDoListData)
+                        setTagsArray(allData)
+                    }
+                    props.setEditInvite(false)
+                }
+            })
 
-        //月份1月不知是0還是1
-        let monthStart: number = dayjs()
-            .add(startMonth-1, 'month')
-            .date(1)
-            .get('day');
-        console.log(monthStart)
-        const id = monthStart-1+startDay
-        console.log(id)
+        }
     }
 
     return(
         <>
             <div className={styles.edit_invite_wrapper}>
                 <div className={styles.edit_invite_container}>
-                    <div>
-                        <h2>INVITATION CARD</h2>
-                        <div className={styles.edit_invite_decorate}></div>
-                        <div>TO:</div>
-                        <div className={styles.friend_email}>{props.chooseEmail}</div>
-                        
+                    <div className={styles.edit_invite_background}>
+                        <div>
+                            <h2>INVITATION CARD</h2>
+                            <div className={styles.edit_invite_decorate}></div>
+                            <div>TO:</div>
+                            <div className={styles.friend_email}>{props.chooseEmail}</div>
+                        </div>
                     </div>
                     <div className={styles.edit_invite_information}>
 
@@ -129,25 +305,16 @@ const EditInviteCard = (props:any) =>{
                                     placeholder='Add title'
                                     type="text"
                                     autoFocus={true}
-                                    maxLength={10}/>
+                                    maxLength={10}
+                                    onChange={(e)=>{
+                                        title.current=e.target.value
+                                    }}
+                                    />
 
                             <div className={styles.under_line}></div>
-                            <div>必填</div>
+                            <div className={styles.remind_word}>{remindTitleWord}</div>
                         </div>
 
-
-                        
-
-
-
-
-
-                        <div className={styles.edit_invite_days_wrapper}>
-                            <div className={styles.edit_invite_day_button}>-</div>
-                            <div className={styles.edit_invite_day}>1天</div>
-                            <div className={styles.edit_invite_day_button}>+</div>
-                        </div>
-                        
                         <div className={styles.time_container}>
                             <span className={styles.time_icon}>時</span>
                             <div>
@@ -160,13 +327,12 @@ const EditInviteCard = (props:any) =>{
                                                         boxShadow:`${startShadow}`
                                                     }}
                                                 onChange={(e)=>{
-                                                    console.log(startTime)
-                                                    startTime = e.target.value
+                                                    startYear.current = Number(e.target.value)
                                                 }}/>
                                         <div className={styles.time_bottom_word}>Year</div>
                                     </div>
 
-                                    <div className={styles.time_item}>
+                                    <div className={styles.time_item} id="edit_invite_time_center">
                                         <input  placeholder='02' 
                                                 className={styles.time_input} 
                                                 maxLength={2}
@@ -174,8 +340,7 @@ const EditInviteCard = (props:any) =>{
                                                         boxShadow:`${startShadow}`
                                                     }}
                                                 onChange={(e)=>{
-                                                    console.log(startTime)
-                                                    startTime = e.target.value
+                                                    startMonth.current = Number(e.target.value)
                                                 }}/>
                                         <div className={styles.time_bottom_word}>Month</div>
                                     </div>
@@ -188,35 +353,61 @@ const EditInviteCard = (props:any) =>{
                                                         boxShadow:`${startShadow}`
                                                     }}
                                                 onChange={(e)=>{
-                                                    console.log(startTime)
-                                                    startTime = e.target.value
+                                                    startDay.current = Number(e.target.value)
                                                 }}/>
                                         <div className={styles.time_bottom_word}>Day</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div className={styles.remind_word}>{remindTimeWord}</div>
 
 
-
+                        <div className={styles.edit_invite_days_wrapper}>
+                            <button className={styles.edit_invite_days_border}>
+                                <div className={styles.edit_invite_days_content}>
+                                    <div className={styles.edit_invite_day_button}
+                                        onClick={(e)=>{
+                                            if(daysNumber === 1){
+                                                setDaysNumber(1)
+                                            }else{
+                                                let number = daysNumber
+                                                setDaysNumber(number-1)
+                                            }
+                                        }}
+                                    >-</div>
+                                    <div className={styles.edit_invite_day}>{daysNumber}天</div>
+                                    <div className={styles.edit_invite_day_button}
+                                        onClick={(e)=>{
+                                            if(daysNumber === 7){
+                                                setDaysNumber(7)
+                                            }else{
+                                                let number = daysNumber
+                                                setDaysNumber(number+1)
+                                            }
+                                        }}
+                                    >+</div>
+                                </div>
+                                <div className={styles.edit_invite_day_bottom_word}>Number of days</div>
+                            </button>
+                        </div>
 
                         <div className={styles.edit_invite_description_wrapper}>
                             <span className={styles.description_icon}>描</span>
                             <div>
                                 <textarea
                                 className={styles.edit_invite_description}
-                                placeholder='100字以內' 
+                                placeholder='Add description'
                                 rows={10}
                                 cols={25}
                                 onChange={(e)=>{
-                                    description = e.target.value
+                                    description.current = e.target.value
                                 }}/>
                                 <div className={styles.description_under_line}></div>
                             </div>
                         </div>
 
 
-                        
                         <div>為夥伴選個標籤顏色吧</div>
                         <div className={styles.color_selector_wrapper}>
                             <div>顏色:</div>
@@ -228,8 +419,6 @@ const EditInviteCard = (props:any) =>{
                                         setColor(e.target.value)
                                     }}/>
                         </div>
-
-
 
                         <div className={styles.send_invite_button_wrapper}>
                             <div className={styles.send_invite_button}
