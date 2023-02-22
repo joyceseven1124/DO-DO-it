@@ -21,16 +21,19 @@ textarea{
   top:-20px;
   z-index: 15;
   box-sizing: border-box;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .edit_card_content{
   width: 700px;
-  height: 550px;
+  height: auto;
+  position: relative;
   background-color: black;
   display: grid;
   grid-template-columns: 40% 60%;
   color: var(--cardWordColor);
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px;
   margin: auto auto;
   -webkit-box-shadow: 0px 0px 12px 3px rgba(178, 178, 178, 0.73);
@@ -46,11 +49,13 @@ textarea{
 
 .task_word{
   margin-top: 90px;
+  font-size: 20px;
+  font-weight: 800;
 }
 
 .friend_email_container{
   position: absolute;
-  bottom: 150px;
+  bottom: 110px;
   width: 100%;
   text-align: center;
 }
@@ -66,7 +71,8 @@ textarea{
   line-height: 70px;
   overflow: hidden;
   animation: moveRight 1500ms steps(12) , borderBlink 200ms;
-  font-size: 40px;
+  font-size: 20px;
+  font-weight: 800;
   white-space: nowrap;
 }
 
@@ -113,7 +119,6 @@ textarea{
   text-align: center;
   position: relative;
   margin: auto auto;
-  margin-top: 90px;
   font-size: 20px;
   font-weight: bold;
   width: 120px;
@@ -124,6 +129,7 @@ textarea{
   color:var(--buttonColor);
   cursor: pointer;
   transition: all 500ms linear;
+  font-family: 'Noto Sans', sans-serif;
 }
 .finish_button::after {
   background-color: rgba(255, 255, 255, 0.4);
@@ -150,6 +156,9 @@ textarea{
   position: absolute;
 }
 
+:global(#no_finish_button):hover::after{
+  content: "Cheer Up";
+}
 
 .delete_button {
   text-align: center;
@@ -166,6 +175,7 @@ textarea{
   color:var(--deleteButtonShadow);
   cursor: pointer;
   transition: all 500ms linear;
+  font-family: 'Noto Sans', sans-serif;
 }
 .delete_button::after {
   background-color: rgba(255, 255, 255, 0.4);
@@ -208,21 +218,22 @@ textarea{
   background-size: contain;
   width:20px;
   height: 20px;
-  top: -50px;
-  right:0px;
+  top: 0px;
+  right:-30px;
   cursor: pointer;
 }
 
 .list_title_content{
   position: relative;
-  font-size: 30px;
+  font-size: 25px;
   margin-bottom: 20px;
+  margin-top: 30px;
   display: flex;
   width: 100%;
   align-items: center;
-  border-bottom: 1px solid var(--mainDecorateColor);
+  border-bottom: 1px solid var(--buttonColor);
   box-sizing: border-box;
-
+  padding: 5px;
 }
 
 
@@ -278,6 +289,7 @@ textarea{
 
 .list_title:focus ~ .e_cont{
   position: absolute;
+  left: 0px;
   border: 3px solid  var(--buttonColor);
   border-radius: 5px;
   width:100%;
@@ -343,22 +355,55 @@ textarea{
 }
 
 .list_date{
-    font-size: 20px;
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 20px;
+  margin: 20px auto
+}
+
+.list_year{
+  width:100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-bottom: 1px solid white;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.list_days_wrapper{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.list_one_day_wrapper{
+  text-align: center;
+}
+
+.list_day{
+  font-size: 30px;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.list_week{
+  font-size: 20px;
 }
 
 .description_content{
-    margin: 20px auto;
-    width: 350px;
-    height: 200px;
-    background-color: var(--cardInputBg);
-    border-radius: 12px;
-    color:var(--cardWordColor);
-    border: 1px solid var(--buttonColor);
-    text-align: left;
-    box-sizing: border-box;
-    font-size: 20px;
-    position: relative;
-    overflow-y: hidden
+  margin: 20px auto;
+  width: 350px;
+  height: 200px;
+  background-color: var(--cardInputBg);
+  border-radius: 12px;
+  color:var(--cardWordColor);
+  border: 1px solid var(--buttonColor);
+  text-align: left;
+  box-sizing: border-box;
+  font-size: 20px;
+  position: relative;
+  overflow-y: hidden
 }
 
 
@@ -380,6 +425,11 @@ textarea{
 :global(#edit_description_content){
   background-color: var(--cardInputBg);
   color: var(--cardWordColor);
+}
+
+:global(#edit_description_content):focus{
+  background-color: white;
+  color: black;
 }
 
 .save_word{

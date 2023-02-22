@@ -62,6 +62,7 @@ function MonthPage() {
                 (<InviteCard setInformation={setInformationCard}
                              chooseInformationIndex = {chooseInformationIndex}
                              informationList = {informationList}
+                             setInformationList = {setInformationList}
                             />
                 ):null}
 
@@ -88,24 +89,31 @@ function MonthPage() {
                         <MonthCell/>
                     </div>
                     <div className={styles.sideBar_container}>
-                        <div className={styles.sideBar_button_container}>
-                            <div className={styles.sideBar_button}
-                                style={{right:`${buttonRight}`}}
+                        {!sideBarStatus ? (<div className={styles.sideBar_button_container}
+                            style={{right:`${buttonRight}`}}
                                 onClick={()=>{
                                     if(sideBarStatus){
-                                        setSideBarStatus(false)
-                                        setButtonWord("OPEN")
-                                        setButtonRight("0px")
-                                        setGridRow("100%")
+                                        // setSideBarStatus(false)
+                                        // setButtonWord("OPEN")
+                                        // setButtonRight("0px")
+                                        // setGridRow("99% 1%")
                                     }else{
-                                        setSideBarStatus(true)
-                                        setButtonWord("CLOSE")
-                                        setButtonRight('360px')
-                                        setGridRow("80% 20%")
+                                        // setSideBarStatus(true)
+                                        // setButtonWord("CLOSE")
+                                        // //setButtonRight('380px')
+                                        // setGridRow("80% 20%")
                                     }
-                                }}>{buttonWord}</div>
-                            </div>
+
+                                    setSideBarStatus(true)
+                                    setGridRow("80% 20%")
+                                }}
+                        >
+                            <div className={styles.sideBar_button}>OPEN</div>
+                            <div className={styles.sideBar_button_background}></div>
+                        </div>):null}
                         {sideBarStatus?(<SideBar setFriend={setFriendCard}
+                        setSideBarStatus = {setSideBarStatus}
+                        setGridRow = {setGridRow}
                         setInformation={setInformationCard}
                         setEditInvite={setEditInviteCard}
                         friendList={friendList}
@@ -113,6 +121,7 @@ function MonthPage() {
                         setChooseEmail = {setChooseEmail}
                         setChooseInformationIndex = {setChooseInformationIndex}
                         setInformationList = {setInformationList}
+                        informationList = {informationList}
                         />):null}
                     </div>
                 </div>

@@ -143,6 +143,7 @@
   font: inherit;
   line-height: 1;
   transition: 0.25s;
+  cursor: pointer;
 }
 
 .invite_button:hover,.invite_button:focus{

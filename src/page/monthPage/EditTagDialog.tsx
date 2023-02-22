@@ -20,7 +20,7 @@ export default function EditTagDialog(props:any){
     const [cursorStatus,setCursorStatus] = useState(null)
     const [editColor,setEditColor] = useState(true)
     const [title,setTitle] = useState(" ")
-    const [date,setDate] = useState(" ")
+    const [date,setDate] = useState({})
     const [description,setDescription] = useState("")
     const [titleRow,setTitleRow] = useState(1)
     const [color,setColor] = useState("")
@@ -30,7 +30,10 @@ export default function EditTagDialog(props:any){
     const [friend,setFriend] = useState("")
 
     let titleWord:string
-    let dateWord:string
+    let dateData :{ yearStart:number,yearEnd:number,
+                    monthStart:number,monthEnd:number,
+                    dayStart:number,dayEnd:number,
+                    weekStart: string,weekEnd:string}
     let descriptionWord:string
     let colorWord:string
     let statusWord:string
@@ -42,7 +45,21 @@ export default function EditTagDialog(props:any){
         if(element.index === showTagIndex){
             const startDate = `${element.yearStart}/${element.monthStart}/${element.dayStart}`
             const endDate = `${element.yearEnd}/${element.monthEnd}/${element.dayEnd}`
-            dateWord = `${startDate}-${endDate}`
+            const week = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+            const weekStart = new Date(element.yearStart, 
+                                       element.monthStart,
+                                       element.dayStart).getDay();
+            
+            const weekEnd = new Date(element.yearEnd, 
+                                       element.monthEnd,
+                                       element.dayEnd).getDay();
+            const weekStartWord = week[weekStart]
+            const weekEndWord = week[weekEnd]
+
+            dateData= {yearStart:element.yearStart,yearEnd:element.yearEnd,
+                        monthStart:element.monthStart,monthEnd:element.monthEnd,
+                        dayStart:element.dayStart,dayEnd:element.dayEnd,
+                        weekStart: weekStartWord,weekEnd:weekEndWord}
             titleWord = element.title
             descriptionWord = element.description
             colorWord = element.color
@@ -50,7 +67,7 @@ export default function EditTagDialog(props:any){
             if(element.status === "未完成"){
                 statusWord = "任務進行中"
             }else{
-                statusWord = "任務完成囉"
+                statusWord = "Mission accomplished! "
             }
 
             if(element.receiveEmail){
@@ -62,18 +79,19 @@ export default function EditTagDialog(props:any){
             }
             return element
         }
+        console.log(dateData)
     })
 
 
 
     useEffect(()=>{
-        setDate(dateWord)
+        setDate(dateData)
         setTitle(titleWord)
         setDescription(descriptionWord)
         setColor(colorWord)
         setStatusSentence(statusWord)
         if(statusWord !== "任務進行中"){
-            setButtonWord("任務未達")
+            setButtonWord("UNDONE")
             setStatus("完成")
         }
         if(friendEmail){
@@ -126,7 +144,6 @@ export default function EditTagDialog(props:any){
             }
         })
         let endCell = startCell + connectWidth/100 - 1
-        console.log(chooseCellArray)
         const newChooseCellArray = chooseCellArray.filter((element)=>{
              if(element[0] !== startCell && element[element.length-1] !== endCell){
                 return element
@@ -140,7 +157,7 @@ export default function EditTagDialog(props:any){
         <div className={styles.edit_card_wrapper}>
             <div className={styles.edit_card_content}>
                 <div className={styles.edit_card_decorate}>
-                    <h1 className={styles.task_word}>TASK STATUS</h1>
+                    <div className={styles.task_word}>TASK STATUS</div>
                     <div className={styles.edit_card_pic}></div>
 
                     {friend?(
@@ -152,16 +169,15 @@ export default function EditTagDialog(props:any){
                     
                     <div className={styles.task_sentence_word}>{statusSentence}</div>
 
-                    <div className={styles.finish_button}
+                    <div className={styles.finish_button} id={status ==="完成"?"no_finish_button":""}
                              onClick={(e)=>{
-                                
                                 if(status === "未完成"){
-                                    //setStatus("完成")
+                                    setStatus("完成")
                                     saveStatus = "完成"
-                                    setStatusSentence("任務完成囉")
-                                    setButtonWord("任務未達")
+                                    setStatusSentence("Mission accomplished!")
+                                    setButtonWord("UNDONE")
                                 }else{
-                                    //setStatus("未完成")
+                                    setStatus("未完成")
                                     saveStatus = "未完成"
                                     setStatusSentence("任務進行中")
                                     setButtonWord("FINISH")
@@ -224,9 +240,24 @@ export default function EditTagDialog(props:any){
                         )}
                         
                     </div>
-                    <div className={styles.list_date}>{date}</div>
+                    <div className={styles.list_date}>
+                        <div className={styles.list_year}>{
+                                dateData.yearStart === dateData.yearEnd ?
+                                dateData.yearStart : `${dateData.yearStart}--${dateData.yearEnd}`
+                        }</div>
+                        <div className={styles.list_days_wrapper}>
+                            <div className={styles.list_one_day_wrapper}>
+                                <div className={styles.list_week}>{dateData.weekStart}</div>
+                                <div className={styles.list_day}>{`${dateData.monthStart}/${dateData.dayStart}`}</div>
+                            </div>
+                            <div>⇀</div>
+                            <div className={styles.list_one_day_wrapper}>
+                                <div className={styles.list_week}>{dateData.weekEnd}</div>
+                                <div className={styles.list_day}>{`${dateData.monthEnd}/${dateData.dayEnd}`}</div>
+                            </div>
+                        </div>
+                    </div>
                     <div  className={styles.description_content}>
-                        
                         <textarea id="edit_description_content"
                                   value={description}
                                   cols={25} 
@@ -263,7 +294,7 @@ export default function EditTagDialog(props:any){
                                     }
                                 })
                              }}
-                        >刪除任務</div>
+                        >DELETE</div>
                         
                     </div>
                 </div>

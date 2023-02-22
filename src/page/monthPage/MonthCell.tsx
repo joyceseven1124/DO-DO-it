@@ -78,7 +78,6 @@ export default function MonthCell(props:any) {
     const [monthCellHeight,setMonthCellHeight] = useState(900)
     const startDayInit = useRef(0);
     const endDayInit = useRef(0)
-    const {memberNowStatus} = useContext(memberStatus)
     const {memberInformation} = useContext(memberStatus)
     const {setTagsArray} = useContext(commonData)
     const {isTagsArray} = useContext(commonData)
@@ -414,9 +413,25 @@ export default function MonthCell(props:any) {
                 yearEnd=element.yearEnd
                 monthStart = element.monthStart
                 monthEnd = element.monthEnd
-                 if(connectTagValueIndex.toString() !== index){
-                    return element
-                 }
+                if(startId <7 && startDate > 7){
+                    monthStart = monthNumber -1
+                }
+
+                if(startId >28 && startDate < 7){
+                    monthStart = monthNumber +1
+                }
+
+                if(endId < 7 && endDate > 7){
+                    monthEnd = monthNumber -1
+                }
+
+                if(endId > 28 && endDate < 7){
+                    monthEnd = monthNumber +1
+                }
+                
+                if(connectTagValueIndex.toString() !== index){
+                return element
+                }
 
             })
 

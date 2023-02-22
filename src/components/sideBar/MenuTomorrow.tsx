@@ -13,9 +13,21 @@ const MenuTomorrow= (props:any)=>{
     const {setShowListDialog} = useContext(commonData)
     const tomorrowData = [...isTagsArray]
     let tomorrowDay = new Date().getDate()+1;
+    let tomorrowMonth = new Date().getMonth();
+    let tomorrowYear = new Date().getFullYear();
+    const thisMonthStartWeek :number = new Date(tomorrowYear, 
+                                        tomorrowMonth ,
+                                        1).getDay();
+    const thisDateId = thisMonthStartWeek + tomorrowDay -1
+    const rowStartId = [1,8,15,22,29,36]
     let dataArray:any = []
+ 
     tomorrowData.forEach((element,index)=>{
-        if(element.dayStart <= tomorrowDay  && tomorrowDay <= element.dayEnd){
+        const thisWeekStartId = rowStartId[Math.ceil(element.id/7)-1]
+        const thisWeekEndId = thisWeekStartId +6
+        if(element.dayStart <= tomorrowDay  && tomorrowDay <= element.dayEnd &&
+            thisWeekStartId <= thisDateId && thisDateId <= thisWeekEndId
+            ){
             let item = (<li id={element.index}
                             className={styles.item_container}
                             key={`menu-tomorrow-${index}`}
@@ -29,7 +41,6 @@ const MenuTomorrow= (props:any)=>{
                             <div className={styles.today_icon}>1</div>
                         </li>)
             dataArray.push(item)
-            
         }
     })
     

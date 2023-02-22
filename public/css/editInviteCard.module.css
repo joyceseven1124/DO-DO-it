@@ -217,6 +217,19 @@ input{
     border: 1px solid var(--brightMainDecorateColor);
 }
 
+
+.time_input:hover + .time_bottom_word{
+    color: var(--brightMainDecorateColor);
+    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+    border: 1px solid var(--brightMainDecorateColor);
+    border-radius: 0px 0px 5px 5px;
+}
+
+.time_input:hover{
+    border: 1px solid var(--brightMainDecorateColor);
+}
+
+
 .time_bottom_word{
     line-height: 30px;
     color: var(--mainDecorateColor);
@@ -244,11 +257,13 @@ input{
     border: 1px solid var(--mainDecorateColor);
 }
 
-.edit_invite_days_border:active{
+
+.edit_invite_days_border:hover{
     color: var(--brightMainDecorateColor);
     text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
     border: 1px solid var(--brightMainDecorateColor);
 }
+
 
 .edit_invite_days_content{
     display: flex;
@@ -294,12 +309,6 @@ input{
     color: #929191;
     color: var(--deleteButtonColor);
 }
-
-
-
-
-
-
 
 
 .edit_invite_description_wrapper{

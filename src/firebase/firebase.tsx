@@ -150,6 +150,23 @@ async function sendMessage(myEmail:string,
     }
 }
 
+async function deleteMessage(email:string,index:number){
+    let msg =''
+    try{
+        await updateDoc(doc(db, email, "message"), {
+            [index]: deleteField()
+        });
+        msg="success"
+    }
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = "fail"
+    }
+    finally{
+        return msg
+    }
+}
 
 
 
@@ -371,5 +388,6 @@ export default {
   getFriendData,
   deleteData,
   sendMessage,
-  getMessageData
+  getMessageData,
+  deleteMessage
 };

@@ -37,6 +37,25 @@ const Tag = styled.div<Tag>`
     }
 `;
 
+const DoneIcon = styled.span`
+    margin-right: 10px;
+    color: rgb(0,187,201);
+    position:relative;
+    :before{
+        position:absolute;
+        content:"";
+        width:20px;
+        height:20px;
+        background-color: white;
+        border-radius: 10px;
+        z-index:-1;
+        top:6px;
+        -webkit-box-shadow: 7px 6px 15px 0px #070707; 
+        box-shadow: 7px 6px 15px 0px #070707;
+    }
+
+`
+
 
 
 function getPosition(element: any) {
@@ -125,17 +144,16 @@ export default function ToDoListTag(props: any) {
             >
             {props.status==="完成" ?
             <>
-                <span style={{marginRight:"10px",
-                              color:"rgb(0,187,201)",
-                              backgroundColor:"white",
-                              borderRadius:"50%"}}>✔</span> 
+                <DoneIcon>✔</DoneIcon>
             </>
                 :
                 null}
             
             {props.friend?
             <>
-                <span style={{marginRight:"10px",color:"#08f508"}}>👩🏿‍🚀</span> 
+                <span style={{marginRight:"10px",color:"#08f508",
+                textShadow:"rgb(71, 71, 71) 1px 1px 0px"
+            }}>👩🏿‍🚀</span> 
             </>
                 :
                 null}

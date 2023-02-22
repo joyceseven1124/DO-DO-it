@@ -19,6 +19,7 @@ const EditInviteCard = (props:any) =>{
     const [remindTimeWord,setRemindTimeWord] = useState("")
     const [remindTitleWord,setRemindTitleWord] = useState("")
     const {memberInformation} = useContext(memberStatus)
+    const {memberName} = useContext(memberStatus)
     const {isTagsArray} = useContext(commonData)
     const {setTagsArray} = useContext(commonData)
     const monthNumber = useSelector(
@@ -165,7 +166,8 @@ const EditInviteCard = (props:any) =>{
                                     connectWidth:allDayWidth-connectWidth,
                                     width:allDayWidth-connectWidth,
                                     receiveEmail:props.chooseEmail,
-                                    sendEmail:memberInformation
+                                    sendEmail:memberInformation,
+                                    sendEmailName:memberName
                                 }
                 const result = db.sendMessage(memberInformation,
                                props.chooseEmail,
@@ -207,7 +209,8 @@ const EditInviteCard = (props:any) =>{
                                     connectWidth:connectWidth,
                                     width:connectWidth-width,
                                     receiveEmail:props.chooseEmail,
-                                    sendEmail:memberInformation
+                                    sendEmail:memberInformation,
+                                    sendEmailName:memberName
                                 }
                 //成功才能push 且要是當日
                 if(monthNumber === startMonth.current && year === startYear.current){
@@ -240,7 +243,8 @@ const EditInviteCard = (props:any) =>{
             connectWidth:connectWidth,
             width:width,
             receiveEmail:props.chooseEmail,
-            sendEmail:memberInformation
+            sendEmail:memberInformation,
+            sendEmailName:memberName
         }
         if(data.length > 0){
             data.push(toDoListData)

@@ -16,27 +16,50 @@ const MenuItem= (props:any)=>{
         if(memberInformation){
             const result = db.getMessageData(memberInformation)
             result.then((msg)=>{
-                setMessage(msg)
-                props.setInformationList(msg)
+                //msg[1677052893310][0]["width"]
+                let msgArray:{[key:number]:number | string}[]= [];
+                console.log('message:',msg)
+                console.log("key",Object.keys(msg))
+                const keyArray = Object.keys(msg)
+                const cleanMsg = keyArray.map((element:any)=>{
+                    if(msg[element].length > 1){
+                        console.log("map裏頭,",element)
+                        msgArray.push(msg[element][0])
+                        msgArray.push(msg[element][1])
+                    }else{
+                        msgArray.push(msg[element])
+                    }
+                })
+                //setMessage(cleanMsg)
+                console.log("cleanMsg:",msgArray)
+                props.setInformationList(msgArray)
             })
         }
     },[memberInformation])
 
     let itemArray:any = []
-    const messageData = Object.keys(message)
+    const messageData = Object.keys(props.informationList)
+    //比對前後是否有重複的部分
+    let prevTimeIndex = ""
     messageData.map((element:string)=>{
+        console.log("map")
+        console.log(element)
         //console.log(Object(message)[element])
-        let item = ( <li className={styles.item_container}
-                        id = {element}
-                        key = {`message-${element}`}
-                        onClick={
-                        (e)=>{props.setInformation(true)
-                              props.setChooseInformationIndex(element)}
-                        }>
-                        <div>{Object(message)[element].title}</div>
-                        <div className={styles.person_icon}>1</div>
-                    </li>)
-        itemArray.push(item)
+        if(prevTimeIndex !== Object(props.informationList)[element].index){
+            prevTimeIndex = Object(props.informationList)[element].index
+            let item = ( <li className={styles.item_container}
+                            id = {element}
+                            key = {`message-${element}`}
+                            onClick={
+                            (e)=>{props.setInformation(true)
+                                props.setChooseInformationIndex(element)}
+                            }>
+                            <div>{Object(props.informationList)[element].title}</div>
+                            <div className={styles.person_icon}>1</div>
+                        </li>)
+            itemArray.push(item)
+        }
+        
         //message[1676948693058]
         //console.log(message)
     })

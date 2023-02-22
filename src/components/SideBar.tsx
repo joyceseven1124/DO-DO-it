@@ -12,7 +12,11 @@ const SideBar= (props:any)=>{
     return(
     <div className={styles.menu_container}>
         <div className={styles.menu_wrapper}>
-            <div className={styles.menu_close_button_container}>
+            <div className={styles.menu_close_button_container}
+                        onClick={(e)=>{
+                        props.setSideBarStatus(false)
+                        props.setGridRow("99% 1%")
+            }}>
                 <div className={styles.menu_close_button}>關閉</div>
             </div>
 
@@ -27,7 +31,8 @@ const SideBar= (props:any)=>{
                 />
                 <MenuMessage setInformation={props.setInformation}
                             setChooseInformationIndex = {props.setChooseInformationIndex}
-                            setInformationList = {props.setInformationList}/>
+                            setInformationList = {props.setInformationList}
+                            informationList = {props.informationList}/>
             </div>
         </div>
     </div>

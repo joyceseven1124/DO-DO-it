@@ -12,10 +12,23 @@ const MenuToday= (props:any)=>{
     const {setShowListDialog} = useContext(commonData)
     const todayData = [...isTagsArray]
     let todayDay = new Date().getDate();
-    let dataArray:any = []
+    let todayMonth = new Date().getMonth();
+    let todayYear = new Date().getFullYear();
+    const thisMonthStartWeek :number = new Date(todayYear, 
+                                        todayMonth ,
+                                        1).getDay();
 
+    const thisDateId = thisMonthStartWeek + todayDay -1
+    const rowStartId = [1,8,15,22,29,36]
+    let dataArray:any = []
     todayData.forEach((element,index)=>{
-        if(element.dayStart <= todayDay  && todayDay <= element.dayEnd){
+        //知道目前的星期，並把id算出來
+        //thisDateId && < element.id
+        //rowStartId[Math.ceil(element.id/7)-1] <= thisDateId
+        const thisWeekStartId = rowStartId[Math.ceil(element.id/7)-1]
+        const thisWeekEndId = thisWeekStartId +6
+        if(element.dayStart <= todayDay  && todayDay <= element.dayEnd && 
+            thisWeekStartId <= thisDateId && thisDateId <= thisWeekEndId){
             let item = (<li id={element.index}
                             className={styles.item_container}
                             key={`menu-today-${index}`}
@@ -32,7 +45,6 @@ const MenuToday= (props:any)=>{
             
         }
     })
-    console.log(dataArray.length)
 
 
 
