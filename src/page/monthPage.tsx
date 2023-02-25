@@ -23,6 +23,20 @@ export const commonData = createContext({
     setChooseCell:undefined
 })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function MonthPage() {
     const [sideBarStatus,setSideBarStatus] = useState(true)
     const [buttonWord,setButtonWord] = useState("CLOSE")
@@ -41,7 +55,37 @@ function MonthPage() {
     const [friendList,setFriendList] = useState([])
     const [informationList,setInformationList] = useState([])
     const [chooseInformationIndex,setChooseInformationIndex] = useState("")
+    const [hiddenSideBarButton,setHiddenSideBarButton] = useState("flex")
     //let x =  db.getToDoListData()
+
+
+
+
+    
+    const handleRWD=()=>{
+        if(window.innerWidth>1950){
+            setHiddenSideBarButton("flex")
+        }
+            //setMobile("PC");
+        else
+            //setMobile("mobile");
+            setHiddenSideBarButton("flex")
+            //console.log(window.innerWidth)
+    }
+
+    useEffect(()=>{
+        window.addEventListener('resize',handleRWD);
+        handleRWD();
+        return(()=>{
+            window.removeEventListener('resize',handleRWD);
+        })
+    },[]);
+
+
+
+
+
+
     return (
 
         <commonData.Provider value={{isTagsArray,
@@ -52,7 +96,9 @@ function MonthPage() {
                                     chooseCell,
                                     setChooseCell}}>
             <div className={styles.monthPage_background}>
-                <NavigationBar/>
+                <NavigationBar
+                    setSideBarStatus = {setSideBarStatus}
+                />
                 {friendCard?(
                     <AddFriendCard  setFriend={setFriendCard} 
                                     setFriendList={setFriendList}/>
@@ -88,7 +134,7 @@ function MonthPage() {
                         </div>
                         <MonthCell/>
                     </div>
-                    <div className={styles.sideBar_container}>
+                    <div className={styles.sideBar_container}  style={{display:`${hiddenSideBarButton}`}}>
                         {!sideBarStatus ? (<div className={styles.sideBar_button_container}
                             style={{right:`${buttonRight}`}}
                                 onClick={()=>{

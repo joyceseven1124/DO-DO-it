@@ -5,8 +5,8 @@
     -webkit-user-select:none;
     -moz-user-select:none;
     -o-user-select:none;
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     background-size:contain;
     background-position:center;
     background-repeat: no-repeat;
@@ -22,10 +22,10 @@
 .nav_container{
     display: flex;
     justify-content: center;
+    align-items: center;
     margin: 1px;
-    height: 100px;
+    height: 60px;
     box-sizing: border-box;
-    padding-top: 20px;
     background-color: var(--navBgColor);
     border-bottom: 1px solid var(--borderColor);
     opacity: 1;
@@ -39,7 +39,6 @@
     justify-content: space-between;
     height: 50px;
     color: var(--navWordColor);
-    
 }
 
 :global(.nav_group){
@@ -48,6 +47,7 @@
 }
 
 .burger_icon{
+    display: none;
     background-image: url(/public/assets/burger_icon.png);
     composes:icon;
     margin-right: 20px;
@@ -56,7 +56,7 @@
 .app_icon{
     background-image: url(/public/assets/app_icon.png);
     width:200px;
-    height: 50px;
+    height: 30px;
     background-size:contain;
     background-position:center;
     background-repeat: no-repeat;
@@ -70,35 +70,35 @@
     justify-content: space-around;
     height: 80px;
     width: 300px;
-    font-size: 30px;
+    font-size: 16px;
     margin-right: 80px;
-    cursor: pointer;
     letter-spacing: 1.5px;
     font-weight: 800;
 }
 
 :global(.arrow_background){
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
     border-radius: 25px;
     background-color: white;
+    cursor: pointer;
 }
 
 :global(.arrow_background):hover{
     box-sizing: border-box;
-    border:#03e9f4 1px solid;
+    background-color: var(--brightMainDecorateColor);
 }
 
 .left_arrow_icon{
     background-image: url(/public/assets/left_arrow_icon.png);
     composes:icon;
-    margin: 15px;
+    margin: 5px;
 }
 
 .right_arrow_icon{
     background-image: url(/public/assets/right_arrow_icon.png);
     composes:icon;
-    margin: 15px;
+    margin: 5px;
 }
 
 
@@ -160,12 +160,71 @@
 .login{
     margin-right: 20px;
     box-sizing: border-box;
-    height: 36px;
-    width: 100px;
+    font-size: 12px;
+    padding: 10px 20px;
     border: 1px solid grayLine;
     border-radius: 5px;
     text-align: center;
-    line-height: 36px;
     cursor: pointer;
+}
+
+
+
+@media screen and (max-width:1200px) { 
+  .nav_bar{
+    width: 100%;
+  }
+
+  .burger_icon{
+    display: block;
+  }
+  .login{
+    display: none;
+  }
+
+  .member_name{
+    display: none;
+  }
+
+  .change_time{
+    margin-right: 10px;
+  }
+
+  
+
+}
+
+@media screen and (max-width:550px) { 
+    .app_icon{
+       width: 100px;
+       margin-left: 10px;
+       margin-right: 0px;
+    }
+
+    :global(.arrow_background){
+        width: 0px;
+        height: 20px;
+        border-radius: 0px;
+        background-color: white;
+        cursor: pointer;
+    }
+
+    .left_arrow_icon{
+        margin: 0px;
+    }
+
+    .right_arrow_icon{
+        margin: 0px;
+    }
+
+    .change_time{
+        margin-right: 10px;
+        width: 200px;
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width:500px) { 
+    
 }
 

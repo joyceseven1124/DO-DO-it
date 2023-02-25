@@ -42,20 +42,23 @@ const DayCell = styled.div<DayCell>`
     background-color: ${({ bgColor }) => {
         return bgColor ? 'var(--nowTimeBgColor)' : 'none';
     }};
-
     .date_word {
-        background-color: ${({ nowTime }) => {
-            return nowTime
-                ? 'var(--nowTimeBgColor)'
-                : 'var(--otherTimeBgColor)';
-        }};
-        width: 30px;
-        height: 30px;
-        border-radius: 15px;
-        line-height: 30px;
-        margin: 5px auto;
         color: ${(props) => props.primary};
         cursor: pointer;
+        padding:5px;
+        border:50%;
+        width: 20px;
+        height: 20px;
+        padding: 2px;
+        box-sizing: border-box;
+        border-radius: 50%;
+        margin: auto;
+        margin-top: 5px;
+        background-color: ${({ nowTime }) => {
+                return nowTime
+                    ? 'rgb(0,91,97)'
+                    : null;
+            }};
         &:hover {
             background-color: ${({ nowTime }) => {
                 return nowTime
@@ -75,9 +78,11 @@ export default function MonthCell(props:any) {
     const [activeCell,setActiveCell] = useState(false)
     const [showCardDisplay, setShowCardDisplay] = useState(false);
     //const [chooseCell,setChooseCell] = useState([])
-    const [monthCellHeight,setMonthCellHeight] = useState(900)
+    const [monthCellHeight,setMonthCellHeight] = useState(700)
     const startDayInit = useRef(0);
     const endDayInit = useRef(0)
+    const thisPageDate = useRef([])
+    let thisPageDay :number[] =[]
     const {memberInformation} = useContext(memberStatus)
     const {setTagsArray} = useContext(commonData)
     const {isTagsArray} = useContext(commonData)
@@ -95,13 +100,13 @@ export default function MonthCell(props:any) {
          (state: RootState) => state.timeControlReducer.year
     )
     const memberEmail = useSelector((state:RootState) => state.logInReducer.email)
-    
+
 
     
 
     useEffect(() => {
         setTagsArray([]);
-        setMonthCellHeight(900)
+        setMonthCellHeight(700)
         setChooseCell([])
         if(memberInformation !== ""){
             const searchDataTime = `${yearNumber}Y${monthNumber}M`
@@ -188,6 +193,7 @@ export default function MonthCell(props:any) {
         let nextMonthDay = 1;
         let thisMonthDay = 1;
         let preMonthDay = preMonthMaxDay - monthStart + 2;
+        
        
         for (let i = 1; i <= cells; i++) {
             let color: string;
@@ -197,10 +203,13 @@ export default function MonthCell(props:any) {
             if (i < monthStart) {
                 color = 'var(--otherMonthWorldColor)';
                 date = preMonthDay;
+                //thisPageDate.current.push(date)
                 preMonthDay++;
             } else if (i <= nowMonthMaxDay + monthStart - 1) {
-                color = 'var(--nowMonthWorldColor)';
+                //color = 'var(--nowMonthWorldColor)';
+                color = "white"
                 date = thisMonthDay;
+                //thisPageDate.current.push(date)
                 if (monthNumber === nowMonth && thisMonthDay === nowDate) {
                     nowTimeResult = true;
                 }
@@ -208,6 +217,7 @@ export default function MonthCell(props:any) {
             } else {
                 color = 'var(--otherMonthWorldColor)';
                 date = nextMonthDay;
+                //thisPageDate.current.push(date)
                 nextMonthDay++;
             }
 
@@ -287,12 +297,21 @@ export default function MonthCell(props:any) {
                         nowTime={nowTimeResult}
                         bgColor={activeStatus}
                         onPointerEnter={EnterCell}
+                        onPointerDown={mouseDown}
+                        onPointerUp={mouseUp}
+                        onDragOver={dragover}
+                        onDragEnter={dragenter}
+                        onDragLeave={dragleave}
+                        onDrop={dragDrop}
+                        style={{cursor:"pointer"}}
+                        //style={{height:`${monthCellHeight}px`}}
                     >
                         <div className="date_word">{date}</div>
                         <div>{newTagArray}</div>
                     </DayCell>
                 );
                 monthDataArray.push(dayHtml);
+                //thisPageDate.current.push(date)
             }else{
                 let dayHtml = (
                     <DayCell
@@ -302,16 +321,26 @@ export default function MonthCell(props:any) {
                         primary={color}
                         nowTime={nowTimeResult}
                         bgColor={activeStatus}
+                        onPointerDown={mouseDown}
+                        onPointerUp={mouseUp}
+                        onDragOver={dragover}
+                        onDragEnter={dragenter}
+                        onDragLeave={dragleave}
+                        onDrop={dragDrop}
+                        style={{cursor:"pointer"}}
                     >
                         <div className="date_word">{date}</div>
                         <div>{newTagArray}</div>
                     </DayCell>
                 );
                 monthDataArray.push(dayHtml);
+                thisPageDay.push(date)
             }
-    }
+    }   
         return <>{monthDataArray}</>;
     }
+
+    
 
     function EnterCell(e:any) {
         const id = Number(e.target.id.split("-")[1])
@@ -391,17 +420,19 @@ export default function MonthCell(props:any) {
             let toDoListStatus
             let yearStart
             let yearEnd
-            let monthStart
-            let monthEnd
+            let monthStart= monthNumber
+            let monthEnd = monthNumber
             let updateData
-
 
             if(allConnectWidth <=700){
                 if (insertPlace !== 0) {
-                    startDate = date - (insertPlace - 1)
-                    endDate = startDate  -1 +allConnectWidth/100
+                    //startDate =date - (insertPlace - 1)
+        
+                    //endDate = startDate  -1 +allConnectWidth/100
                     startId = startId - (insertPlace - 1);
+                    startDate =thisPageDay[startId-1]
                     endId = startId+allConnectWidth/100-1
+                    endDate =thisPageDay[endId-1]
                 }
             }
             const perRowStartNumber = [1, 8, 15, 22, 29, 36];
@@ -411,9 +442,8 @@ export default function MonthCell(props:any) {
                 toDoListStatus = element.status
                 yearStart = element.yearStart
                 yearEnd=element.yearEnd
-                monthStart = element.monthStart
-                monthEnd = element.monthEnd
-                if(startId <7 && startDate > 7){
+            
+                if(startId < 7 && startDate > 7){
                     monthStart = monthNumber -1
                 }
 
@@ -428,14 +458,13 @@ export default function MonthCell(props:any) {
                 if(endId > 28 && endDate < 7){
                     monthEnd = monthNumber +1
                 }
-                
                 if(connectTagValueIndex.toString() !== index){
-                return element
+                    return element
                 }
 
             })
 
-            
+
             const firstRowEndId = perRowEndNumber[Math.ceil(startId/7)-1]
             const rowEnd = Math.ceil(endId/7)
             const rowStart = Math.ceil(startId/7)
@@ -535,13 +564,8 @@ export default function MonthCell(props:any) {
         >
             <div
                 className={styles.monthCell}
-                onPointerDown={mouseDown}
-                onPointerUp={mouseUp}
-                onDragOver={dragover}
-                onDragEnter={dragenter}
-                onDragLeave={dragleave}
-                onDrop={dragDrop}
                 style={{height:`${monthCellHeight}px`}}
+                
             >
                 <Cell />
             </div>

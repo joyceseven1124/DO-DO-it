@@ -131,8 +131,7 @@ input{
 }
 
 .edit_invite_title_wrapper > input{
-    width: 82%;
-    margin-left: 20px;
+    width: 80%;
     height: 40px;
     font-size: 20px;
     margin-top: 10px;
@@ -151,8 +150,7 @@ input{
     margin: auto;
 	content: "";
 	height: 2px;
-	width: 82%;
-    margin-left: 41px;
+	width: 80%;
 	background-color: var(--brightMainDecorateColor);
 	transform: scaleX(0);
 	transition:transform 0.3s ease;
@@ -161,7 +159,6 @@ input{
 .time_container{
     width: 100%;
     display: flex;
-    justify-content: center;
     margin: 20px auto;
     margin-bottom: 0px;
 }
@@ -169,7 +166,7 @@ input{
 .time_icon{
     background-image: url(/public/assets/time_icon.png);
     composes:icon;
-    margin-right: 20px;
+    margin-right: 17px;
 }
 
 .time_information{
@@ -252,7 +249,6 @@ input{
     height: 100px;
     box-sizing: border-box;
     width: 80%;
-    margin-left: 8%;
     border-radius: 5px;
     border: 1px solid var(--mainDecorateColor);
 }
@@ -314,7 +310,7 @@ input{
 .edit_invite_description_wrapper{
     display: grid;
     grid-template-columns: 6% 82%;
-    column-gap: 6%;
+    column-gap: 12px;
     width:100%;
     position: relative;
     margin-bottom: 20px;
@@ -326,7 +322,7 @@ input{
 }
 
 .edit_invite_description{
-    width: 100%;
+    width: 98%;
     border: 0px;
     padding: 10px;
     outline: none;
@@ -343,8 +339,10 @@ input{
 .description_under_line{
     content: "";
 	height: 2px;
-	width: 100%;
-    margin-top: 0px;
+	width: 280px;
+    top: 202px;
+    position: absolute;
+    margin-left: 6px;
 	background-color: var(--brightMainDecorateColor);
 	transform: scaleX(0);
 	transition:transform 0.3s ease;
@@ -374,10 +372,6 @@ input{
 }
 
 
-
-
-
-
 .send_invite_button_wrapper{
     display: flex;
     justify-content: center;
@@ -392,3 +386,28 @@ input{
     border-radius: 10px;
     cursor: pointer;
 }
+
+
+
+
+@media screen and (max-width:610px) {
+  .close_container{
+    top:-230px
+  }
+  .edit_invite_container{
+    width: 100%;
+    display: block;
+    padding: 5px;
+  }
+  .edit_invite_background{
+    background-color: black;
+    color: white;;
+  }
+  .friend_email{
+    color: white;
+  }
+  .edit_invite_title_wrapper{
+    margin-top: 0px;
+  }
+}
+

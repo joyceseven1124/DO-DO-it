@@ -19,21 +19,24 @@ const Tag = styled.div<Tag>`
     width: ${(props) => props.width};
     height: 25px;
     line-height:25px;
-    border-radius:10px;
+    border-radius:5px;
     position: absolute;
     top: ${(props) => props.top};
     text-align: left;
     z-index: 5;
     cursor:pointer;
-    font-size:20px;
+    font-size:12px;
     font-family:Noto Sans TC;
-    font-weight:700;
+    font-weight:400;
     color:white;
     letter-spacing: 1.2px;
-    text-shadow: rgb(71, 71, 71) 1px 1px 0px;
-    padding-left:10px;
+    text-shadow:  5px 15px -2px rgba(64,64,64,0.73);
+    padding-left: 10px;
     :active{
         cursor:grabbing;
+    }
+    @media screen and (max-width:400px){
+        overflow: hidden;
     }
 `;
 
@@ -112,9 +115,9 @@ export default function ToDoListTag(props: any) {
     const dragend = (e: any) => {
     };
 
-    let tagTop = 50
+    let tagTop = 30
     if(props.tagOrder>1){
-        tagTop = props.tagOrder*30+20
+        tagTop = props.tagOrder*30
     }
     let title="(No title)"
     if(props.title){
@@ -154,9 +157,7 @@ export default function ToDoListTag(props: any) {
                 <span style={{marginRight:"10px",color:"#08f508",
                 textShadow:"rgb(71, 71, 71) 1px 1px 0px"
             }}>👩🏿‍🚀</span> 
-            </>
-                :
-                null}
+            </> : null}
             {title}
             </div>
         </Tag>

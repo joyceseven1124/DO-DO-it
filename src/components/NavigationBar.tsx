@@ -8,6 +8,7 @@ import Search from './navigation/Search';
 import ChangeTimeItem from './navigation/ChangeTimeItem';
 import { NEXT_MONTH } from '../store/action/timeControl';
 import { memberStatus } from '../';
+import SideBar from './SideBar';
 import db from "../firebase/firebase"
 
 
@@ -48,6 +49,7 @@ const NavigationBar = (props:any) => {
     return(
     <>
         <nav className={styles.nav_container}>
+            
             <div  className={styles.nav_bar}>
                 <div className="nav_group">
                     <div className={styles.app_icon}>主</div>
@@ -56,8 +58,15 @@ const NavigationBar = (props:any) => {
                     <ChangeTime />
                 </div>
                 <div className="nav_group" >
-                    <div className={styles.member_name}>{memberName}</div>
-                    <div className={styles.login} onClick={changeMemberStatus} >登出</div>
+                    <div className={styles.burger_icon}
+                        onClick={(e)=>{
+                            console.log("h")
+                            props.setSideBarStatus(true)
+                        }}
+                    ></div>
+                    
+                    
+                    <div className={styles.login} onClick={changeMemberStatus} >Log out</div>
                 </div>
             </div>
         </nav>
@@ -67,3 +76,4 @@ const NavigationBar = (props:any) => {
 };
 
 export default NavigationBar;
+//<div className={styles.member_name}>{memberName}</div>

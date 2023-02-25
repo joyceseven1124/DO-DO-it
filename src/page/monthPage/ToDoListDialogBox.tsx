@@ -1,13 +1,20 @@
 import React, { useEffect, useState, useRef,useContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import styles from '/public/css/toDoListDialogBox.module.css';
-import TimeInformation from './toDoListDialog/TimeDuraction';
+import TimeInformation from './toDoListDialog/TimeInformation';
 import ColorSelector from './toDoListDialog/ColorSelector';
 import { tagData } from './MonthCell';
 import { memberStatus } from "../../"
 import db from "../../firebase/firebase"
 import { v4 as uuidv4 } from "uuid";
 import { commonData } from '../MonthPage';
+import DescriptionQuillEditor from "./toDoListDialog/DescriptionQuillEditor"
+import AddGuest from "./toDoListDialog/AddGuest"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faEnvelope} from '@fortawesome/free-solid-svg-icons'
+
+
+
 
 const remindWriteTitleWord = ()=>{
 
@@ -130,7 +137,8 @@ export default function ToDoListDialogBox(props:any){
                         index:uuidDate,
                         id:0,
                         connectWidth:0,
-                        width:0}
+                        width:0,
+                    }
 
     let tagArray = [...isTagsArray]
     const perRowStartNumber = [1, 8, 15, 22, 29, 36];
@@ -206,9 +214,7 @@ export default function ToDoListDialogBox(props:any){
     return(
         <div id="toDoListDialogBox" onClick={writeTitleOnTag} className={styles.toDoListDialogBox_background}>
             <div  className={styles.toDoListDialogBox_container}>
-                <div className={styles.toDoListDialogPic}>
-                    <div>What do you want to do after eating</div>
-                </div>
+                
                 <div className={styles.toDoListDialogBox}>
                     <div>
                         <div className={styles.close_container}>
@@ -231,30 +237,18 @@ export default function ToDoListDialogBox(props:any){
                              
                                    />
                             <div className={styles.under_line}></div>
-                            <div className={styles.remind_word} style={{display:showRemind}}>請填寫標題⬆</div>
+                            <div className={styles.remind_word} style={{display:showRemind}}>請填寫標題</div>
                         </div>
 
                         <ColorSelector data={toDoListData}/>
 
                         <TimeInformation month={searchMonth} data={toDoListData}/>
-                        <div className={styles.description_container}>
-                            <span className={styles.description_icon}>描</span>
-                            <textarea
-                                name="comments"
-                                rows={10}
-                                cols={25}
-                                placeholder={"Add description"}
-                                className={styles.description}
-                                onChange={(e)=>{
-                                    if(e.target.value !== ""){
-                                        toDoListData.description=e.target.value
-                                    }
-                                }}
-                            ></textarea>
-                            <div className={styles.description_under_line}></div>
-                        </div>
+
+                        <AddGuest/>
+                        <DescriptionQuillEditor className={styles.description} data={toDoListData}/>
+                        
                         <div className={styles.save_button_container}>
-                            <div className={styles.save_button} onClick={saveData}>save</div>
+                            <div className={styles.save_button} onClick={saveData}>SAVE</div>
                         </div>
                     </div>
                 </div>
@@ -263,4 +257,18 @@ export default function ToDoListDialogBox(props:any){
         
     )
 }
+
+
+// <textarea
+//                                 name="comments"
+//                                 rows={5}
+//                                 cols={25}
+//                                 placeholder={"Add description"}
+//                                 className={styles.description}
+//                                 onChange={(e)=>{
+//                                     if(e.target.value !== ""){
+//                                         toDoListData.description=e.target.value
+//                                     }
+//                                 }}
+  //                          ></textarea>
 //db.saveToDoList()

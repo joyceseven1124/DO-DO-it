@@ -15,10 +15,9 @@ textarea{
   background-color: var(--cardCommonBackground);
   color: var(--cardWordColor);
   display: flex;
-  align-items: center;
   justify-content: center;
   position: absolute;
-  top:-20px;
+  top:-50px;
   z-index: 15;
   box-sizing: border-box;
   font-family: 'Noto Sans TC', sans-serif;
@@ -26,12 +25,10 @@ textarea{
 }
 
 .edit_card_content{
-  width: 700px;
+  width: 300px;
   height: auto;
   position: relative;
   background-color: black;
-  display: grid;
-  grid-template-columns: 40% 60%;
   color: var(--cardWordColor);
   padding: 20px;
   border-radius: 10px;
@@ -41,38 +38,30 @@ textarea{
 }
 
 
-.edit_card_decorate{
-  text-align: center;
-  border-right: 1px solid var(--borderColor);
-  position: relative;
-}
-
 .task_word{
   margin-top: 90px;
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 400;
 }
 
 .friend_email_container{
-  position: absolute;
-  bottom: 110px;
+  
   width: 100%;
   text-align: center;
 }
 
 .friend_email{
   margin-top: 5px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .task_sentence_word{
   height: 70px;
-  border-right: 2px solid var(--buttonColor);
   line-height: 70px;
   overflow: hidden;
   animation: moveRight 1500ms steps(12) , borderBlink 200ms;
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 400;
   white-space: nowrap;
 }
 
@@ -83,14 +72,14 @@ textarea{
   }
 
   100% {
-    width: 270px;
+    width: 200px;
   }
 }
 
 @keyframes borderBlink {
   0%,
   100% {
-    border-right-color: transparent;
+    border-right-color: var(--buttonColor);
   }
 
   50% {
@@ -100,17 +89,10 @@ textarea{
 
 
 
-
-.edit_card_pic{
-  background-image: url(/public/assets/edit_card.png);
-  width:100px;
-  height: 100px;
-  background-repeat: no-repeat;
-  background-size:contain;
-  color: rgba(0, 0, 0, 0);
-  margin: 20px auto;
-  font-family: 'Noto Sans TC', sans-serif;
+.task_status_wrapper{
+  display: flex;
 }
+
 
 
 
@@ -119,11 +101,10 @@ textarea{
   text-align: center;
   position: relative;
   margin: auto auto;
-  font-size: 20px;
-  font-weight: bold;
-  width: 120px;
-  height: 50px;
-  line-height: 50px;
+  font-size: 12px;
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
   border-radius: 5px;
   border: 1px solid var(--buttonColor);
   color:var(--buttonColor);
@@ -165,11 +146,11 @@ textarea{
   position: relative;
   margin: auto auto;
   margin-top: 40px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   width: 120px;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
+  line-height: 40px;
   border-radius: 5px;
   border: 2px solid var(--deleteButtonShadow);
   color:var(--deleteButtonShadow);
@@ -225,13 +206,12 @@ textarea{
 
 .list_title_content{
   position: relative;
-  font-size: 25px;
+  font-size: 16px;
   margin-bottom: 20px;
   margin-top: 30px;
   display: flex;
   width: 100%;
   align-items: center;
-  border-bottom: 1px solid var(--buttonColor);
   box-sizing: border-box;
   padding: 5px;
 }
@@ -245,48 +225,6 @@ textarea{
   color: var(--cardWordColor);
 }
 
-.list_title:focus + .a_cont{
-  position: absolute;
-  top:-1px;
-  background-color: var(--buttonColor);
-  height: 1px;
-  width: 0;
-  animation: animate-a 1s;
-  animation-fill-mode: forwards;
-}
-
-.list_title:focus ~ .b_cont{
-  position: absolute;
-  background-color:  var(--buttonColor);
-  right: -3px;
-  height: 0px;
-  width: 1px;
-  border-radius: 5px;
-  animation: animate-b 1s 1s;
-  animation-fill-mode: forwards;
-}
-
-.list_title:focus ~ .c_cont{
-  position: absolute;
-  background-color:  var(--buttonColor);
-  bottom: -1px;
-  right: 0px;
-  height: 1px;
-  width: 0px;
-  animation: animate-c 1s 2s;
-  animation-fill-mode: forwards;
-}
-.list_title:focus ~ .d_cont{
-  position: absolute;
-  background-color:  var(--buttonColor);
-  left: 0px;
-  height: 0px;
-  bottom: -1px;
-  width: 1px;
-  animation: animate-d 1s 3s;
-  animation-fill-mode: forwards;
-}
-
 .list_title:focus ~ .e_cont{
   position: absolute;
   left: 0px;
@@ -294,44 +232,12 @@ textarea{
   border-radius: 5px;
   width:100%;
   height: 100%;
-  animation: animate-e 1s 4s;
+  animation: animate-e 1s ;
   animation-fill-mode: forwards;
   opacity: 0;
 }
 
-@keyframes animate-a{
-  0%{
-    width: 0%;
-  }
-  100%{
-    width: 100%;
-  }
-}
 
-@keyframes animate-b{
-  0%{
-    height: 0%;
-  }
-  100%{
-    height: 98%;
-  }
-}
-@keyframes animate-c{
-  0%{
-    width: 0%;
-  }
-  100%{
-    width: 98%;
-  }
-}
-@keyframes animate-d{
-  0%{
-    height: 0%;
-  }
-  100%{
-    height: 98%;
-  }
-}
 
 @keyframes animate-e{
   0%{
@@ -345,36 +251,29 @@ textarea{
 .list_color{
   color: rgba(0, 0, 0, 0);
   font-size: 1px;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   border-radius: 20px;
   margin-right: 10px;
   margin-left: 5px;
-  padding: 20px;
+  padding: 10px;
 
 }
 
 .list_date{
   font-family: 'Noto Sans', sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   margin: 20px auto
 }
 
-.list_year{
-  width:100%;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  border-bottom: 1px solid white;
-  font-size: 30px;
-  font-weight: 800;
-}
+
 
 .list_days_wrapper{
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-top: 10px;
+  letter-spacing: 1.5px;
 }
 
 .list_one_day_wrapper{
@@ -382,44 +281,36 @@ textarea{
 }
 
 .list_day{
-  font-size: 30px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 400;
   margin-top: 10px;
 }
 
 .list_week{
-  font-size: 20px;
+  font-size: 12px;
 }
 
 .description_content{
   margin: 20px auto;
-  width: 350px;
+  width: 300px;
   height: 200px;
   background-color: var(--cardInputBg);
-  border-radius: 12px;
   color:var(--cardWordColor);
-  border: 1px solid var(--buttonColor);
   text-align: left;
   box-sizing: border-box;
-  font-size: 20px;
+  font-size: 12px;
   position: relative;
-  overflow-y: hidden
 }
 
 
 
 .description_mark_tool{
-    background-image: url("/public/assets/pen_icon.png");
-    width: 30px;
-    height: 30px;
-    background-size:contain;
-    background-position:center;
-    background-repeat: no-repeat;
-    position: absolute;
-    right: 10px;
-    top:10px;
-    color: rgba(0,0,0,0);
-    cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  right: 10px;
+  top:10px;
+  color: white;
+  cursor: pointer;
 }
 
 :global(#edit_description_content){
@@ -433,11 +324,11 @@ textarea{
 }
 
 .save_word{
-  font-size: 18px;
+  font-size: 16px;
   width: 60px;
   margin-left: 5px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--cardWordColor);
 }
 
@@ -457,6 +348,39 @@ textarea{
 }
 
 
+
+@media screen and (max-width:1950px) {
+  .toDoListDialogBox_container{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width:700px) { 
+  .edit_card_content{
+    width: 100%;
+    display: block;
+  }
+  .edit_card_decorate{
+    border-right: 0px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid white;
+  }
+
+  .task_sentence_word{
+    border-right: 0px;
+  }
+
+  .edit_card_pic{
+    margin-bottom: 50px;
+  }
+
+
+
+  .close_container{
+    top:-460px;
+    right: -6px;
+  }
+}
 
 
 

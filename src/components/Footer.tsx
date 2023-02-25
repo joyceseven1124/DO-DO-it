@@ -20,6 +20,9 @@ const Container = styled.div`
     text-align:center;
     align-item:center;
     justify-content: center;
+    div{
+        margin-bottom:5px;
+    }
 `
 
 export default function Footer(){
@@ -29,6 +32,7 @@ export default function Footer(){
                 <Container>
                     <div>DO DO it</div>
                     <div>圖片來源:pngTree</div>
+                    <div>設計參考:HUNG</div>
                 </Container>
             </Wrapper>
         </>

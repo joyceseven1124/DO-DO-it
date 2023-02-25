@@ -109,20 +109,16 @@ const EditInviteCard = (props:any) =>{
             myDateWeek = 7
         }
         const thisTagId = monthStartWeek+startDay.current-1
-        console.log("這個月分",startMonth.current)
-        console.log("這個月底",monthEndWeek)
         let  thisTagEndId = monthStartWeek + endDay -1
-        console.log("monthStartWeek",monthStartWeek )
-        console.log("endDay",endDay)
         const rowStartId = [1,8,15,22,29,36]
         //檢查是否換行
         const checkEndDayPlace = myDateWeek + daysNumber-1
-        console.log("thisTagEndId",thisTagEndId)
+       
         //第二行要插在哪個位置
         if(checkEndDayPlace > 7){
             const rowNumber = Math.ceil(thisTagEndId/7)
             const endRowNumber = Math.ceil((maxDay+monthStartWeek)/7)
-            console.log(rowNumber,endRowNumber)
+            
             if(endDay>maxDay){
                 endMonth = endMonth+1
                 endDay = endDay - maxDay
@@ -135,8 +131,10 @@ const EditInviteCard = (props:any) =>{
             if(rowNumber > endRowNumber){
                 //會也兩種width 兩種connectWidth，不用push先送出去給資料
                 //知道下個月的起始時間
-                console.log("換頁")
-                let nextMonthStartWeek: number = new Date(startYear.current, 
+                //邀請函的部分不可以被拖動
+                
+                let changePageArray:{[key:number]:number | string}[] = []
+                let nextMonthStartWeek: number = new Date(startYear.current,
                                             startMonth.current-1+1,
                                             1).getDay();
                 
@@ -144,13 +142,53 @@ const EditInviteCard = (props:any) =>{
                 if(nextMonthStartWeek === 0){
                     nextMonthStartWeek = 7
                 }
-                connectWidth = (7 - myDateWeek +1)*100
-                width = (7 - myDateWeek+1)*100
+                //connectWidth = (7 - myDateWeek +1)*100
+                //width = (7 - myDateWeek+1)*100
 
-                thisTagEndId = nextMonthStartWeek + (7-monthEndWeek)
+                connectWidth = (monthEndWeek - myDateWeek +1)*100
+                width = (monthEndWeek - myDateWeek+1)*100
                 const allDayWidth = daysNumber*100
+                const secondConnectWidth = allDayWidth-connectWidth
+                const uuidIndex = (new Date().getTime()+1).toString();
+                //thisTagEndId = nextMonthStartWeek + (7-monthEndWeek)
+                thisTagEndId = nextMonthStartWeek 
+                
                 //聯絡資料庫
-                console.log("thisTagEndId",thisTagEndId)
+                console.log("secondConnectWidth,",secondConnectWidth)
+                console.log("thisTagEndId:",thisTagEndId)
+                console.log("判斷是否多出來:",thisTagEndId+connectWidth/100-1)
+
+                if((thisTagEndId+secondConnectWidth/100-1)>7){
+                    console.log("123")
+                    const secondWidth = secondConnectWidth - (7-thisTagEndId+1)*100
+                    console.log(" secondWidth", secondWidth)
+                    
+                    let toDoListData = {title:title.current,
+                                        color:color,
+                                        yearStart:startYear.current,
+                                        yearEnd:endYear,
+                                        monthStart:startMonth.current,
+                                        monthEnd:endMonth,
+                                        dayStart:startDay.current,
+                                        dayEnd:endDay,
+                                        description:description.current,
+                                        status:"未完成",
+                                        index:uuidIndex,
+                                        id:8,
+                                        //connectWidth:allDayWidth-connectWidth,
+                                        connectWidth: secondConnectWidth,
+                                        //這裡width要更改
+                                        width:secondWidth,
+                                        receiveEmail:props.chooseEmail,
+                                        sendEmail:memberInformation,
+                                        sendEmailName:memberName
+                    }
+                    changePageArray.push(toDoListData)
+                }
+
+                let finalSendData
+                
+                console.log("標籤:",uuidDate,uuidIndex)
                 let toDoListData = {title:title.current,
                                     color:color,
                                     yearStart:startYear.current,
@@ -161,23 +199,37 @@ const EditInviteCard = (props:any) =>{
                                     dayEnd:endDay,
                                     description:description.current,
                                     status:"未完成",
-                                    index:uuidDate,
+                                    index:uuidIndex,
                                     id:thisTagEndId,
-                                    connectWidth:allDayWidth-connectWidth,
-                                    width:allDayWidth-connectWidth,
+                                    //connectWidth:allDayWidth-connectWidth,
+                                    connectWidth: secondConnectWidth,
+                                    //這裡width要更改
+                                    width:(7-thisTagEndId)*100,
                                     receiveEmail:props.chooseEmail,
                                     sendEmail:memberInformation,
                                     sendEmailName:memberName
-                                }
+                }
+                console.log("changePageArray.length:",changePageArray.length)
+                if(changePageArray.length > 0){
+                    console.log("跨頁多行")
+                    toDoListData.width = (7-thisTagEndId+1)*100
+                    changePageArray.push(toDoListData)
+                    finalSendData = changePageArray
+                    console.log("finalSendData:", finalSendData)
+                    
+                }else{
+                    finalSendData = toDoListData
+                }
+
+
                 const result = db.sendMessage(memberInformation,
                                props.chooseEmail,
-                               Number(uuidDate),
-                               toDoListData,
+                               Number( uuidIndex),
+                               finalSendData,
                                `${endYear}Y${endMonth}M`)
+
                 result.then((msg)=>{
                     if(msg){
-                        console.log(monthNumber,endYear)
-                        console.log(year,endMonth)
                         if(monthNumber ===  endMonth && year ===endYear){
                             //data.push(toDoListData)
                             allData.push(toDoListData)
@@ -271,6 +323,7 @@ const EditInviteCard = (props:any) =>{
                                Number(uuidDate),
                                toDoListData,
                                `${startYear.current}Y${startMonth.current}M`)
+            console.log("標籤:",uuidDate)
             //成功才能push 且要是當日
             result.then((msg)=>{
                 if(msg){

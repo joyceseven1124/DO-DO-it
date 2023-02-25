@@ -12,6 +12,7 @@ const InviteCard = (props:any) =>{
     const {isTagsArray} = useContext(commonData)
 
     const messageData = props.informationList[props.chooseInformationIndex]
+    console.log("messageData,",messageData)
     let messageConnectData = []
     const messageDataIndexArray =  Object.keys(props.informationList)
 
@@ -97,6 +98,8 @@ const InviteCard = (props:any) =>{
                         onClick={(e)=>{
                             const newTagArray = [...isTagsArray]
                             const data = props.informationList
+                            console.log("data",data)
+                            console.log("dataLength:",data.length)
                             const saveData :{[key:number]:number | string}[]= []
                             const newMessageArray :{[key:number]:number | string}[]= []
                             const newInformationList = messageDataIndexArray.map((element:any)=>{

@@ -4,6 +4,9 @@ import styles from "../../../public/css/sideBar.module.css"
 import AddFriendCard from './AddFriendCard';
 import { memberStatus } from '../..';
 import db from "../../firebase/firebase"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAtom } from '@fortawesome/free-solid-svg-icons'
+import {faEnvelope} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -37,7 +40,7 @@ const MenuFriend= (props:any)=>{
                         props.setChooseEmail(element)
                 }}>
                     <div>{friendEmail}</div>
-                    <div className={styles.email_icon}>1</div>
+                    <FontAwesomeIcon icon={faEnvelope} />
                 </li>)
         itemArray.push(item)
     })
@@ -59,7 +62,7 @@ const MenuFriend= (props:any)=>{
                         <div className={styles.add_item} onClick={(e)=>{
                             props.setFriend(true)
                         }}>
-                            <div>新增夥伴</div>
+                            <div>Add friend</div>
                             <div>+</div>
                         </div>
                         {itemArray.length === 0 ? (

@@ -8,10 +8,11 @@
     justify-content: center;
     color: white;
     z-index: 15;
+    font-size: 16px;
 }
 
 .invite_content{
-    width:500px;
+    width:400px;
     height: auto;
     background-color: rgb(40, 40, 40);
     box-shadow: 5px 5px 5px 1px #242424;
@@ -59,10 +60,12 @@
 .invite_information{
     text-align: left;
     margin-bottom: 20px;
+    
 }
 
 .invite_information > div{
     margin-bottom: 10px;
+    font-size: 16px;
 }
 
 .title_and_name_container{
@@ -70,16 +73,18 @@
     border-bottom: 1px solid white;
     border-top: 1px solid white;
     text-align: center;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .invite_receiver{
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 10px;
+    font-size: 16px;
 }
 
 .item_title_word{
     margin-bottom: 5px;
+
 }
 
 .time_and_description_container{
@@ -87,7 +92,7 @@
     grid-template-columns: 40% 50%;
     column-gap: 10%;
     text-align: center;
-    font-size: 25px;
+    font-size: 16px;
     margin-top: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid white;
@@ -100,20 +105,20 @@
 }
 
 .date_weekday{
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .date_number{
-    font-size: 30px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .schedule_content{
-    font-size: 25px;
+    font-size: 12px;
 }
 
 .schedule_content_word{
-    font-size: 18px;
+    font-size: 12px;
     margin-top: 10px;
 }
 
@@ -123,8 +128,8 @@
 }
 
 .send_name{
-    font-weight: 600;
-    font-size: 25px;
+    font-weight: 400;
+    font-size: 12px;
     margin-bottom: 5px;
 }
 

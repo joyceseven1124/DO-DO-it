@@ -3,13 +3,13 @@
 @value dialogBoxBg from "./colors.module.css";
 @value grayLine from "./colors.module.css";
 @value inputFocus from "./colors.module.css";
-@value boxSize  730px;
+@value boxSize  650px;
 .icon{
     -webkit-user-select:none;
     -moz-user-select:none;
     -o-user-select:none;
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     background-size:contain;
     background-position:center;
     background-repeat: no-repeat;
@@ -31,43 +31,31 @@
 
 .toDoListDialogBox_container{
     display: flex;
-    margin-top: 100px;
     justify-content: center;
-    width: 1600px;
-    top:25%;
-    left:11%;
+    width: 100%;
+    margin-top: 40px;
+    
 }
 
-.toDoListDialogPic{
-    background-color: black;
-    background-image: url(/public/assets/task_card.png);
-    width: 300px;
-    height: boxSize;
-    background-size:contain;
-    background-position:center;
-    background-repeat: no-repeat;
-    color: white;
-    box-sizing: border-box;
-    text-align: center;
-    padding-top: 500px;
-    border-radius: 5px 0px 0px 5px;
-}
+
 
 .toDoListDialogBox{
     text-align: center;
+    position: relative;
     width: 400px;
-    height: boxSize;
+    height: 550px;
     background-color: #f8f8f8;
-    border-radius: 0px 5px 5px 0px;
+    border-radius: 5px 5px 5px 5px;
     padding: 10px;
     box-sizing: border-box;
-    -webkit-box-shadow: 0px 0px 12px 10px rgb(1 1 1);
-    box-shadow: 0px 0px 12px 10px rgb(1 1 1);
+    -webkit-box-shadow: 0px 0px 12px 10px rgb(35, 35, 35);
+    box-shadow: 0px 0px 12px 10px rgb(35, 35, 35);
 }
 
 .close_container{
-    display: flex;
-    justify-content: right;
+    position: absolute;
+    right: 0px;
+    z-index: 15;
 }
 
 .close_button{
@@ -75,6 +63,7 @@
     composes:icon;
     margin: 20px;
     margin-top: 5px;
+    cursor: pointer;
 }
 
 .title_container{
@@ -87,11 +76,12 @@
     border: 0px black solid;
     border-bottom:1px grayLine solid ;
     width:300px;
-    height: 40px;
-    font-size: 20px;
-    padding: 10px;
+    height: 30px;
+    font-size: 12px;
+    padding: 5px;
     box-sizing: border-box;
     margin-left: 40px;
+    margin-top: 20px;
 }
 
 .remind_word{
@@ -115,10 +105,71 @@
 }
 
 .colors_items_container{
-    margin-left: 60px;
-    margin-top: 20px;
-    width:300px;
+    margin-top: 15px;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 50px;
+}
+
+.colors_button_wrapper{
+    font-size: 12px;
+    position: relative;
+    width:320px;
+    display: grid;
+    grid-template-columns: 5% 95%;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.colors_button{
+    border: 1px solid grayLine;
+    width: 300px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: auto;
+    color: rgb(125 131 129);
+    font-size: 12px;
+    cursor: pointer;
+    text-align: left;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+
+}
+
+.choose_color{
+    border-radius: 10px;
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+}
+
+.colors_button::after{
+    content: "\25BC";
+    position: absolute;
+    right: 0px;
+}
+
+.colors_icon{
+    color:rgb(125 131 129)
+}
+
+.colors_items{
+    display: flex;
+    position: absolute;
+    background-color: white;
+    width: 300px;
+    height: 60px;
+    border-radius: 5px;
+    top: 125px;
+    left: 70px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px 15px -2px rgba(64,64,64,0.73);
 }
 
 .colors_items > input{
@@ -130,16 +181,13 @@
     opacity: 0.5;
 }
 
-.colors_items{
-    display: flex;
-}
 
 .colors_items > .color_item_style{
-    width:50px;
-    height: 50px;
+    width:40px;
+    height: 40px;
     border: none;
     border-radius: 25px;
-    margin-right: 20px;
+    margin-right: 10px;
     color: rgba(0,0,0,0);
     transition: transform 0.3s;
 }
@@ -162,33 +210,52 @@
     background-color: #606A92;
 }
 
+.color_item_style:nth-child(10){
+    background-color: #507a6c;
+    margin-right: 0px;
+}
+
 .color_item_style:hover{
   cursor: pointer;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
+
+
 
 .time_container{
     width: 100%;
-    display: flex;
+    display: grid;
     justify-content: center;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
+.time_wrapper{
+    display: grid;
+    grid-template-columns: 5% 95%;
+    column-gap: 10px;
+    width: 320px;
+}
+
+
+
 .time_icon{
-    background-image: url(/public/assets/time_icon.png);
-    composes:icon;
     margin-right: 20px;
+    color:rgb(125 131 129);
+    font-size: 12px;
 }
 
 .time_information{
-    width: 300px;
+    margin: auto;
+    width: auto;
     padding-left: 0px;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .time_information >.time_item{
-    width: 100px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     border: var(--mainDecorateColor) 1px solid;
     border-radius: 5px;
     margin-right: 20px;
@@ -197,10 +264,10 @@
 .time_input{
     box-sizing: border-box;
     width: 100%;
-    height: 50px;
-    line-height: 50px;
+    height: 30px;
+    line-height: 30px;
     outline: none;
-    font-size: 20px;
+    font-size: 12px;
     text-align: center;
     border: 0px;
     border-radius: 5px 5px 0px 0px;
@@ -209,40 +276,116 @@
 }
 
 .time_bottom_word{
-    line-height: 30px;
+    line-height: 20px;
+    font-size: 12px;
     color: var(--mainDecorateColor);
 }
 
 .dividing_line_day{
-    margin:10px auto;
+    margin:3px auto;
     color: var(--mainDecorateColor);
     margin-right: 20px;
 }
 
-.description_container{
+
+.add_guest_container{
+    width: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items:flex-start;
-    width:100%;
+    margin: 20px auto;
+}
+
+.add_guest_wrapper{
+    font-size: 12px;
     position: relative;
+    width:320px;
+    display: grid;
+    grid-template-columns: 5% 95%;
+    column-gap: 10px;
+    align-items: center;
+}
+
+
+
+.add_guest_button{
+    border: 1px solid grayLine;
+    width: 300px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: auto;
+    color: rgb(125 131 129);
+    font-size: 12px;
+    cursor: pointer;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.add_guest_button::after{
+    content: "\25BC";
+    position: absolute;
+    right: 0px;
+}
+
+
+.add_guest_icon{
+    color:rgb(125 131 129)
+}
+
+
+
+
+.description_container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
 }
 
 .description_icon{
-    background-image: url(/public/assets/description_icon.png);
-    composes:icon;
-    margin-right: 20px;
+    color:rgb(125 131 129);
+    font-size: 12px;
 }
 
-.description{
-    width: 300px;
-    border: 0px;
-    padding: 10px;
-    outline: none;
-    resize: none;
-    box-sizing: border-box;
-    border-radius: 5px;
-    background-color: grayLine;
+.description_wrapper{
+    
+    position: relative;
+    width:320px;
+    display: grid;
+    grid-template-columns: 5% 95%;
+    column-gap: 10px;
 }
+
+
+
+
+:global(.ql-toolbar.ql-snow){
+    width: 300px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+:global(.ql-toolbar.ql-snow+.ql-container.ql-snow){
+    width: 300px;
+    height: 100px;
+}
+
+
+:global(.ql-toolbar.ql-snow .ql-formats){
+    margin-right: 0px;
+}
+
+:global(.ql-snow.ql-toolbar button){
+    height: 18px;
+    width: auto;
+}
+
+:global(.ql-snow .ql-picker-label){
+    font-size: 12px;
+}
+
 
 .description:focus + .description_under_line{
     transform: scaleX(1)
@@ -263,26 +406,50 @@
 .save_button_container{
     display: flex;
     justify-content: right;
-    margin-top: 20px;
+    margin-top: 10px;
     padding-right: 20px;
 }
 
 .save_button{
-    width: 100px;
-    height: 40px;
+    width: 80px;
+    height: 30px;
     border-radius: 5px;
-    line-height: 40px;
-    color: #4158D0;
-    border: 1px solid #4158D0;
+    line-height: 30px;
+    color: var(--mainDecorateColor);
+    border: 1px solid var(--mainDecorateColor);
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-right: 2px;
+    font-size: 12px;
+    font-weight: 400;
 }
 
 
 
 .save_button:hover{
-    background-color: #4158D0;
+    background-color: var(--brightMainDecorateColor);
+    border: 0px;
     color: white;
+}
+
+@media screen and (max-width:1200px) {
+    .toDoListDialogBox_container{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:750px) { 
+  .toDoListDialogBox_container{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width:500px){
+  .toDoListDialogBox{
+    width: 100%;
+    }
+  .toDoListDialogPic{
+    display: none;
+  }
 }
 
 

@@ -96,6 +96,7 @@ async function updateData(email:string,time:string,index:number,data:{}){
             email, 
             time),
             {[index]:data},{ merge: true });
+        msg="success"
     }
     catch(error){
         const errorCode = error.code;

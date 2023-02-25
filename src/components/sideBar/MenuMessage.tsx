@@ -18,12 +18,9 @@ const MenuItem= (props:any)=>{
             result.then((msg)=>{
                 //msg[1677052893310][0]["width"]
                 let msgArray:{[key:number]:number | string}[]= [];
-                console.log('message:',msg)
-                console.log("key",Object.keys(msg))
                 const keyArray = Object.keys(msg)
                 const cleanMsg = keyArray.map((element:any)=>{
                     if(msg[element].length > 1){
-                        console.log("map裏頭,",element)
                         msgArray.push(msg[element][0])
                         msgArray.push(msg[element][1])
                     }else{
@@ -31,7 +28,6 @@ const MenuItem= (props:any)=>{
                     }
                 })
                 //setMessage(cleanMsg)
-                console.log("cleanMsg:",msgArray)
                 props.setInformationList(msgArray)
             })
         }
