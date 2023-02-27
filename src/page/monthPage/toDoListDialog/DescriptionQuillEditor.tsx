@@ -15,7 +15,6 @@ function DescriptionQuillEditor(props:any) {
           <FontAwesomeIcon icon={faAlignLeft} className={styles.description_icon}/>
           <ReactQuill theme="snow" value={value} 
                       onChange={(val)=>{setValue(val)
-                        console.log({text: val})
                         //props.data.description = {text: val}
                         props.data.description = val
                       }}

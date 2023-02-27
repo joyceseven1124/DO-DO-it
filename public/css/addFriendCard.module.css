@@ -39,16 +39,7 @@
     margin-bottom: 10px;
 }
 
-.addFriend_pic{
-    margin: auto auto;
-    color: rgba(0,0,0,0);
-    background-image: url(/public/assets/people_pic.png);
-    width: 200px;
-    height: 200px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-bottom: 20px;
-}
+
 
 .email_search_input{
     height: 40px;

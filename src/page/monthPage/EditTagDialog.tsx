@@ -9,7 +9,9 @@ import db from "../../firebase/firebase"
 import { commonData } from '../MonthPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
-import {faPenToSquare}  from '@fortawesome/free-solid-svg-icons'
+import {faPen}  from '@fortawesome/free-solid-svg-icons'
+import {faTrashCan} from '@fortawesome/free-solid-svg-icons'
+import {faXmark} from '@fortawesome/free-solid-svg-icons'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import parse from 'html-react-parser';
@@ -29,19 +31,17 @@ export default function EditTagDialog(props:any){
     const {showTagIndex} = useContext(commonData)
     const {chooseCell} = useContext(commonData)
     const {setChooseCell} = useContext(commonData)
-    const [editDescription,setEditDescription] = useState(true)
-    const [editTitle,setEditTitle] = useState(true)
+    const [editContent,setEditContent] = useState(true)
     const [cursorStatus,setCursorStatus] = useState(null)
-    const [editColor,setEditColor] = useState(true)
     const [title,setTitle] = useState(" ")
     const [date,setDate] = useState({})
     const [description,setDescription] = useState("")
     const [titleRow,setTitleRow] = useState(1)
     const [color,setColor] = useState("")
     const [status,setStatus] = useState("未完成")
-    const [statusSentence,setStatusSentence] = useState("任務進行中...")
+    const [statusSentence,setStatusSentence] = useState("Carrying out ...")
     const [buttonWord,setButtonWord] = useState("MARK FINISH")
-    const [friend,setFriend] = useState("")
+    const [friend,setFriend] = useState([])
     const [theme,setTheme] = useState("bubble")
     
     //const parser = new DOMParser();
@@ -54,9 +54,9 @@ export default function EditTagDialog(props:any){
     let descriptionWord:any
     let colorWord:string
     let statusWord:string
-    let saveStatus:string
+    let saveStatus:string = status
     let databaseFileName:string
-    let friendEmail:string
+    let friendEmail:string[]
 
     const dialogData = isTagsArray.filter((element:any)=>{
         if(element.index === showTagIndex){
@@ -81,11 +81,10 @@ export default function EditTagDialog(props:any){
             descriptionWord = element.description
             //descriptionWord = Object.values(element.description)[0]
             
-            console.log(Object.values(descriptionWord)[0])
             colorWord = element.color
             databaseFileName = `${element.yearStart}Y${element.monthStart}M`
             if(element.status === "未完成"){
-                statusWord = "任務進行中"
+                statusWord = "Carrying out "
             }else{
                 statusWord = "Mission accomplished! "
             }
@@ -109,7 +108,7 @@ export default function EditTagDialog(props:any){
         setDescription(descriptionWord)
         setColor(colorWord)
         setStatusSentence(statusWord)
-        if(statusWord !== "任務進行中"){
+        if(statusWord !== "Carrying out "){
             setButtonWord("UNDONE")
             setStatus("完成")
         }
@@ -133,11 +132,12 @@ export default function EditTagDialog(props:any){
             element.description = description
             element.color = color
             element.status = saveStatus
-        
+            console.log("element:",element.description)
             time = `${yearNumber}Y${monthNumber}M`
             index = element.index
             newDataArray.push(element)
             if(dialogData.length === 1){
+                console.log("element",element)
                 const result = db.updateData(memberInformation,time,index,element)
                 result.then((msg)=>{
                     console.log("結果,",msg)
@@ -182,26 +182,54 @@ export default function EditTagDialog(props:any){
         <div className={styles.edit_card_wrapper}>
             <div className={styles.edit_card_content}>
                 <div className={styles.list_information}>
-                    <div className={styles.close_container}>
-                        <div className={styles.close_button} onClick={(e)=>{setShowListDialog(false)}}>關</div>
+                    <div className={styles.edit_buttons_container}>
+                        {editContent ? (
+                            <FontAwesomeIcon icon={faPen} 
+                                className={styles.description_mark_tool}
+                                onClick={(e)=>{ 
+                                    setEditContent(false)
+                                    setCursorStatus("pointer")
+                        }}/>
+                        ):null}
+
+
+                        <div className={styles.button_wrapper}>
+                            <FontAwesomeIcon icon={faTrashCan} 
+                                className={styles.delete_button}
+                                onClick={(e)=>{
+                                    const result = db.deleteData(memberInformation,databaseFileName,showTagIndex)
+                                    result.then((msg)=>{
+                                        if(msg === "success"){
+                                            setShowListDialog(false)
+                                            deleteHandle()
+                                        }
+                                    })
+                                }}
+                            />
+                        </div>
+                        <FontAwesomeIcon icon={faXmark} className={styles.close_container} 
+                                onClick={(e)=>{setShowListDialog(false)}}/>
+
                     </div>
+
+
+
                     <div className={styles.list_title_content}>
-                        
                         <input type="color" 
                                style={{backgroundColor:`${color}`,cursor:`${cursorStatus}`}}
                                className={styles.list_color}
-                               disabled = {editColor}
+                               disabled = {editContent}
                                onChange={(e)=>{
-                                e.target.click()
-                                setColor(e.target.value)
+                                    e.target.click()
+                                    setColor(e.target.value)
                                }}/>
                         
                         <textarea   className={styles.list_title}
                                     cols={10} 
                                     rows={titleRow} 
                                     value={`${title}`} 
-                                    readOnly={editTitle}
-                                    disabled={editTitle}
+                                    readOnly={editContent}
+                                    disabled={editContent}
                                     onChange={(e)=>{
                                         setTitle(e.target.value)
                                         if(e.target.value.length<10){
@@ -210,27 +238,12 @@ export default function EditTagDialog(props:any){
                                             setTitleRow(2)
                                         }
                                     }}/>
-                        <div className={styles.e_cont}></div>
-                        {editTitle ? (
-
-                            <FontAwesomeIcon icon={faPenToSquare} 
-                             className={styles.description_mark_tool}
-                             onClick={(e)=>{setEditTitle(false)
-                                            setEditColor(false)
-                                            setCursorStatus("pointer")
-                        }}/>
-                        ):(
-                             <FontAwesomeIcon icon={faFloppyDisk}
-                                className={styles.save_word}
-                                onClick={(e)=>{
-                                    setEditTitle(true)
-                                    setEditColor(true)
-                                    setCursorStatus("default")
-                                    updateData()
-                                }}/>
-                        )}
-                        
+                        {editContent ?(
+                            null
+                        ):<div className={styles.decorate_line}></div>}
+                       
                     </div>
+
                     <div className={styles.list_date}>
                         <div className={styles.list_days_wrapper}>
                             <div className={styles.list_one_day_wrapper}>
@@ -245,77 +258,68 @@ export default function EditTagDialog(props:any){
                         </div>
                     </div>
 
-
-
-
                      {friend?(
                         <div className={styles.friend_email_container}>
                             <div>Together with</div>
-                            <div className={styles.friend_email}>{friend}</div>
+                            <div className={styles.friend_email_wrapper}>
+                                {friend.map((element:string,index)=>{
+                                    return <div className={styles.friend_email} key={`tag-friend-${index}`}>{element}</div>
+                                })}
+                            </div>
                         </div>
                     ):null}
 
-                    <div className={styles.task_status_wrapper}>
+                    <div  className={styles.description_content}>
+                        {editContent?(
+                                <div>{parse(description)}</div>
+                        ):(
+                        <>
+                            <ReactQuill
+                                value={description}
+                                readOnly={false}
+                                theme = {"snow"}
+                                onChange = {(val)=>{
+                                    setDescription(val)
+                                }}/>
+                        </>)}
+                    </div>
+
+                    {!editContent ?(
+                        <div className={styles.save_button_container}>
+                            <div className={styles.save_button}
+                                onClick={(e)=>{
+                                        setEditContent(true)
+                                        setCursorStatus("default")
+                                        updateData()
+                                    }}
+                            >SAVE</div>
+                        </div>
+                    ):null}
+
+
+
+                     <div className={styles.task_status_wrapper}>
                         <div className={styles.task_sentence_word}>{statusSentence}</div>
                         <div className={styles.finish_button} id={status ==="完成"?"no_finish_button":""}
                                 onClick={(e)=>{
                                     if(status === "未完成"){
                                         saveStatus = "完成"
+                                        setStatus("完成")
                                         updateData()
-                                        //setStatus("完成")
                                         setStatusSentence("Mission accomplished!")
                                         setButtonWord("UNDONE")
                                     }else{
                                         saveStatus = "未完成"
+                                        setStatus("未完成")
                                         updateData()
-                                        //setStatus("未完成")
-                                        setStatusSentence("任務進行中")
+                                        setStatusSentence("Carrying out ")
                                         setButtonWord("MARK FINISH")
                                     }
                                 }}
                             >{buttonWord}</div>
                     </div>
 
-                    <div  className={styles.description_content}>
-                        {editDescription?(
-                            <>
-                                <div>{parse(description)}</div>
-                                <FontAwesomeIcon icon={faPenToSquare} className={styles.description_mark_tool}
-                                                onClick={(e)=>{
-                                                    setEditDescription(false)
-                                                    setTheme("bubble")}}/>
-                            </>
-                        ):(
-                        <>
-                            <ReactQuill
-                                value={"123"}
-                                readOnly={false}
-                                theme = {"snow"}
-                                //theme={"bubble"}
-                                />
-                            <FontAwesomeIcon icon={faFloppyDisk} className={styles.save_word}
-                                id="description_save_word"
-                                onClick={(e)=>{
-                                    setEditDescription(true)
-                                    setTheme("snow")
-                                    updateData()
-                                }}/>
-                        </>)}
-                    </div>
-                    <div className={styles.button_wrapper}>
-                        <div className={styles.delete_button}
-                             onClick={(e)=>{
-                                const result = db.deleteData(memberInformation,databaseFileName,showTagIndex)
-                                result.then((msg)=>{
-                                    if(msg === "success"){
-                                        setShowListDialog(false)
-                                        deleteHandle()
-                                    }
-                                })
-                             }}
-                        >DELETE</div>
-                        
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -323,13 +327,3 @@ export default function EditTagDialog(props:any){
 }
 
 
-
-/*{ <textarea id="edit_description_content"
-                                  value={description}
-                                  cols={25} 
-                                  rows={8}
-                                  readOnly={editDescription}
-                                  disabled={editDescription}
-                                  onChange={(e)=>{
-                                    setDescription(e.target.value)
-                                  }} /> }*/

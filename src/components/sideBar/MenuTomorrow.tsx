@@ -2,6 +2,8 @@ import React, { useState,useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import styles from "../../../public/css/sideBar.module.css"
 import { commonData } from '../../page/MonthPage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faCalendarDays} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -38,7 +40,7 @@ const MenuTomorrow= (props:any)=>{
                             }
                         }>
                             <div>{element.title}</div>
-                            <div className={styles.today_icon}>1</div>
+                            <FontAwesomeIcon icon={faCalendarDays} />
                         </li>)
             dataArray.push(item)
         }

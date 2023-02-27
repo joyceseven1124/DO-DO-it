@@ -11,9 +11,9 @@
 }
 
 .monthPage_container{
-    display: grid;
-    height: 100%;
-    grid-template-columns: 80% 20%;
+  display: grid;
+  height: 100%;
+  grid-template-columns: 80% 20%;
 }
 
 /*.week_container{
@@ -24,115 +24,126 @@
 }*/
 
 .sideBar_container{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
 }
 
 .sideBar_button_background{
-    position: absolute;
-    top:0px;
-    right: 0px;
-    font-size: 20px;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(70, 69, 69,0.8);
+  cursor: pointer;
+  position: absolute;
+  top:0px;
+  right: 0px;
+  font-size: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(70, 69, 69,0.8);
 }
 
 .sideBar_button{
-    position: absolute;
-    top:200px;
-    right: 10px;
-    text-align: center;
-    width: 60px;
-    height: 50px;
-    line-height: 50px;
-    background-color: rgb(70, 69, 69);
-    color: white;
-    border: 1px solid white;
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 10;
+  position: absolute;
+  top:20px;
+  right: 10px;
+  font-size: 12px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  background-color: #54596d;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .sideBar_button:hover{
-    background-color: rgb(0,187,201);
+  background-color: rgb(0,187,201);
+}
+
+.bar_icon{
+  transform: rotate(-180deg);
 }
 
 .week_title{
-    font-family: 'Noto Sans', sans-serif;
-    font-weight: 400;
-    width: 95%;
-    height: 20px;
-    line-height: 20px;
-    display: flex;
-    /*position: fixed;*/
-    justify-content: space-around;
-    padding-left: 0px;
-    z-index: 20;
-    background-color: white;
-    margin-bottom: 0px;
-    border-radius: 5px 5px 0px 0px;
-    margin: auto auto;
-    margin-top: 30px;
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: 400;
+  width: 95%;
+  height: 20px;
+  line-height: 20px;
+  display: flex;
+  /*position: fixed;*/
+  justify-content: space-around;
+  padding-left: 0px;
+  z-index: 20;
+  background-color: white;
+  margin-bottom: 0px;
+  border-radius: 5px 5px 0px 0px;
+  margin: auto auto;
+  margin-top: 30px;
 }
 
 :global(.week){
-    width:100%;
-    padding-left: 0px;
-    text-align: center;
-    font-size: 12px;
-    color: grayWorld;
+  width:100%;
+  padding-left: 0px;
+  text-align: center;
+  font-size: 12px;
+  color: grayWorld;
 }
 
 .monthCell{
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -o-user-select:none;
-    user-select:none;
-    box-sizing: border-box;
-    width: 95%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
-	  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    font-size: 5px;
-    margin: auto auto;
-    margin-bottom: 40px;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -o-user-select:none;
+  user-select:none;
+  box-sizing: border-box;
+  width: 95%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  font-size: 5px;
+  margin: auto auto;
+  margin-bottom: 40px;
 }
 
 :global(.date){
-    box-sizing: border-box;
-    border: 0.5px solid grayLine;
-    background-color: var(--mainBgColor);
-    text-align: center;
+  box-sizing: border-box;
+  border: 0.5px solid grayLine;
+  background-color: var(--mainBgColor);
+  text-align: center;
 }
 
 
 @media screen and (max-width:1200px) { 
   .monthCell{
-    width: 100%;
+    width: 95%;
   }
   .week_title{
-    width: 100%;
+    width: 95%;
   }
   .monthPage_container{
     display: block;
   }
   .sideBar_container{
-    position: absolute;
-    top:0px;
+   position: absolute;
+   top:50px;
+   background-color: rgba(37, 37, 37, 0.8);
+  }
+
+  .sideBar_button_background{
+    display: none;
   }
 }
 
 @media screen and (max-width:600px) { 
   .monthCell{
-    width: 100%;
+    width: 95%;
   }
-  :global(.week) {
-    font-size: 15px;
+
+  .sideBar_button_background{
+    display: none;
   }
 }
 

@@ -25,6 +25,18 @@ const writeTitleOnTag = (e:any) =>{
 }
 
 export default function ToDoListDialogBox(props:any){
+    const { memberNowStatus } = useContext(memberStatus)
+    const {memberInformation} = useContext(memberStatus)
+    const {memberName} = useContext(memberStatus)
+    const { tagStartCell } = useContext(tagData);
+    const { tagEndCell } = useContext(tagData);
+    const { setTagsArray } = useContext(commonData);
+    const { isTagsArray } = useContext(commonData);
+    const { setChooseCell } = useContext(commonData);
+    const { chooseCell } = useContext(commonData);
+    const { searchMonth } = useContext(tagData);
+    const [showRemind,setShowRemind] = useState("none")
+
     const closedDialog = (e:any) =>  {
         props.setCardStatus(false)
         setShowRemind("none")
@@ -46,6 +58,7 @@ export default function ToDoListDialogBox(props:any){
     }
 
     const saveData = (e:any) => {
+        
         let time = `${toDoListData.yearStart}Y${toDoListData.monthStart}M`
         if(toDoListData.title === ""){
             setShowRemind("block")
@@ -81,7 +94,10 @@ export default function ToDoListDialogBox(props:any){
                         index:uuidDate,
                         id:element[0],
                         connectWidth:toDoListData.connectWidth,
-                        width:element[1]
+                        width:element[1],
+                        receiveEmail:toDoListData.receiveEmail,
+                        sendEmail:memberInformation,
+                        sendEmailName:memberName
                     }
                     newData.push(moreRowsListData)
                     sendData.push(moreRowsListData)
@@ -111,16 +127,8 @@ export default function ToDoListDialogBox(props:any){
             //db.saveToDoList(time,toDoListData,index)
         }
     }
-    const { memberNowStatus } = useContext(memberStatus)
-    const {memberInformation} = useContext(memberStatus)
-    const { tagStartCell } = useContext(tagData);
-    const { tagEndCell } = useContext(tagData);
-    const { setTagsArray } = useContext(commonData);
-    const { isTagsArray } = useContext(commonData);
-    const { setChooseCell } = useContext(commonData);
-    const { chooseCell } = useContext(commonData);
-    const { searchMonth } = useContext(tagData);
-    const [showRemind,setShowRemind] = useState("none")
+
+
     //const [data,setData] = useState()
     let uuidDate = new Date().getTime().toString();
     let toDoListData = {title:"",
@@ -138,6 +146,9 @@ export default function ToDoListDialogBox(props:any){
                         id:0,
                         connectWidth:0,
                         width:0,
+                        receiveEmail:[] as string[],
+                        sendEmail:`${memberInformation}`,
+                        sendEmailName:`${memberName}`
                     }
 
     let tagArray = [...isTagsArray]
@@ -214,8 +225,7 @@ export default function ToDoListDialogBox(props:any){
     return(
         <div id="toDoListDialogBox" onClick={writeTitleOnTag} className={styles.toDoListDialogBox_background}>
             <div  className={styles.toDoListDialogBox_container}>
-                
-                <div className={styles.toDoListDialogBox}>
+                <div className={styles.toDoListDialogBox} >
                     <div>
                         <div className={styles.close_container}>
                             <div className={styles.close_button} onClick={closedDialog}>關</div>
@@ -239,14 +249,10 @@ export default function ToDoListDialogBox(props:any){
                             <div className={styles.under_line}></div>
                             <div className={styles.remind_word} style={{display:showRemind}}>請填寫標題</div>
                         </div>
-
                         <ColorSelector data={toDoListData}/>
-
                         <TimeInformation month={searchMonth} data={toDoListData}/>
-
-                        <AddGuest/>
+                        <AddGuest friendData={props.friendData} data={toDoListData}/>
                         <DescriptionQuillEditor className={styles.description} data={toDoListData}/>
-                        
                         <div className={styles.save_button_container}>
                             <div className={styles.save_button} onClick={saveData}>SAVE</div>
                         </div>
@@ -257,18 +263,3 @@ export default function ToDoListDialogBox(props:any){
         
     )
 }
-
-
-// <textarea
-//                                 name="comments"
-//                                 rows={5}
-//                                 cols={25}
-//                                 placeholder={"Add description"}
-//                                 className={styles.description}
-//                                 onChange={(e)=>{
-//                                     if(e.target.value !== ""){
-//                                         toDoListData.description=e.target.value
-//                                     }
-//                                 }}
-  //                          ></textarea>
-//db.saveToDoList()

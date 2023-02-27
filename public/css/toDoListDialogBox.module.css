@@ -43,7 +43,7 @@
     text-align: center;
     position: relative;
     width: 400px;
-    height: 550px;
+    height: 580px;
     background-color: #f8f8f8;
     border-radius: 5px 5px 5px 5px;
     padding: 10px;
@@ -113,7 +113,16 @@
     height: 50px;
 }
 
+.colors_menu_bg,.friend_list_bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0px;
+    z-index:1;
+}
+
 .colors_button_wrapper{
+    z-index: 2;
     font-size: 12px;
     position: relative;
     width:320px;
@@ -134,11 +143,21 @@
     color: rgb(125 131 129);
     font-size: 12px;
     cursor: pointer;
-    text-align: left;
-    padding-left: 10px;
+    padding: 10px;
     display: flex;
     align-items: center;
+    text-align: left;
+    justify-content: space-between;
+}
 
+.colors_button:hover{
+    background-color: var(--brightMainDecorateColor);
+    color: white;
+}
+
+.word_and_circle{
+    display: flex;
+    align-items: center;
 }
 
 .choose_color{
@@ -148,28 +167,66 @@
     margin-left: 10px;
 }
 
-.colors_button::after{
-    content: "\25BC";
-    position: absolute;
-    right: 0px;
+
+
+.arrow{
+    font-size: 16px;
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -moz-transition: -moz-transform 0.6s;
+    -o-transition: -o-transform 0.6s;
+    -webkit-transition: -webkit-transform 0.6s;
+    transition: transform 0.6s;
 }
+
+.colors_button:focus>.arrow{
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -webkit-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+    -moz-transition: -moz-transform 0.6s;
+    -o-transition: -o-transform 0.6s;
+    -webkit-transition: -webkit-transform 0.6s;
+    transition: transform 0.6s;
+}
+
+
 
 .colors_icon{
     color:rgb(125 131 129)
 }
 
+
+
 .colors_items{
+    z-index: 2;
     display: flex;
     position: absolute;
     background-color: white;
     width: 300px;
     height: 60px;
     border-radius: 5px;
-    top: 125px;
+    top: 100px;
     left: 70px;
     align-items: center;
     justify-content: center;
     box-shadow: 5px 5px 15px -2px rgba(64,64,64,0.73);
+    animation: show-menu 1s ;
+    animation-fill-mode: forwards;
+    opacity: 0;
+}
+
+@keyframes show-menu{
+  0%{
+    top: 100px;
+    opacity: 0;
+  }
+  100%{
+    top: 125px;
+    opacity: 1;
+  }
 }
 
 .colors_items > input{
@@ -323,16 +380,134 @@
     padding-left: 10px;
 }
 
-.add_guest_button::after{
-    content: "\25BC";
-    position: absolute;
-    right: 0px;
+.choose_email_item_container{
+    width: 95%;
+    overflow-x: auto;
+    display: flex;
+}
+
+.choose_email_item{
+    margin-right: 10px;
+}
+
+.add_guest_button{
+    display: flex;
+    justify-content: space-between;
 }
 
 
 .add_guest_icon{
     color:rgb(125 131 129)
 }
+
+.friends_list_wrapper{
+    width: 300px;
+    height: 1px;
+    position: relative;
+    margin: auto;
+    animation: show-friend-menu 1s ;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    z-index: 2;
+}
+
+
+
+@keyframes show-friend-menu{
+  0%{
+    top: -20px;
+    opacity: 0;
+  }
+  100%{
+    top: -10px;
+    opacity: 1;
+  }
+}
+
+.friends_list{
+    position: absolute;
+    width: 300px;
+    height: 120px;
+    background-color: white;
+    box-shadow: 5px 5px 15px -2px rgba(64,64,64,0.73);
+    z-index: 2;
+    left: 20px;
+    top:-10px;
+    border-radius: 5px;
+    overflow-y: scroll;
+    padding-top:5px;
+}
+
+.friend_list_item_wrapper{
+    font-size: 12px;
+    line-height: 30px;
+    height: 30px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.friend_list_item_wrapper:hover{
+    background-color: rgb(222, 219, 219);
+}
+
+.friend_list_item_email{
+    display: flex;
+    align-items: center;
+}
+
+.people_icon{
+    font-size: 20px;
+    margin-right: 20px;
+    color:rgb(125 131 129);
+}
+
+.friend_list_check{
+    font-size: 12px;
+    color:rgb(125 131 129);
+}
+
+
+
+.friends_list::-webkit-scrollbar {
+  width: 7px;
+}
+
+.choose_email_item_container::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+    transform: rotate(-90deg);
+}
+
+.friends_list::-webkit-scrollbar-button {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.choose_email_item_container::-webkit-scrollbar-button {
+  border-radius: 4px;
+}
+
+.friends_list::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+
+.friends_list::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid slategrey;
+}
+
+.friends_list,.choose_email_item_container::-webkit-scrollbar-track {
+  box-shadow: transparent;
+}
+
+
+
+
+
 
 
 
@@ -351,7 +526,6 @@
 }
 
 .description_wrapper{
-    
     position: relative;
     width:320px;
     display: grid;

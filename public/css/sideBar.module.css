@@ -13,7 +13,7 @@
   box-sizing: border-box;
   overflow-y: scroll;
   display: grid;
-  grid-template-columns: 5% 95%;
+
 }
 
 .menu_wrapper::-webkit-scrollbar {
@@ -39,31 +39,27 @@
   box-shadow: transparent;
 }
 
-.menu_close_button_container{
-  height: 100%;
-  width: 100%;
-  background-color: rgb(70, 69, 69);
-  display: flex;
-  align-items: center;
-  padding: 4px;
-  box-sizing: border-box;
+
+.menu_close_button{
+  position: absolute;
+  color: white;
+  font-size: 10px;
+  border-radius: 3px;
+  left: -26px;
+  top: 5px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  background-color: #54596d;
   cursor: pointer;
 }
 
-.menu_close_button_container:hover{
-  background-color: rgb(202,202,202);
-}
-
-.menu_close_button{
-  width:100%;
-  background-image: url(/public/assets/right_arrow_icon.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  color: rgba(0,0,0,0);
+.menu_close_button:hover{
+  background-color: rgb(0,187,201);
 }
 
 ul,li{
-  list-style: none;
   padding: 0px;
   margin: 0px;
 }
@@ -74,11 +70,12 @@ ul,li{
   background-color: #EEE;
   border-radius: 5px;
   text-align: center;
+  list-style: none;
 }
 
 .check_box::before{
   content: "TODAY'S  TASK";
-  font-weight: 700;
+  font-weight: 500;
   position: absolute;
   box-sizing: border-box;
   font-size: 16px;
@@ -159,19 +156,19 @@ ul,li{
 }
 
 .menu_item > li{
-    margin-top: 0px;
-    color: #6f6f6f;
-    background: #EEE;
-    -moz-box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
-    -webkit-box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
-    box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
-    text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);
-    padding: 10px 10px;
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    display: flex;
-    cursor: pointer;
+  margin-top: 0px;
+  color: #6f6f6f;
+  background: #EEE;
+  -moz-box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+  -webkit-box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+  box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);
+  padding: 10px 10px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  cursor: pointer;
 }
 
 .menu_item > li:hover {
@@ -238,6 +235,7 @@ ul,li{
 
 .check_box:checked ~ .menu_item{
   display: block;
+  margin-top: 5px;
   animation: showAnimation 0.5s ease-in-out;
   -moz-animation: showAnimation 0.5s ease-in-out;
   -webkit-animation: showAnimation 0.5s ease-in-out;
@@ -381,7 +379,10 @@ ul,li{
 }
 
 @media screen and (max-width:1200px) { 
-  .menu_wrapper{
-    margin-top: 20px;
+  .menu_container{
+    /*display: none;*/
+  }
+  .menu_close_button{
+    display: none;
   }
 }

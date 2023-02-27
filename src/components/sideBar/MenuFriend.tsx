@@ -6,7 +6,7 @@ import { memberStatus } from '../..';
 import db from "../../firebase/firebase"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAtom } from '@fortawesome/free-solid-svg-icons'
-import {faEnvelope} from '@fortawesome/free-solid-svg-icons'
+import {faUser} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -36,11 +36,11 @@ const MenuFriend= (props:any)=>{
         let item = (<li className={styles.item_container} 
                         key = {`menuFriend-${element}`}
                         id={friendEmail} onClick={(e)=>{
-                        props.setEditInvite(true)
+                        props.setFriendInformationCard(true)
                         props.setChooseEmail(element)
                 }}>
                     <div>{friendEmail}</div>
-                    <FontAwesomeIcon icon={faEnvelope} />
+                    <FontAwesomeIcon icon={faUser} />
                 </li>)
         itemArray.push(item)
     })

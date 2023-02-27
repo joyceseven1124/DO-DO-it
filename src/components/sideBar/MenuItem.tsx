@@ -7,7 +7,6 @@ import styles from "../../../public/css/sideBar.module.css"
 //<InviteCard/>
 const MenuItem= (props:any)=>{
     const [check,setCheck] = useState(false)
-    console.log(props.friend)
     return(
         <>
             <ul>

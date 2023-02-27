@@ -13,9 +13,6 @@ textarea{
   width: 100%;
   height: 100%;
   background-color: var(--cardCommonBackground);
-  color: var(--cardWordColor);
-  display: flex;
-  justify-content: center;
   position: absolute;
   top:-50px;
   z-index: 15;
@@ -25,44 +22,57 @@ textarea{
 }
 
 .edit_card_content{
-  width: 300px;
+  width: 350px;
   height: auto;
   position: relative;
-  background-color: black;
-  color: var(--cardWordColor);
-  padding: 20px;
   border-radius: 10px;
   margin: auto auto;
+  margin-top: 200px;
+  background-color: white;
   -webkit-box-shadow: 0px 0px 12px 3px rgba(178, 178, 178, 0.73);
   box-shadow: 0px 0px 12px 3px rgba(81, 80, 80, 0.73);
 }
 
 
+
+
+.friend_email_container{
+  width: 300px;
+  margin: 20px auto;
+  padding-left: 20px;
+  display: flex;
+  align-items:flex-start;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.friend_email_wrapper{
+
+}
+
+.friend_email{
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
 .task_word{
   margin-top: 90px;
   font-size: 24px;
   font-weight: 400;
-}
-
-.friend_email_container{
-  
-  width: 100%;
-  text-align: center;
-}
-
-.friend_email{
-  margin-top: 5px;
-  font-size: 16px;
+  color: white;
 }
 
 .task_sentence_word{
+  margin-left: 10px;
   height: 70px;
   line-height: 70px;
   overflow: hidden;
   animation: moveRight 1500ms steps(12) , borderBlink 200ms;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 400;
   white-space: nowrap;
+  color: white;
 }
 
 
@@ -91,6 +101,13 @@ textarea{
 
 .task_status_wrapper{
   display: flex;
+  background-color: black;
+  height: 60px;
+  align-items: center;
+  border-radius: 0px 0px 10px 10px;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 
@@ -100,7 +117,7 @@ textarea{
 .finish_button {
   text-align: center;
   position: relative;
-  margin: auto auto;
+  margin: auto 10px;
   font-size: 12px;
   width: 100px;
   height: 30px;
@@ -141,47 +158,8 @@ textarea{
   content: "Cheer Up";
 }
 
-.delete_button {
-  text-align: center;
-  position: relative;
-  margin: auto auto;
-  margin-top: 40px;
-  font-size: 16px;
-  font-weight: bold;
-  width: 120px;
-  height: 40px;
-  line-height: 40px;
-  border-radius: 5px;
-  border: 2px solid var(--deleteButtonShadow);
-  color:var(--deleteButtonShadow);
-  cursor: pointer;
-  transition: all 500ms linear;
-  font-family: 'Noto Sans', sans-serif;
-}
-.delete_button::after {
-  background-color: rgba(255, 255, 255, 0.4);
-  content: "";
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  transition: none;
-  width: 0;
-}
-.delete_button:hover {
-  background-color: rgba(245, 121, 83, 0.8);
-  box-shadow: 0 0 10px 0 var(--deleteButtonShadow);
-  color: #fff;
-  text-decoration: none;
-}
-.delete_button:hover::after {
-  background-color: rgba(245, 121, 83);
-  transition: all 300ms ease-out;
-  width: 100%;
-  content: "Why??";
-  overflow: hidden;
-  position: absolute;
-}
+
+
 
 
 .list_information{
@@ -192,25 +170,15 @@ textarea{
 }
 
 
-.close_container{
-  position: absolute;
-  color: rgba(0, 0, 0, 0);
-  background-image: url(/public/assets/close_icon.png);
-  background-size: contain;
-  width:20px;
-  height: 20px;
-  top: 0px;
-  right:-30px;
-  cursor: pointer;
-}
+
 
 .list_title_content{
   position: relative;
   font-size: 16px;
-  margin-bottom: 20px;
-  margin-top: 30px;
+  margin: 20px auto;
+  margin-top: 10px;
   display: flex;
-  width: 100%;
+  width: 300px;
   align-items: center;
   box-sizing: border-box;
   padding: 5px;
@@ -221,20 +189,20 @@ textarea{
 .list_title{
   width: 100%;
   border-radius: 10px;
-  background-color: black;
-  color: var(--cardWordColor);
+  color: black;
+  z-index: 1;
 }
 
-.list_title:focus ~ .e_cont{
+.decorate_line{
   position: absolute;
   left: 0px;
-  border: 3px solid  var(--buttonColor);
+  border: 1px solid  rgb(161, 161, 161);
   border-radius: 5px;
   width:100%;
   height: 100%;
   animation: animate-e 1s ;
   animation-fill-mode: forwards;
-  opacity: 0;
+  z-index: 0;
 }
 
 
@@ -257,13 +225,14 @@ textarea{
   margin-right: 10px;
   margin-left: 5px;
   padding: 10px;
+  z-index: 1;
 
 }
 
 .list_date{
   font-family: 'Noto Sans', sans-serif;
   font-size: 16px;
-  margin: 20px auto
+  margin: 0px auto
 }
 
 
@@ -272,8 +241,8 @@ textarea{
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 10px;
   letter-spacing: 1.5px;
+  margin: 20px;
 }
 
 .list_one_day_wrapper{
@@ -283,7 +252,6 @@ textarea{
 .list_day{
   font-size: 16px;
   font-weight: 400;
-  margin-top: 10px;
 }
 
 .list_week{
@@ -293,9 +261,6 @@ textarea{
 .description_content{
   margin: 20px auto;
   width: 300px;
-  height: 200px;
-  background-color: var(--cardInputBg);
-  color:var(--cardWordColor);
   text-align: left;
   box-sizing: border-box;
   font-size: 12px;
@@ -303,38 +268,89 @@ textarea{
 }
 
 
+.edit_buttons_container{
+  display: flex;
+  height: 40px;
+  width: 300px;
+  align-items: center;
+  text-align: right;
+  margin: auto;
+  justify-content: flex-end;
+}
+
+.close_container{
+  color:rgb(125 131 129);
+  width:12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.close_container:hover{
+  color:var(--brightMainDecorateColor);
+}
+
+.delete_button {
+  font-size: 16px;
+  color:rgb(125 131 129);
+  cursor: pointer;
+  font-family: 'Noto Sans', sans-serif;
+  margin: auto 20px;
+}
+
+.delete_button:hover{
+  color:var(--brightMainDecorateColor);
+}
 
 .description_mark_tool{
   font-size: 16px;
-  position: absolute;
   right: 10px;
   top:10px;
-  color: white;
+  color: rgb(125 131 129);
   cursor: pointer;
+}
+
+.description_mark_tool:hover{
+  color:var(--brightMainDecorateColor);
 }
 
 :global(#edit_description_content){
-  background-color: var(--cardInputBg);
-  color: var(--cardWordColor);
-}
-
-:global(#edit_description_content):focus{
-  background-color: white;
   color: black;
 }
 
-.save_word{
-  font-size: 16px;
-  width: 60px;
-  margin-left: 5px;
-  cursor: pointer;
-  font-weight: 400;
-  color: var(--cardWordColor);
+:global(#edit_description_content):focus{
+  color: black;
+}
+
+.save_button_container{
+  display: flex;
+  justify-content: right;
+  margin-top: 10px;
+  padding-right: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.save_button{
+    width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    line-height: 30px;
+    color: var(--mainDecorateColor);
+    border: 1px solid var(--mainDecorateColor);
+    cursor: pointer;
+    margin-right: 2px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.save_button:hover{
+    background-color: var(--brightMainDecorateColor);
+    border: 0px;
+    color: white;
 }
 
 :global(#description_save_word){
-  color: var(--cardWordColor);
-  position: absolute;
+  color: black;
   width: auto;
   top: 10px;
   right: 10px;
@@ -372,13 +388,6 @@ textarea{
 
   .edit_card_pic{
     margin-bottom: 50px;
-  }
-
-
-
-  .close_container{
-    top:-460px;
-    right: -6px;
   }
 }
 

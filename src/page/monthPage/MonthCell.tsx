@@ -42,9 +42,10 @@ const DayCell = styled.div<DayCell>`
     background-color: ${({ bgColor }) => {
         return bgColor ? 'var(--nowTimeBgColor)' : 'none';
     }};
+    
     .date_word {
         color: ${(props) => props.primary};
-        cursor: pointer;
+        cursor:auto;
         padding:5px;
         border:50%;
         width: 20px;
@@ -59,13 +60,6 @@ const DayCell = styled.div<DayCell>`
                     ? 'rgb(0,91,97)'
                     : null;
             }};
-        &:hover {
-            background-color: ${({ nowTime }) => {
-                return nowTime
-                    ? 'var(--nowTimeBgHoverColor)'
-                    : 'var(--grayBgHoverColor)';
-            }};
-        }
     }
 `;
 
@@ -101,9 +95,6 @@ export default function MonthCell(props:any) {
     )
     const memberEmail = useSelector((state:RootState) => state.logInReducer.email)
 
-
-    
-
     useEffect(() => {
         setTagsArray([]);
         setMonthCellHeight(700)
@@ -114,6 +105,7 @@ export default function MonthCell(props:any) {
             let data:any = []
             let chooseCellData:any = []
             monthData.then((msg)=>{
+                console.log("接收到的資料",msg)
                 if(msg!=="fail"&& msg !== null){
                     let moreRowsTag = msg.filter((element:any)=>{
                         if(element.length>1){
@@ -125,7 +117,7 @@ export default function MonthCell(props:any) {
                         const result = makeChooseCellArray(startId,endId,"change")
                         chooseCellData.push(result[0])
                     })
-                    moreRowsTag.map((element:any,index)=>{
+                    moreRowsTag.map((element:any,index:number)=>{
                         if(element[0]){
                             data.push(element[0])
                             const startId = element[0].id
@@ -340,8 +332,6 @@ export default function MonthCell(props:any) {
         return <>{monthDataArray}</>;
     }
 
-    
-
     function EnterCell(e:any) {
         const id = Number(e.target.id.split("-")[1])
         setTagEndCell(id)
@@ -423,11 +413,13 @@ export default function MonthCell(props:any) {
             let monthStart= monthNumber
             let monthEnd = monthNumber
             let updateData
+            let receiveEmail:string[]
+            let sendEmail:string
+            let sendEmailName:string
 
             if(allConnectWidth <=700){
                 if (insertPlace !== 0) {
                     //startDate =date - (insertPlace - 1)
-        
                     //endDate = startDate  -1 +allConnectWidth/100
                     startId = startId - (insertPlace - 1);
                     startDate =thisPageDay[startId-1]
@@ -439,9 +431,8 @@ export default function MonthCell(props:any) {
             const perRowEndNumber = [7, 14, 21, 28, 35, 42];
             let newTagArray = tagArray.filter((element)=>{
                 let connectTagValueIndex = element.index
-                toDoListStatus = element.status
-                yearStart = element.yearStart
-                yearEnd=element.yearEnd
+                
+                
             
                 if(startId < 7 && startDate > 7){
                     monthStart = monthNumber -1
@@ -460,6 +451,13 @@ export default function MonthCell(props:any) {
                 }
                 if(connectTagValueIndex.toString() !== index){
                     return element
+                }else{
+                    receiveEmail = element.receiveEmail
+                    sendEmail = element.sendEmail
+                    sendEmailName = element.sendEmailName
+                    toDoListStatus = element.status
+                    yearStart = element.yearStart
+                    yearEnd=element.yearEnd
                 }
 
             })
@@ -479,7 +477,8 @@ export default function MonthCell(props:any) {
                 tagItem = {id:startId,width:firstTagWidth,title:title,description:description,
                             connectWidth:allConnectWidth,color:color,index:index,status:toDoListStatus,
                             yearStart:yearStart,yearEnd:yearEnd,monthStart:monthStart,monthEnd:monthEnd,
-                            dayStart:startDate,dayEnd:endDate}
+                            dayStart:startDate,dayEnd:endDate,receiveEmail:receiveEmail,sendEmail:sendEmail,
+                            sendEmailName:sendEmailName}
                 newTagArray.push(tagItem)
                 upDateArray.push(tagItem)
                 allWidth = allWidth - firstTagWidth
@@ -490,7 +489,8 @@ export default function MonthCell(props:any) {
                         const tagItem = {id:otherTagStartId,width:otherTagWidth,title:title,description:description,
                                         connectWidth:allConnectWidth,color:color,index:index,status:toDoListStatus,
                                         yearStart:yearStart,yearEnd:yearEnd,monthStart:monthStart,monthEnd:monthEnd,
-                                        dayStart:startDate,dayEnd:endDate}
+                                        dayStart:startDate,dayEnd:endDate,receiveEmail:receiveEmail,sendEmail:sendEmail,
+                                        sendEmailName:sendEmailName}
                         newTagArray.push(tagItem)
                         upDateArray.push(tagItem)
                         allWidth = allWidth - otherTagWidth
@@ -502,7 +502,8 @@ export default function MonthCell(props:any) {
                     const tagItem = {id:endTagStartId,width:endTagWidth,title:title,description:description,
                                     connectWidth:allConnectWidth,color:color,index:index,status:toDoListStatus,
                                     yearStart:yearStart,yearEnd:yearEnd,monthStart:monthStart,monthEnd:monthEnd,
-                                    dayStart:startDate,dayEnd:endDate}
+                                    dayStart:startDate,dayEnd:endDate,receiveEmail:receiveEmail,sendEmail:sendEmail,
+                                    sendEmailName:sendEmailName}
                     newTagArray.push(tagItem)
                     upDateArray.push(tagItem)
                 }
@@ -511,7 +512,8 @@ export default function MonthCell(props:any) {
                 const tagItem = {id:startId,width:allWidth,title:title,description:description,
                                 connectWidth:allConnectWidth,color:color,index:index,status:toDoListStatus,
                                 yearStart:yearStart,yearEnd:yearEnd,monthStart:monthStart,monthEnd:monthEnd,
-                                dayStart:startDate,dayEnd:endDate}
+                                dayStart:startDate,dayEnd:endDate,receiveEmail:receiveEmail,sendEmail:sendEmail,
+                                sendEmailName:sendEmailName}
                 newTagArray.push(tagItem)
                 updateData = tagItem
             }
@@ -537,14 +539,12 @@ export default function MonthCell(props:any) {
         e.preventDefault();
     };
     const dragenter = (e: any) => {
-
         e.preventDefault();
     };
 
     const dragleave = (e: any) => {
         e.preventDefault();
     };
-
 
     return (
         <tagData.Provider
@@ -565,12 +565,13 @@ export default function MonthCell(props:any) {
             <div
                 className={styles.monthCell}
                 style={{height:`${monthCellHeight}px`}}
-                
             >
                 <Cell />
             </div>
-            
-            {showCardDisplay?(<><ToDoListDialogBox status={showCardDisplay} setCardStatus={setShowCardDisplay}/></>):null}
+            {showCardDisplay?(<><ToDoListDialogBox 
+                                    status={showCardDisplay} 
+                                    setCardStatus={setShowCardDisplay}
+                                    friendData= {props.friendData}/></>):null}
         </tagData.Provider>
     );
 }

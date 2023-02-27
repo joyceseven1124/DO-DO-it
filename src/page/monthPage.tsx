@@ -9,8 +9,11 @@ import SideBar from '../components/SideBar';
 import db from "../firebase/firebase"
 import EditTagDialog from './monthPage/EditTagDialog';
 import InviteCard from '../components/sideBar/InviteCard';
-import EditInviteCard from "../components/SideBar/EditInviteCard"
+import FriendInformation from "../components/sideBar/FriendInformation"
 import AddFriendCard from '../components/sideBar/AddFriendCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBarsStaggered} from '@fortawesome/free-solid-svg-icons'
+import {faChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
 
 export const commonData = createContext({
@@ -24,19 +27,6 @@ export const commonData = createContext({
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function MonthPage() {
     const [sideBarStatus,setSideBarStatus] = useState(true)
     const [buttonWord,setButtonWord] = useState("CLOSE")
@@ -45,7 +35,7 @@ function MonthPage() {
 
     const [friendCard ,setFriendCard] = useState(false)
     const [informationCard,setInformationCard] = useState(false)
-    const [editInviteCard,setEditInviteCard] = useState(false)
+    const [friendInformationCard,setFriendInformationCard] = useState(false)
     const [showListDialog,setShowListDialog] = useState(false)
     //const [commonData,setCommonData] = useState([])
     const [isTagsArray, setTagsArray] = useState([]);
@@ -58,18 +48,14 @@ function MonthPage() {
     const [hiddenSideBarButton,setHiddenSideBarButton] = useState("flex")
     //let x =  db.getToDoListData()
 
-
-
-
-    
-    const handleRWD=()=>{
-        if(window.innerWidth>1950){
+    {const handleRWD=()=>{
+        if(window.innerWidth>1200){
             setHiddenSideBarButton("flex")
         }
             //setMobile("PC");
         else
             //setMobile("mobile");
-            setHiddenSideBarButton("flex")
+            setHiddenSideBarButton("none")
             //console.log(window.innerWidth)
     }
 
@@ -79,12 +65,7 @@ function MonthPage() {
         return(()=>{
             window.removeEventListener('resize',handleRWD);
         })
-    },[]);
-
-
-
-
-
+    },[]);}
 
     return (
 
@@ -97,8 +78,9 @@ function MonthPage() {
                                     setChooseCell}}>
             <div className={styles.monthPage_background}>
                 <NavigationBar
-                    setSideBarStatus = {setSideBarStatus}
+                    setSideBarStatus = {setHiddenSideBarButton}
                 />
+
                 {friendCard?(
                     <AddFriendCard  setFriend={setFriendCard} 
                                     setFriendList={setFriendList}/>
@@ -112,8 +94,8 @@ function MonthPage() {
                             />
                 ):null}
 
-                {editInviteCard?(<EditInviteCard 
-                                    setEditInvite={setEditInviteCard}
+                {friendInformationCard?(<FriendInformation
+                                    setFriendInformationCard={setFriendInformationCard}
                                     chooseEmail={chooseEmail}/>
                 ):null}
 
@@ -132,7 +114,7 @@ function MonthPage() {
                                 <ol className="week">SUN</ol>
                             </ul>
                         </div>
-                        <MonthCell/>
+                        <MonthCell friendData = {friendList}/>
                     </div>
                     <div className={styles.sideBar_container}  style={{display:`${hiddenSideBarButton}`}}>
                         {!sideBarStatus ? (<div className={styles.sideBar_button_container}
@@ -154,14 +136,17 @@ function MonthPage() {
                                     setGridRow("80% 20%")
                                 }}
                         >
-                            <div className={styles.sideBar_button}>OPEN</div>
+                            <div className={styles.sideBar_button}>
+                                <FontAwesomeIcon  icon={faChevronLeft} />
+                                <FontAwesomeIcon  icon={faBarsStaggered} className={styles.bar_icon}/>
+                            </div>
                             <div className={styles.sideBar_button_background}></div>
                         </div>):null}
                         {sideBarStatus?(<SideBar setFriend={setFriendCard}
                         setSideBarStatus = {setSideBarStatus}
                         setGridRow = {setGridRow}
                         setInformation={setInformationCard}
-                        setEditInvite={setEditInviteCard}
+                        setFriendInformationCard={setFriendInformationCard}
                         friendList={friendList}
                         setFriendList = {setFriendList}
                         setChooseEmail = {setChooseEmail}

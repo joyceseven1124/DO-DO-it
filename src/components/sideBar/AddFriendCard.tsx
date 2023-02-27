@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import styles from '/public/css/addFriendCard.module.css';
 import db from "../../firebase/firebase"
 import {memberStatus} from "../../index"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faEnvelope} from '@fortawesome/free-solid-svg-icons'
 
 
 const AddFriendCard = (props:any) =>{
@@ -19,29 +21,29 @@ const AddFriendCard = (props:any) =>{
                         }>關</div>
                     </div>
                     <div>
-                        <div className={styles.addFriend_pic}>p</div>
                         <div>請輸入對方的email</div>
-                        <input  type="text" 
-                                placeholder='111@gmail.com'
-                                className={styles.email_search_input}
-                                maxLength={30}
-                                onChange={(e)=>{
-                                    setInputEmail(e.target.value)
-                                }}
-                                />
+                        <div>
+                            <FontAwesomeIcon icon={faEnvelope} />
+                            <input  type="text" 
+                                    placeholder='111@gmail.com'
+                                    className={styles.email_search_input}
+                                    maxLength={30}
+                                    onChange={(e)=>{
+                                        setInputEmail(e.target.value)
+                                    }}
+                                    />
+                        </div>
                         <div className={styles.result_msg} style={{color:`${color}`}}>{resultMsg}</div>
                         <div className={styles.add_button_wrapper}>
                             <div className={styles.add_button}
                                  onClick = {(e)=>{
-                                    console.log("是否有此人")
-                                    console.log(inputEmail)
                                     const result = db.addFriend(inputEmail,memberInformation)
                                     result.then((msg)=>{
                                         if(msg){
-                                            setResultMsg("恭喜結交一名星際探警")
+                                            setResultMsg("新增成功")
                                             setColor("#048517fa")
                                         }else{
-                                            setResultMsg("逼波逼波~查無此人")
+                                            setResultMsg("查無此人")
                                             setColor("#ae0000fa")
                                         }
                                     })

@@ -71,8 +71,6 @@ export default function TimeInformation(props:any) {
 
 
 
-    console.log("amendMonthStart",amendMonthStart)
-    console.log("amendMonthEnd",amendMonthEnd)
 
     props.data.yearStart =year
     props.data.yearEnd=year

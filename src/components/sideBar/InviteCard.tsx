@@ -3,6 +3,7 @@ import styles from '/public/css/InviteCard.module.css';
 import { memberStatus } from '../..';
 import { commonData } from '../../page/MonthPage';
 import db from "../../firebase/firebase"
+import parse from 'html-react-parser';
 
 
 const InviteCard = (props:any) =>{
@@ -12,7 +13,8 @@ const InviteCard = (props:any) =>{
     const {isTagsArray} = useContext(commonData)
 
     const messageData = props.informationList[props.chooseInformationIndex]
-    console.log("messageData,",messageData)
+    console.log("messageData",messageData.index)
+    console.log("messagedataAll",messageData)
     let messageConnectData = []
     const messageDataIndexArray =  Object.keys(props.informationList)
 
@@ -44,13 +46,12 @@ const InviteCard = (props:any) =>{
                 </div>
                 <h2>Invitation Card</h2>
                 
-                <div className={styles.invite_pic}>p</div>
                 <div className={styles.invite_information}>
                     <div className={styles.title_and_name_container}>
                         <div className={styles.invite_receiver}>Dear {memberName}</div>
                         <div>
                             <div className={styles.item_title_word}>Invite you to</div>
-                            <div>{messageData.title}</div>
+                            <div className={styles.title}>{messageData.title}</div>
                         </div>
                     </div>
                     <div className={styles.time_and_description_container}>
@@ -67,7 +68,7 @@ const InviteCard = (props:any) =>{
                                 :null
                             }
                             
-                            <div className={styles.schedule_content_word}>{messageData.description}</div>
+                            <div className={styles.schedule_content_word}>{parse(messageData.description)}</div>
                         </div>
                     </div>
                     <div className={styles.send_name_container}>
@@ -98,8 +99,6 @@ const InviteCard = (props:any) =>{
                         onClick={(e)=>{
                             const newTagArray = [...isTagsArray]
                             const data = props.informationList
-                            console.log("data",data)
-                            console.log("dataLength:",data.length)
                             const saveData :{[key:number]:number | string}[]= []
                             const newMessageArray :{[key:number]:number | string}[]= []
                             const newInformationList = messageDataIndexArray.map((element:any)=>{
@@ -110,8 +109,8 @@ const InviteCard = (props:any) =>{
                                         saveData.push(data[element])
                                     }
                             })
-                            const result = db.saveToDoList(`${messageData.yearStart}Y${messageData.monthStart}M`,
-                                            saveData,messageData.index)
+                            console.log("newInformationList",newTagArray)
+                            const result = db.saveMessage(memberInformation,messageData.index,`${messageData.yearStart}Y${messageData.monthStart}M`)
                             result.then((msg)=>{
                                 if(msg === "success"){
                                     const deleteResult = db.deleteMessage(memberInformation,messageData.index)

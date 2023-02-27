@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import styles from "../../../public/css/sideBar.module.css"
 import db from "../../firebase/firebase"
 import { memberStatus } from '../..';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAtom } from '@fortawesome/free-solid-svg-icons'
+import {faEnvelope} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -38,8 +41,6 @@ const MenuItem= (props:any)=>{
     //比對前後是否有重複的部分
     let prevTimeIndex = ""
     messageData.map((element:string)=>{
-        console.log("map")
-        console.log(element)
         //console.log(Object(message)[element])
         if(prevTimeIndex !== Object(props.informationList)[element].index){
             prevTimeIndex = Object(props.informationList)[element].index
@@ -51,7 +52,7 @@ const MenuItem= (props:any)=>{
                                 props.setChooseInformationIndex(element)}
                             }>
                             <div>{Object(props.informationList)[element].title}</div>
-                            <div className={styles.person_icon}>1</div>
+                            <FontAwesomeIcon icon={faEnvelope} />
                         </li>)
             itemArray.push(item)
         }

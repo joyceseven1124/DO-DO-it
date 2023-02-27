@@ -17,7 +17,8 @@ import { getFirestore,
          updateDoc,
          query,
          where,
-         deleteField
+         deleteField,
+         deleteDoc
         }from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -40,16 +41,49 @@ const analytics = getAnalytics(app);
 const db = getFirestore();
 
 
-async function saveToDoList(time:string,toDoListData:{},uuid:any){
+async function saveToDoList(time:string,toDoListData:{[key:string]:any},uuid:any){
     let msg =""
+    //console.log("toDoListData",toDoListData[0])
+    //console.log("toDoListData",toDoListData.receiveEmail)
     try {
         let email =""
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 email = user.email
-                toDoListData
-                setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
+                if(toDoListData.length > 1){
+                    console.log(0)
+                    if(toDoListData[0].receiveEmail.length > 0){
+                        console.log(toDoListData[0].receiveEmail)
+                        console.log("長度違和0",toDoListData[0].receiveEmail.length)
+                        setDoc(doc(db, email, `CommonTag${time}`), {[uuid]:uuid},{ merge: true });
+                        setDoc(doc(db, "commonTag", uuid), {[uuid]:toDoListData},{ merge: true });
+                        toDoListData[0].receiveEmail.map((element:string)=>{
+                            console.log(1)
+                            setDoc(doc(db, element, "message"), {[uuid]:toDoListData}, { merge: true });
+                        })
+                    }else{
+                        console.log(2)
+                        setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
+                    }
+                }else{
+                    console.log(3)
+                    if(toDoListData.receiveEmail.length > 0){
+                        console.log(4)
+                        console.log(toDoListData.receiveEmail)
+                        console.log("長度違和1",toDoListData.receiveEmail.length)
+                        console.log(email)
+                        setDoc(doc(db, email, `CommonTag${time}`), {[uuid]:uuid},{ merge: true });
+                        setDoc(doc(db, "commonTag", uuid), {[uuid]:toDoListData},{ merge: true });
+                        toDoListData.receiveEmail.map((element:string)=>{
+                            setDoc(doc(db, element, "message"), {[uuid]:toDoListData}, { merge: true });
+                        })
+                    }else{
+                        console.log(5)
+                        setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
+                    }
+                }
+                //setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
             }
         })
         msg="success"
@@ -68,39 +102,79 @@ async function getToDoListData(email:string,time:string){
     //await getDoc(doc(db, email,time));
     //const querySnapshot = await getDocs(collection(db, email));
     let msg:{[key:string]:{[key:string]:string}}
+     let data:any
     try{
         const monthData =await getDoc(doc(db, email,time));
         if(monthData.exists()) {
             msg = monthData.data()
             let dataKey =Object.keys(msg)
-            let data = dataKey.map((element:string)=>{
+            data = dataKey.map((element:string)=>{
                 return msg[element]
             })
-            return  data
-        }else{
-            return null
+            //return  data
         }
+
+        const commonIndex =await getDoc(doc(db, email,`CommonTag${time}`));
+        let commonIndexArray:string[] = []
+        if(commonIndex.exists()) {
+            let commonData = commonIndex.data()
+            let dataKey =Object.keys(commonData)
+            commonIndexArray = dataKey.map((element:string)=>{
+                return element
+            })
+        }
+        const allData = await Promise.all(commonIndexArray.map(async (element)=>{
+            const commonData = await getDoc(doc(db, "commonTag",element));
+            if(commonData.exists()) {
+                const resultData = commonData.data()
+                let newData = [...data]
+                newData.push(resultData[element])
+                data = newData
+            }
+        }))
+
     }catch(error){
         const errorCode = error.code;
         const errorMessage = error.message;
         return "fail"
+    }finally{
+        if(data){
+            return data
+        }else{
+            return null
+        }
     }
 }
 
 
+
+
 //email:string,time:string
-async function updateData(email:string,time:string,index:number,data:{}){
+async function updateData(email:string,time:string,index:number,toDoListData:{[key:string]:any}){
     let msg =''
+    let isCommonTag:boolean | undefined
+    console.log("資料:",toDoListData)
     try{
-        await setDoc(doc(db, 
-            email, 
-            time),
-            {[index]:data},{ merge: true });
+        if(toDoListData.length > 1){
+            if(toDoListData[0].receiveEmail.length > 0){
+                setDoc(doc(db,"commonTag", `${index}`),{[index]:toDoListData},{ merge: true });
+                }else{
+                    setDoc(doc(db, email, time), {[index]:toDoListData},{ merge: true });
+                }
+        }else{
+            if(toDoListData.receiveEmail.length > 0){
+                setDoc(doc(db,"commonTag", `${index}`),{[index]:toDoListData},{ merge: true });
+            }else{
+                setDoc(doc(db, email, time), {[index]:toDoListData},{ merge: true });
+            }
+        }
+
         msg="success"
     }
     catch(error){
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log(errorMessage)
         msg = "fail"
     }
     finally{
@@ -113,9 +187,16 @@ async function updateData(email:string,time:string,index:number,data:{}){
 async function deleteData(email:string,time:string,index:number){
     let msg =''
     try{
+
         await updateDoc(doc(db, email, time), {
             [index]: deleteField()
         });
+
+        await updateDoc(doc(db, email, `CommonTag${time}`), {
+            [index]: deleteField()
+        });
+
+        await deleteDoc(doc(db, "commonTag", `${index}`));
         msg="success"
     }
     catch(error){
@@ -129,6 +210,7 @@ async function deleteData(email:string,time:string,index:number){
 }
 
 //對方的email 自己的email 訊息
+//可以刪除了
 async function sendMessage(myEmail:string,
                            friendEmail:string,
                            index:number,
@@ -150,6 +232,24 @@ async function sendMessage(myEmail:string,
         return msg
     }
 }
+
+async function saveMessage(email:string,index:number,time:string){
+    let msg:string
+    try{
+        await setDoc(doc(db, email, `CommonTag${time}`), {[index]:index}, { merge: true });
+        msg = "success"
+    }
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = "fail"
+    }
+    finally{
+        return msg
+    }
+}
+
+
 
 async function deleteMessage(email:string,index:number){
     let msg =''
@@ -240,6 +340,28 @@ async function getFriendData(email:string) {
         if(docSnap.exists()) {
             const result = docSnap.data()
             msg = result
+        }else{
+            msg={result:null}
+        }
+    }
+    
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = {result:false}
+    }
+    finally{
+        return msg
+    }
+}
+
+async function getFriendInformation(friendEmail:string) {
+    let msg
+    try{
+        const docSnap = await getDoc(doc(db, friendEmail, "memberInformation"));
+        if(docSnap.exists()) {
+            const result = docSnap.data()
+            msg = result.name
         }else{
             msg={result:null}
         }
@@ -390,5 +512,7 @@ export default {
   deleteData,
   sendMessage,
   getMessageData,
-  deleteMessage
+  deleteMessage,
+  saveMessage,
+  getFriendInformation
 };

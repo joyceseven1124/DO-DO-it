@@ -7,24 +7,29 @@ import MenuFriend from './sideBar/MenuFriend';
 import MenuMessage from "./sideBar/MenuMessage"
 import MenuToday from './sideBar/MenuToday';
 import MenuTomorrow from './sideBar/MenuTomorrow';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBarsStaggered} from '@fortawesome/free-solid-svg-icons'
+import {faChevronRight} from '@fortawesome/free-solid-svg-icons'
 
 const SideBar= (props:any)=>{
     return(
     <div className={styles.menu_container}>
         <div className={styles.menu_wrapper}>
-            <div className={styles.menu_close_button_container}
-                        onClick={(e)=>{
+            <div className={styles.menu_close_button}
+                    onClick={(e)=>{
                         props.setSideBarStatus(false)
                         props.setGridRow("99% 1%")
-            }}>
-                <div className={styles.menu_close_button}>關閉</div>
+                    }}>
+                    <FontAwesomeIcon  icon={faBarsStaggered} />
+                    <FontAwesomeIcon icon={faChevronRight} />
             </div>
+
 
             <div>
                 <MenuToday />
                 <MenuTomorrow/>
                 <MenuFriend setFriend={props.setFriend}
-                setEditInvite={props.setEditInvite}
+                setFriendInformationCard={props.setFriendInformationCard}
                 friendList={props.friendList}
                 setFriendList = {props.setFriendList}
                 setChooseEmail = {props.setChooseEmail}

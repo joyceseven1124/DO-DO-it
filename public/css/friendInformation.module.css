@@ -1,0 +1,116 @@
+.friend_information_wrapper{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--cardCommonBackground);
+    top:0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    z-index: 15;
+}
+
+.container {
+  margin-top: 300px;
+  display: flex;
+}
+
+
+
+.inner_w {
+  display: flex;
+  margin: 40px;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  background: white;
+  border-radius: 10px;
+  width: 350px;
+  height: 140px;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.12);
+}
+
+.close_icon{
+    font-size: 12px;
+    position: absolute;
+    top: 5px;
+    z-index: 10;
+    right: 10px;
+    cursor: pointer;
+}
+
+
+.inner .inner_image {
+  display: flex;
+  width: 150px;
+  clip-path: circle(90% at 0% 15%);
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+  background:  var(--brightMainDecorateColor);
+}
+
+.friend_pic{
+    background-image: url(/public/assets/app_icon.png);
+    width:100px;
+    height: 30px;
+    background-size:cover;
+    background-repeat: no-repeat;
+    margin-right: 20px;
+    color: rgba(0,0,0,0);
+}
+
+.friend_pic{
+  transition: all 0.5s ease-in-out;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.3) rotate(-4deg);
+  opacity: 0.6;
+  object-fit: cover;
+}
+
+
+.inner .inner_text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  transition: all 0.5s ease-in-out;
+  align-self: center;
+}
+.inner .inner_text h1 {
+  color: #142839;
+  margin: 0;
+}
+.friend_email_wrapper {
+  color: #142839;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.friend_email{
+    margin-left: 5px;
+}
+
+.inner:hover .inner_image {
+  clip-path: circle(100% at 0% 50%);
+}
+.inner:hover .inner_image img {
+  opacity: 0.8;
+  transform: scale(1);
+}
+.inner:hover .inner_text {
+  margin-left: 40px;
+}
+.inner:hover .inner_text h1,
+.inner:hover .friend_email_wrapper,
+.inner:hover .close_icon {
+  color: white;
+}
+.inner:hover {
+  background: var(--brightMainDecorateColor);
+}
