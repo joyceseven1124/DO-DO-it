@@ -47,11 +47,13 @@
     align-items: center;
 }
 
-.burger_icon{
-    display: none;
-    background-image: url(/public/assets/burger_icon.png);
-    composes:icon;
-    margin-right: 20px;
+.nav_group_icon{
+    height: auto;
+    background-color: rgba(0,0,0,0);
+    border: 0px;
+    width: auto;
+    display: flex;
+    align-items: center;
 }
 
 .app_icon{
@@ -67,8 +69,10 @@
 
 .arrow_down_icon{
     display: none;
-    margin-left: 20px;
-    margin-top: 15px;
+    cursor: pointer;
+    margin-left: 15px;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 .change_time{
@@ -87,28 +91,30 @@
     width: 20px;
     height: 20px;
     border-radius: 25px;
-    background-color: white;
     cursor: pointer;
 }
 
-:global(.arrow_background):hover{
-    box-sizing: border-box;
-    background-color: var(--brightMainDecorateColor);
+.arrow_icon:hover{
+    background: #03e9f4;
+    color: #fff;
+    box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
 }
 
-.left_arrow_icon{
-    background-image: url(/public/assets/left_arrow_icon.png);
-    composes:icon;
+.arrow_icon{
+    color: #6f6f6f;
     margin: 5px;
+    font-size: 10px;
+    background-color: white;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 10px;
+    padding: 1px;
+    cursor: pointer;
 }
-
-.right_arrow_icon{
-    background-image: url(/public/assets/right_arrow_icon.png);
-    composes:icon;
-    margin: 5px;
-}
-
-
 
 .search{
     display: flex;
@@ -175,11 +181,21 @@
     cursor: pointer;
 }
 
+.login:hover{
+    background: #03e9f4;
+    color: #fff;
+    box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
+}
+
 
 
 @media screen and (max-width:1200px) { 
   .nav_bar{
     width: 100%;
+    padding-right: 2.5%;
   }
 
  .arrow_down_icon{
@@ -187,48 +203,94 @@
     cursor: pointer;
  }
 
+ .nav_group_icon{
+    cursor: pointer;
+    color: white;
+ }
 
-  .change_time{
-    margin-right: 10px;
-  }
 
-  .app_icon{
+ .app_icon{
     width: 100px;
-    margin-left: 10px;
+    margin-left: 1px;
     margin-right: 0px;
     cursor: pointer;
   }
 
+
+ .nav_group_icon:active{
+    background-color: #03e9f4;
+    padding: 2px;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
+ }
+
+
+  .change_time{
+    margin-right: 10px;
+  }
+  .login{
+    margin-right: 0px;
+  }
+ 
+
 }
 
-@media screen and (max-width:550px) { 
+@media screen and (max-width:768px) { 
     .app_icon{
        width: 100px;
        margin-left: 10px;
        margin-right: 0px;
     }
 
-    :global(.arrow_background){
-        
+    .login{
+        padding: 5px 10px;
     }
 
-    .left_arrow_icon{
+
+    .arrow_icon{
         margin: 0px;
     }
 
-    .right_arrow_icon{
-        margin: 0px;
-    }
 
     .change_time{
         margin-right: 10px;
-        width: 100px;
-        font-size: 16px;
+        width: 150px;
+        font-size: 14px;
         align-items: center;
     }
 }
 
-@media screen and (max-width:500px) { 
-    
+@media screen and (max-width:370px) { 
+    .app_icon{
+       width: 50px;
+       background-size: contain;
+       margin-left: 10px;
+       margin-right: 0px;
+       background-image: url(/public/assets/app_vertical_icon.png);
+
+    }
+
+
+    .arrow_icon{
+        margin: 0px;
+        width: 12px;
+        background-color: rgba(0,0,0,0);
+        color: white;
+    }
+
+    .change_time{
+        margin-left: 10px;
+        width: 100px;
+        font-size: 14px;
+        align-items: center;
+    }
+
+    .login{
+        padding: 5px 10px;
+        font-size: 12px;
+    }
 }
 

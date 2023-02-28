@@ -1,17 +1,13 @@
 import * as actions from '../action/logInControl';
 import { Reducer } from 'redux';
 
-
 const initState = {
-    status:"false",
-    name:"",
-    email:"",
+    status: 'false',
+    name: '',
+    email: '',
 };
 
-const logInReducer = (
-    state = initState,
-    action: { [key: string]: any }
-) => {
+const logInReducer = (state = initState, action: { [key: string]: any }) => {
     switch (action.type) {
         /*case  actions.NEXT_MONTH:
         console.log(action.payload.nowTime)
@@ -24,15 +20,15 @@ const logInReducer = (
         }*/
         case actions.LOG_IN:
             return {
-                status : true,
-                name:action.payload.name,
-                email:action.payload.email
+                status: true,
+                name: action.payload.name,
+                email: action.payload.email,
             };
         case actions.LOG_OUT:
             return {
-                status:false,
-                name:"",
-                email:""
+                status: false,
+                name: '',
+                email: '',
             };
         default:
             return state;

@@ -25,9 +25,6 @@ function AddGuest(props:any) {
                 key={`friend-list-${index}`}
                 id={`friend-list-${index}`}
                 onClick={(e:any)=>{
-                    console.log(index)
-                    console.log(element)
-                    console.log("是否相等",friendChoose[index] !== element)
                     let chooseArray = [...friendChoose]
                     if(chooseArray.includes(element)){
                         const newChooseArray = chooseArray.filter((email,index)=>{
@@ -59,7 +56,6 @@ function AddGuest(props:any) {
                                             id = {`list_check_${index}`}
                                            style={{color:"var(--brightMainDecorateColor)"}}/>
                     ):null}
-                   
                 </div>
             </div>
   })

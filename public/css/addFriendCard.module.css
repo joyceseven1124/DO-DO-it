@@ -1,11 +1,14 @@
 .addFriend_card_wrapper{
     position: absolute;
+    top:0px;
     width: 100%;
     height: 100%;
     background-color: rgba(126, 126, 126, 0.8);
     z-index: 15;
     text-align: center;
-    font-weight: 900;
+    font-size: 16px;
+    color: white;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 .addFriend_card_container{
@@ -13,8 +16,9 @@
     padding: auto;
     margin-top: 200px;
     width: 400px;
-    height: 400px;
-    background-color: white;
+    height: 250px;
+    background-color: rgb(40, 40, 40);
+    box-shadow: 5px 5px 15px -2px rgba(64,64,64,0.73);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -26,17 +30,23 @@
     position: absolute;
     top:10px;
     right: 10px;
-    background-image: url(/public/assets/close_icon.png);
-    width: 20px;
-    height: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
+    font-size: 12px;
     color: rgba(0,0,0,0);
     cursor: pointer;
+    color: white;
+}
+
+.card_title{
+    margin-top: 30px;
 }
 
 .addFriend_card_container > div {
     margin-bottom: 10px;
+}
+
+.email_search_wrapper{
+    display: flex;
+    align-items: center;
 }
 
 
@@ -47,7 +57,15 @@
     border-radius: 10px;
     padding-left: 10px;
     margin: 20px auto;
+    margin-left: 10px;
     border: 1px solid black;
+    outline: none;
+}
+
+.email_search_input:focus{
+    color: black;
+    box-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+    border: 1px solid var(--brightMainDecorateColor);
 }
 
 .add_button_wrapper{
@@ -58,12 +76,50 @@
 
 .add_button{
     border:1px solid black;
-    border-radius: 10px;
-    width: 100px;
+    border-radius: 5px;
+    width: 120px;
+    padding: 5px;
     height: 40px;
     line-height: 40px;
     cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 16px;
+    position: relative;
+    transition: all 500ms linear;
+    font-family: 'Noto Sans', sans-serif;
 }
+
+.add_button::before{
+    background-color: rgba(255, 255, 255, 0.4);
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: none;
+    width: 0;
+    border-radius: 5px;
+   
+}
+
+.add_button:hover {
+  background-color: rgba(11, 204, 255, 0.8);
+  box-shadow: 0 0 10px 0 #0bccff;
+  color: #fff;
+  text-decoration: none;
+  border: white 1px solid;
+}
+.add_button:hover::before {
+  background-color: rgba(11, 204, 255);
+  transition: all 300ms ease-out;
+  width: 100%;
+  content: "Hello !";
+  overflow: hidden;
+  position: absolute;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
 
 .result_msg{
     margin-bottom: 10px;
@@ -71,6 +127,10 @@
 
 @media screen and (max-width:400px) { 
   .addFriend_card_container{
-    width: 100%;
+    width: 90%;
+  }
+
+  .email_search_input{
+    width: 80%;
   }
 }

@@ -3,6 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/index';
 import { addTime, minusTime } from '../../store/action/timeControl';
 import styles from '/public/css/navigationBar.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight} from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft} from '@fortawesome/free-solid-svg-icons'
+
 
 export default function ChangeTime() {
     const monthNumber = useSelector(
@@ -14,27 +18,21 @@ export default function ChangeTime() {
     const dispatch = useDispatch();
     return (
         <div className={styles.change_time}>
-            <div
-                className="arrow_background"
+            <FontAwesomeIcon className={styles.arrow_icon} icon={faAngleLeft} 
                 onClick={() => {
                     dispatch(minusTime());
-                }}
-            >
-                <div className={styles.left_arrow_icon}>左</div>
-            </div>
+                }}/>
 
             <div>
                 {year}/{monthNumber}
             </div>
 
-            <div
-                className="arrow_background"
+            <FontAwesomeIcon className={styles.arrow_icon} icon={faAngleRight} 
                 onClick={() => {
                     dispatch(addTime());
                 }}
-            >
-                <div className={styles.right_arrow_icon}>右</div>
-            </div>
+            />
+          
         </div>
     );
 }

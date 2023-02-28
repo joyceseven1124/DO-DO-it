@@ -13,7 +13,6 @@ import store from './store';
 import { RootState } from './store/index';
 import {Provider, useSelector} from "react-redux"
 import db from "./firebase/firebase"
-import DayBlock from './page/dayPage';
 import LonInPage from './page/LogInPage';
 import Footer from './components/Footer';
 import MonthPage from './page/MonthPage';
@@ -81,7 +80,6 @@ const App = () => {
           <MainContainer>
               <BrowserRouter>
               <Routes>
-                <Route path="/day" element={memberNowStatus ? <DayBlock/> : <Navigate to="/login" replace />} />
                 <Route path="/logIn" element={<LonInPage/>}/>
                 <Route  path="/" element={memberNowStatus ? <MonthPage/> : <Navigate to="/login" replace/>} />
               </Routes>
@@ -94,3 +92,4 @@ const App = () => {
 };
 root.render(<App />);
 //<Route  path="/home" element={memberNowStatus ? <MonthPage/> : <Navigate to="/login" replace/>} />
+//<Route path="/day" element={memberNowStatus ? <DayBlock/> : <Navigate to="/login" replace />} />

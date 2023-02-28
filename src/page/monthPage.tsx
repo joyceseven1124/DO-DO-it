@@ -48,7 +48,7 @@ function MonthPage() {
     const [hiddenSideBarButton,setHiddenSideBarButton] = useState("flex")
     //let x =  db.getToDoListData()
 
-    {const handleRWD=()=>{
+    const handleRWD=()=>{
         if(window.innerWidth>1200){
             setHiddenSideBarButton("flex")
         }
@@ -61,11 +61,28 @@ function MonthPage() {
 
     useEffect(()=>{
         window.addEventListener('resize',handleRWD);
+        window.addEventListener('scroll',movePositionY)
         handleRWD();
         return(()=>{
             window.removeEventListener('resize',handleRWD);
+            window.removeEventListener('scroll',movePositionY)
         })
-    },[]);}
+    },[]);
+
+    // 監聽滾動事件
+    const movePositionY= (element:any) => {
+        const THRESHOLD = 20; // 定義滾動閾值為50像素
+        const mouseY = element.offsetTop;
+        console.log("目前位置,",mouseY)
+        const windowHeight = window.innerHeight;
+        const pageHeight = document.documentElement.scrollHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+        if (mouseY > windowHeight - THRESHOLD && scrollTop + windowHeight < pageHeight) {
+            // 滑鼠在視窗底部以下THRESHOLD像素，且頁面還沒有滾動到底部
+            window.scrollBy(0, THRESHOLD); // 滾動頁面
+        }
+    };
 
     return (
 

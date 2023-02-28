@@ -59,7 +59,12 @@
 }
 
 .sideBar_button:hover{
-  background-color: rgb(0,187,201);
+  background: #03e9f4;
+  color: #fff;
+  box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
 }
 
 .bar_icon{
@@ -128,8 +133,10 @@
   }
   .sideBar_container{
    position: absolute;
-   top:50px;
+   top:60px;
+   height: 83%;
    background-color: rgba(37, 37, 37, 0.8);
+   width: 30%;
   }
 
   .sideBar_button_background{
@@ -137,13 +144,22 @@
   }
 }
 
-@media screen and (max-width:600px) { 
-  .monthCell{
-    width: 95%;
+@media screen and (max-width:768px) { 
+  .sideBar_container{
+    width: 50%;
   }
+}
 
-  .sideBar_button_background{
-    display: none;
+
+@media screen and (max-width:500px) { 
+  .sideBar_container{
+    width: 50%;
+  }
+}
+
+@media screen and (max-width:400px) { 
+ .sideBar_container{
+    width: 100%;
   }
 }
 

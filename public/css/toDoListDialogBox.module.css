@@ -34,7 +34,6 @@
     justify-content: center;
     width: 100%;
     margin-top: 40px;
-    
 }
 
 
@@ -87,6 +86,7 @@
 .remind_word{
     color: #f04444;
     margin-top: 10px;
+    font-size: 12px;
 }
 
 .toDoList_title:focus+.under_line {
@@ -122,7 +122,7 @@
 }
 
 .colors_button_wrapper{
-    z-index: 2;
+  
     font-size: 12px;
     position: relative;
     width:320px;
@@ -419,7 +419,7 @@
     opacity: 0;
   }
   100%{
-    top: -10px;
+    top: -6px;
     opacity: 1;
   }
 }
@@ -430,9 +430,9 @@
     height: 120px;
     background-color: white;
     box-shadow: 5px 5px 15px -2px rgba(64,64,64,0.73);
-    z-index: 2;
+    z-index: 3;
     left: 20px;
-    top:-10px;
+    top:-6px;
     border-radius: 5px;
     overflow-y: scroll;
     padding-top:5px;
@@ -503,14 +503,6 @@
 .friends_list,.choose_email_item_container::-webkit-scrollbar-track {
   box-shadow: transparent;
 }
-
-
-
-
-
-
-
-
 
 .description_container{
     width: 100%;
@@ -606,24 +598,99 @@
 }
 
 @media screen and (max-width:1200px) {
+    .friends_list{
+        top:-3px
+    }
+}
+
+
+
+@media screen and (max-width:400px){
+
     .toDoListDialogBox_container{
         width: 100%;
     }
-}
 
-@media screen and (max-width:750px) { 
-  .toDoListDialogBox_container{
-    width: 100%;
-  }
-}
-
-@media screen and (max-width:500px){
-  .toDoListDialogBox{
-    width: 100%;
+    .toDoListDialogBox{
+        width: 95%;
     }
-  .toDoListDialogPic{
-    display: none;
-  }
+
+    .toDoList_title{
+        width: 80%;
+        margin-left: 0px;
+    }
+
+    .under_line{
+        width: 95%;
+        right: 25px;
+    }
+
+    .colors_button_wrapper{
+        width: 80%;
+    }
+
+    .colors_button{
+        width: 100%;
+    }
+
+    .colors_items{
+        width: 72%;
+        left: 18%;
+    }
+
+    .colors_items > .color_item_style{
+        width:30px;
+        height: 30px;
+        border: none;
+        border-radius: 15px;
+        color: rgba(0,0,0,0);
+        transition: transform 0.3s;
+    }
+
+    .time_container{
+        display: block;
+    }
+
+    .time_wrapper{
+        width: 80%;
+        margin: auto;
+    }
+
+    .add_guest_wrapper{
+        width: 80%;
+    }
+
+    .add_guest_button{
+        width: 100%;
+    }
+
+    .friends_list_wrapper{
+        width: 78%;
+    }
+
+    .friends_list{
+        top:-1px;
+        left: 14px;
+        width: 100%;
+    }
+
+    .under_line{
+        margin-left: 40px;
+    }
+
+    .description_wrapper{
+        width: 80%;
+    }
+
+    :global(.ql-toolbar.ql-snow){
+        width: 100%;
+        border-radius: 5px 5px 0px 0px;
+    }
+
+    :global(.ql-toolbar.ql-snow+.ql-container.ql-snow){
+        width: 100%;
+    }
+ 
 }
 
 

@@ -36,12 +36,10 @@
 }
 
 .close_button{
-    background-image: url(/public/assets/close_icon.png);
+    font-size: 12px;
+    color: white;
     width: 20px;
     height: 20px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    color: rgba(0, 0, 0, 0);
 }
 
 
@@ -171,3 +169,11 @@
     box-shadow: 0 0.5em 0.5em -0.4em var(--deleteButtonShadow);
 }
 
+@media screen and (max-width:500px) { 
+  .invite_content{
+    width: 90%;
+    margin: auto;
+    margin-top: 100px;
+  }
+
+}

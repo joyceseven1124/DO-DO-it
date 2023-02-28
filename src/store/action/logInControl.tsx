@@ -10,12 +10,12 @@ export const LOG_OUT = 'LOG_OUT';
     }
 )*/
 
-export const logIn = (name:string,email:string) => ({
+export const logIn = (name: string, email: string) => ({
     type: LOG_IN,
-    payload:{
+    payload: {
         name,
-        email
-    }
+        email,
+    },
 });
 
 export const logOut = () => ({
