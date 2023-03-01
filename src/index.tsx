@@ -14,8 +14,10 @@ import { RootState } from './store/index';
 import {Provider, useSelector} from "react-redux"
 import db from "./firebase/firebase"
 import LonInPage from './page/LogInPage';
+import RegisterPage from "./page/RegisterPage"
 import Footer from './components/Footer';
 import MonthPage from './page/MonthPage';
+import FrontPage from "./page/FrontPage"
 
 export const memberStatus = createContext({
   memberNowStatus:undefined,
@@ -80,8 +82,10 @@ const App = () => {
           <MainContainer>
               <BrowserRouter>
               <Routes>
+                <Route path="/" element={<FrontPage/>}/>
                 <Route path="/logIn" element={<LonInPage/>}/>
-                <Route  path="/" element={memberNowStatus ? <MonthPage/> : <Navigate to="/login" replace/>} />
+                <Route path="/register" element={<RegisterPage/>}/>
+                <Route  path="/calender" element={memberNowStatus ? <MonthPage/> : <Navigate to="/login" replace/>} />
               </Routes>
               </BrowserRouter>
           </MainContainer>

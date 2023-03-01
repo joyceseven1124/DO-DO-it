@@ -19,6 +19,7 @@ textarea{
   box-sizing: border-box;
   font-family: 'Noto Sans TC', sans-serif;
   font-family: 'Noto Sans', sans-serif;
+  letter-spacing: 1px;
 }
 
 .edit_card_content{
@@ -43,6 +44,7 @@ textarea{
   font-size: 12px;
   font-weight: 400;
   box-sizing: border-box;
+  margin-bottom: 5px;
 }
 
 .friend_email_wrapper{
@@ -171,6 +173,7 @@ textarea{
   width: 300px;
   grid-template-columns: 5% 95%;
   align-items: center;
+  margin-bottom: 10px
 }
 
 .description_edit_content{

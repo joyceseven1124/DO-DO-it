@@ -18,7 +18,8 @@ import { getFirestore,
          query,
          where,
          deleteField,
-         deleteDoc
+         deleteDoc,
+         
         }from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -43,8 +44,6 @@ const db = getFirestore();
 
 async function saveToDoList(time:string,toDoListData:{[key:string]:any},uuid:any){
     let msg =""
-    //console.log("toDoListData",toDoListData[0])
-    //console.log("toDoListData",toDoListData.receiveEmail)
     try {
         let email =""
         const auth = getAuth();
@@ -52,34 +51,23 @@ async function saveToDoList(time:string,toDoListData:{[key:string]:any},uuid:any
             if (user) {
                 email = user.email
                 if(toDoListData.length > 1){
-                    console.log(0)
                     if(toDoListData[0].receiveEmail.length > 0){
-                        console.log(toDoListData[0].receiveEmail)
-                        console.log("長度違和0",toDoListData[0].receiveEmail.length)
                         setDoc(doc(db, email, `CommonTag${time}`), {[uuid]:uuid},{ merge: true });
                         setDoc(doc(db, "commonTag", uuid), {[uuid]:toDoListData},{ merge: true });
                         toDoListData[0].receiveEmail.map((element:string)=>{
-                            console.log(1)
                             setDoc(doc(db, element, "message"), {[uuid]:toDoListData}, { merge: true });
                         })
                     }else{
-                        console.log(2)
                         setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
                     }
                 }else{
-                    console.log(3)
                     if(toDoListData.receiveEmail.length > 0){
-                        console.log(4)
-                        console.log(toDoListData.receiveEmail)
-                        console.log("長度違和1",toDoListData.receiveEmail.length)
-                        console.log(email)
                         setDoc(doc(db, email, `CommonTag${time}`), {[uuid]:uuid},{ merge: true });
                         setDoc(doc(db, "commonTag", uuid), {[uuid]:toDoListData},{ merge: true });
                         toDoListData.receiveEmail.map((element:string)=>{
                             setDoc(doc(db, element, "message"), {[uuid]:toDoListData}, { merge: true });
                         })
                     }else{
-                        console.log(5)
                         setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
                     }
                 }
@@ -153,7 +141,6 @@ async function getToDoListData(email:string,time:string){
 async function updateData(email:string,time:string,index:number,toDoListData:{[key:string]:any}){
     let msg =''
     let isCommonTag:boolean | undefined
-    console.log("資料:",toDoListData)
     try{
         if(toDoListData.length > 1){
             if(toDoListData[0].receiveEmail.length > 0){
@@ -174,7 +161,6 @@ async function updateData(email:string,time:string,index:number,toDoListData:{[k
     catch(error){
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage)
         msg = "fail"
     }
     finally{
@@ -209,8 +195,7 @@ async function deleteData(email:string,time:string,index:number){
     }
 }
 
-//對方的email 自己的email 訊息
-//可以刪除了
+
 async function sendMessage(myEmail:string,
                            friendEmail:string,
                            index:number,
@@ -270,9 +255,6 @@ async function deleteMessage(email:string,index:number){
 }
 
 
-
-
-
 async function getMemberInformation(email:string){
     let msg
     try{
@@ -289,35 +271,14 @@ async function getMemberInformation(email:string){
     }finally{
         return msg
     }
-    
 }
 
-//之後用參數帶入
-/*async function saveToDoList(){
-    let msg =""
-    try {
-        await setDoc(doc(db, "users", "demo1"), {
-            web: "Let's Write",
-            author: "August",
-            like: true
-        });
-        msg="success"
-    } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        msg = "fail"
-    }finally{
-        return msg
-    }
-}*/
-
-
-async function addFriend(email:string,myEmail:string){
+async function addFriend(email:string,myEmail:string,uuid:string){
     let msg:boolean
     try{
         const docSnap = await getDoc(doc(db, email, "memberInformation"));
         if(docSnap.exists()) {
-            await setDoc(doc(db, myEmail, "friend"), {[email]:email}, { merge: true });
+            await setDoc(doc(db, myEmail, "friend"), {[uuid]:email}, { merge: true });
             msg = true
         }else{
             msg = false
@@ -333,6 +294,29 @@ async function addFriend(email:string,myEmail:string){
     }
 }
 
+
+async function deleteFriend(uuid:string,myEmail:string){
+    let msg:string
+    try{
+
+        let result = await updateDoc(doc(db, myEmail, "friend"), {
+            [uuid]: deleteField()
+        });
+        msg="success"
+    }
+    catch(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        msg = "fail"
+    }
+    finally{
+        return msg
+    }
+}
+
+
+
+
 async function getFriendData(email:string) {
     let msg
     try{
@@ -344,7 +328,6 @@ async function getFriendData(email:string) {
             msg={result:null}
         }
     }
-    
     catch(error){
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -390,7 +373,6 @@ async function getMessageData(email:string) {
             msg={result:null}
         }
     }
-    
     catch(error){
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -421,7 +403,6 @@ async function buildAccount(email:string, password:string,name:string){
     });
         msg = "success"
     }
-    
     catch(error){
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -430,10 +411,9 @@ async function buildAccount(email:string, password:string,name:string){
     finally{
         return msg
     }
-    
 }
 
-//登入
+
 async function enterAccount(email:string, password:string){
   let msg = ""
   try{
@@ -452,7 +432,7 @@ async function enterAccount(email:string, password:string){
   }
 }
 
-//是否為登入狀態
+
 async function memberStatus(){
     let msg =""
     try{
@@ -514,5 +494,6 @@ export default {
   getMessageData,
   deleteMessage,
   saveMessage,
-  getFriendInformation
+  getFriendInformation,
+  deleteFriend
 };

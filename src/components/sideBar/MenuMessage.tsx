@@ -27,7 +27,6 @@ const MenuItem = (props: any) => {
                         msgArray.push(msg[element]);
                     }
                 });
-                //setMessage(cleanMsg)
                 props.setInformationList(msgArray);
             });
         }
@@ -35,10 +34,8 @@ const MenuItem = (props: any) => {
 
     let itemArray: any = [];
     const messageData = Object.keys(props.informationList);
-    //比對前後是否有重複的部分
     let prevTimeIndex = '';
     messageData.map((element: string) => {
-        //console.log(Object(message)[element])
         if (prevTimeIndex !== Object(props.informationList)[element].index) {
             prevTimeIndex = Object(props.informationList)[element].index;
             let item = (
@@ -57,9 +54,6 @@ const MenuItem = (props: any) => {
             );
             itemArray.push(item);
         }
-
-        //message[1676948693058]
-        //console.log(message)
     });
 
     return (
@@ -84,7 +78,7 @@ const MenuItem = (props: any) => {
                         {itemArray.length === 0 ? (
                             <li>
                                 <div className={styles.no_item}>
-                                    目前沒有任何邀請
+                                   Without notification
                                 </div>
                             </li>
                         ) : null}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState,createContext } from 'react';
+import React, { useEffect, useState,createContext,useContext } from 'react';
 import { useSelector } from 'react-redux';
 import styles from '/public/css/monthPage.module.css';
 import MonthCell from './monthPage/MonthCell';
@@ -14,6 +14,7 @@ import AddFriendCard from '../components/sideBar/AddFriendCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBarsStaggered} from '@fortawesome/free-solid-svg-icons'
 import {faChevronLeft} from '@fortawesome/free-solid-svg-icons'
+import {memberStatus} from "../index"
 
 
 export const commonData = createContext({
@@ -28,6 +29,8 @@ export const commonData = createContext({
 
 
 function MonthPage() {
+    const { memberInformation } = useContext(memberStatus);
+
     const [sideBarStatus,setSideBarStatus] = useState(true)
     const [buttonWord,setButtonWord] = useState("CLOSE")
     const [buttonRight,setButtonRight] = useState('380px')
@@ -43,26 +46,28 @@ function MonthPage() {
     const [showTagIndex, setShowTagIndex] = useState(0);
     const [chooseEmail,setChooseEmail] = useState("")
     const [friendList,setFriendList] = useState([])
+    const [friendListIndex,setFriendListIndex] = useState([])
     const [informationList,setInformationList] = useState([])
     const [chooseInformationIndex,setChooseInformationIndex] = useState("")
     const [hiddenSideBarButton,setHiddenSideBarButton] = useState("flex")
+    const [loading,setLoading] = useState(true)
     //let x =  db.getToDoListData()
 
     const handleRWD=()=>{
         if(window.innerWidth>1200){
             setHiddenSideBarButton("flex")
         }
-            //setMobile("PC");
         else
-            //setMobile("mobile");
             setHiddenSideBarButton("none")
-            //console.log(window.innerWidth)
     }
 
     useEffect(()=>{
         window.addEventListener('resize',handleRWD);
         window.addEventListener('scroll',movePositionY)
         handleRWD();
+        if(memberInformation){
+            setLoading(false)
+        }
         return(()=>{
             window.removeEventListener('resize',handleRWD);
             window.removeEventListener('scroll',movePositionY)
@@ -73,7 +78,6 @@ function MonthPage() {
     const movePositionY= (element:any) => {
         const THRESHOLD = 20; // 定義滾動閾值為50像素
         const mouseY = element.offsetTop;
-        console.log("目前位置,",mouseY)
         const windowHeight = window.innerHeight;
         const pageHeight = document.documentElement.scrollHeight;
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -85,99 +89,109 @@ function MonthPage() {
     };
 
     return (
+            <commonData.Provider value={{isTagsArray,
+                                        setTagsArray,
+                                        setShowTagIndex,
+                                        showTagIndex,
+                                        setShowListDialog,
+                                        chooseCell,
+                                        setChooseCell}}>
+                <div className={styles.monthPage_background}>
+                    
+                    <NavigationBar
+                        setSideBarStatus = {setHiddenSideBarButton}
+                    />
 
-        <commonData.Provider value={{isTagsArray,
-                                    setTagsArray,
-                                    setShowTagIndex,
-                                    showTagIndex,
-                                    setShowListDialog,
-                                    chooseCell,
-                                    setChooseCell}}>
-            <div className={styles.monthPage_background}>
-                <NavigationBar
-                    setSideBarStatus = {setHiddenSideBarButton}
-                />
+                    {friendCard?(
+                        <AddFriendCard  setFriend={setFriendCard} 
+                                        setFriendList={setFriendList}
+                                        friendList={friendList}
+                                        friendListIndex = {friendListIndex}
+                                        setFriendListIndex = {setFriendListIndex}/>
+                    ):null}
 
-                {friendCard?(
-                    <AddFriendCard  setFriend={setFriendCard} 
-                                    setFriendList={setFriendList}/>
-                ):null}
+                    {informationCard?
+                    (<InviteCard setInformation={setInformationCard}
+                                chooseInformationIndex = {chooseInformationIndex}
+                                informationList = {informationList}
+                                setInformationList = {setInformationList}
+                                />
+                    ):null}
 
-                {informationCard?
-                (<InviteCard setInformation={setInformationCard}
-                             chooseInformationIndex = {chooseInformationIndex}
-                             informationList = {informationList}
-                             setInformationList = {setInformationList}
-                            />
-                ):null}
+                    {friendInformationCard?(<FriendInformation
+                                        setFriendInformationCard={setFriendInformationCard}
+                                        chooseEmail={chooseEmail}/>
+                    ):null}
 
-                {friendInformationCard?(<FriendInformation
-                                    setFriendInformationCard={setFriendInformationCard}
-                                    chooseEmail={chooseEmail}/>
-                ):null}
+                    {showListDialog?(<><EditTagDialog/></>):null}
 
-                {showListDialog?(<><EditTagDialog/></>):null}
 
-                <div className={styles.monthPage_container} style={{gridTemplateColumns:`${gridRow}`}}>
-                    <div>
-                        <div className={styles.week_container}>
-                            <ul className={styles.week_title}>
-                                <ol className="week">MON</ol>
-                                <ol className="week">TUE</ol>
-                                <ol className="week">WED</ol>
-                                <ol className="week">THU</ol>
-                                <ol className="week">FRI</ol>
-                                <ol className="week">SAT</ol>
-                                <ol className="week">SUN</ol>
-                            </ul>
-                        </div>
-                        <MonthCell friendData = {friendList}/>
-                    </div>
-                    <div className={styles.sideBar_container}  style={{display:`${hiddenSideBarButton}`}}>
-                        {!sideBarStatus ? (<div className={styles.sideBar_button_container}
-                            style={{right:`${buttonRight}`}}
-                                onClick={()=>{
-                                    if(sideBarStatus){
-                                        // setSideBarStatus(false)
-                                        // setButtonWord("OPEN")
-                                        // setButtonRight("0px")
-                                        // setGridRow("99% 1%")
-                                    }else{
-                                        // setSideBarStatus(true)
-                                        // setButtonWord("CLOSE")
-                                        // //setButtonRight('380px')
-                                        // setGridRow("80% 20%")
-                                    }
-
-                                    setSideBarStatus(true)
-                                    setGridRow("80% 20%")
-                                }}
-                        >
-                            <div className={styles.sideBar_button}>
-                                <FontAwesomeIcon  icon={faChevronLeft} />
-                                <FontAwesomeIcon  icon={faBarsStaggered} className={styles.bar_icon}/>
+                    {memberInformation  ? <div className={styles.monthPage_container} style={{gridTemplateColumns:`${gridRow}`}}>
+                        <div>
+                            <div className={styles.week_container}>
+                                <ul className={styles.week_title}>
+                                    <ol className="week">MON</ol>
+                                    <ol className="week">TUE</ol>
+                                    <ol className="week">WED</ol>
+                                    <ol className="week">THU</ol>
+                                    <ol className="week">FRI</ol>
+                                    <ol className="week">SAT</ol>
+                                    <ol className="week">SUN</ol>
+                                </ul>
                             </div>
-                            <div className={styles.sideBar_button_background}></div>
-                        </div>):null}
-                        {sideBarStatus?(<SideBar setFriend={setFriendCard}
-                        setSideBarStatus = {setSideBarStatus}
-                        setGridRow = {setGridRow}
-                        setInformation={setInformationCard}
-                        setFriendInformationCard={setFriendInformationCard}
-                        friendList={friendList}
-                        setFriendList = {setFriendList}
-                        setChooseEmail = {setChooseEmail}
-                        setChooseInformationIndex = {setChooseInformationIndex}
-                        setInformationList = {setInformationList}
-                        informationList = {informationList}
-                        />):null}
-                    </div>
+                            <MonthCell friendData = {friendList}/>
+                        </div>
+                        <div className={styles.sideBar_container}  style={{display:`${hiddenSideBarButton}`}}>
+                            {!sideBarStatus ? (<div className={styles.sideBar_button_container}
+                                style={{right:`${buttonRight}`}}
+                                    onClick={()=>{
+                                        setSideBarStatus(true)
+                                        setGridRow("80% 20%")
+                                    }}
+                            >
+                                <div className={styles.sideBar_button}>
+                                    <FontAwesomeIcon  icon={faChevronLeft} />
+                                    <FontAwesomeIcon  icon={faBarsStaggered} className={styles.bar_icon}/>
+                                </div>
+                                <div className={styles.sideBar_button_background}></div>
+                            </div>):null}
+                            {sideBarStatus?(<SideBar setFriend={setFriendCard}
+                            setSideBarStatus = {setSideBarStatus}
+                            setGridRow = {setGridRow}
+                            setInformation={setInformationCard}
+                            setFriendInformationCard={setFriendInformationCard}
+                            friendList={friendList}
+                            setFriendList = {setFriendList}
+                            setChooseEmail = {setChooseEmail}
+                            setChooseInformationIndex = {setChooseInformationIndex}
+                            setInformationList = {setInformationList}
+                            informationList = {informationList}
+                            friendListIndex = {friendListIndex}
+                            setFriendListIndex = {setFriendListIndex}
+                            />):null}
+                        </div>
+                    </div> : (
+                        <div  className={styles.loading_bg}>
+                            <div className={styles.loading_bg_pic}>
+                            </div>
+                        </div>
+                    )}
+                    <Footer/>
                 </div>
-                
-                <Footer/>
-            </div>
-        </commonData.Provider>
+            </commonData.Provider>
     );
 }
 
 export default MonthPage;
+
+
+
+
+
+// {!loading ? <div  className={styles.loading_bg}>
+//                                 <div className={styles.lds_ripple}>
+//                                     <div></div>
+//                                     <div></div>
+//                                 </div>
+                                
+//                             </div>:null}

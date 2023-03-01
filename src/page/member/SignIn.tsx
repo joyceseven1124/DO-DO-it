@@ -34,18 +34,14 @@ export default function SingIn(props: any) {
                 });
                 setMemberStatus(true);
                 setMemberInformation(msg);
-                openLogIn(false);
-                navigate('/');
+                navigate('/calender');
             } else {
                 props.setErrorCard(true);
                 props.signInMsg('帳號或密碼錯誤');
             }
         });
     };
-    const switchRegister = (e: any) => {
-        openRegister(true);
-        openLogIn(false);
-    };
+
 
     const closeCard = (e: any) => {
         openRegister(false);
@@ -66,86 +62,91 @@ export default function SingIn(props: any) {
                     <div className="user_logo_pic">主</div>
                     <div>PASS CARD</div>
                 </div>
-                <div id="sign_in_box" className={styles.user_box}>
-                    <h2 className="card_title">Sign In</h2>
 
-                    <div>
-                        <div className="user_box">
-                            <input
-                                id="sign_in_email"
-                                className="user_input"
-                                type="text"
-                                name=""
-                                autoFocus={true}
-                                onChange={(e) => {
-                                    user.email = e.target.value;
-                                }}
-                                required
-                            />
-                            <label className="user_label">Email</label>
-                        </div>
+                <div  id="sign_in_box" className={styles.user_box_wrapper}>
+                    <div className='close_icon_box'>
+                        <div className='close_icon' onClick={()=>navigate('/')}>叉</div>
                     </div>
+                    <div  className={styles.user_box_content}>
+                        <h2 className="card_title">Sign In</h2>
+                        <div>
+                            <div className="user_box">
+                                <input
+                                    id="sign_in_email"
+                                    className="user_input"
+                                    type="text"
+                                    name=""
+                                    autoFocus={true}
+                                    onChange={(e) => {
+                                        user.email = e.target.value;
+                                    }}
+                                    required
+                                />
+                                <label className="user_label">Email</label>
+                            </div>
+                        </div>
 
-                    <div>
-                        <div className="user_box">
+                        <div>
+                            <div className="user_box">
+                                <input
+                                    id="sign_in_password"
+                                    className="user_input"
+                                    type={passwordType}
+                                    name=""
+                                    onChange={(e) => {
+                                        user.password = e.target.value;
+                                    }}
+                                    required
+                                />
+                                <span className="fakePass" id="fakePass">
+                                    解析密碼中....
+                                </span>
+                                <label className="user_label">Password</label>
+                            </div>
+                        </div>
+
+                        <div className="toggle_wrapper">
                             <input
-                                id="sign_in_password"
-                                className="user_input"
-                                type={passwordType}
-                                name=""
-                                onChange={(e) => {
-                                    user.password = e.target.value;
-                                }}
-                                required
+                                type="checkbox"
+                                className="show_password_switch"
+                                id="switch"
                             />
-                            <span className="fakePass" id="fakePass">
-                                解析密碼中....
+                            <label
+                                className="show_password_label"
+                                htmlFor="switch"
+                                onClick={showPassword}
+                            >
+                                Toggle
+                            </label>
+                            <span className="switch_word">顯示密碼</span>
+                        </div>
+
+                        <div className="switch_card_question">
+                            尚未有帳號?
+                            <span
+                                id="switch_register_button"
+                                className="switch_card_button"
+                                onClick={()=>navigate('/register')}
+                            >
+                                註冊
                             </span>
-                            <label className="user_label">Password</label>
                         </div>
-                    </div>
 
-                    <div className="toggle_wrapper">
-                        <input
-                            type="checkbox"
-                            className="show_password_switch"
-                            id="switch"
-                        />
-                        <label
-                            className="show_password_label"
-                            htmlFor="switch"
-                            onClick={showPassword}
-                        >
-                            Toggle
-                        </label>
-                        <span className="switch_word">顯示密碼</span>
-                    </div>
+                        <div className={styles.remind_word}>
+                            <div style={{ color: 'none' }}>✔信箱格式@gmail.com</div>
+                            <div style={{ color: 'none' }}>✔密碼六個字元以上</div>
+                            <div style={{ color: 'none' }}>✔欄位不可空白</div>
+                        </div>
 
-                    <div className="switch_card_question">
-                        尚未有帳號?
-                        <span
-                            id="switch_register_button"
-                            className="switch_card_button"
-                            onClick={switchRegister}
-                        >
-                            註冊
-                        </span>
-                    </div>
-
-                    <div className={styles.remind_word}>
-                        <div style={{ color: 'none' }}>✔信箱格式@gmail.com</div>
-                        <div style={{ color: 'none' }}>✔密碼六個字元以上</div>
-                        <div style={{ color: 'none' }}>✔欄位不可空白</div>
-                    </div>
-
-                    <div className="user_button_box">
-                        <button
-                            id="register_button"
-                            className="user_button"
-                            onClick={enterAccount}
-                        >
-                            SUBMIT
-                        </button>
+                        <div className="user_button_box">
+                            <button
+                                id="register_button"
+                                className="user_button"
+                                onClick={enterAccount}
+                            >
+                                SUBMIT
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

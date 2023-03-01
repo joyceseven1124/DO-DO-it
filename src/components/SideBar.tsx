@@ -33,6 +33,8 @@ const SideBar= (props:any)=>{
                 friendList={props.friendList}
                 setFriendList = {props.setFriendList}
                 setChooseEmail = {props.setChooseEmail}
+                friendListIndex = {props.friendListIndex}
+                setFriendListIndex = {props.setFriendListIndex}
                 />
                 <MenuMessage setInformation={props.setInformation}
                             setChooseInformationIndex = {props.setChooseInformationIndex}

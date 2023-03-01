@@ -9,15 +9,6 @@ const initState = {
 
 const logInReducer = (state = initState, action: { [key: string]: any }) => {
     switch (action.type) {
-        /*case  actions.NEXT_MONTH:
-        console.log(action.payload.nowTime)
-        return {
-            ...state,
-            todoList:[
-                ...state.nowTime,
-                action.payload.nowTime,
-            ]
-        }*/
         case actions.LOG_IN:
             return {
                 status: true,

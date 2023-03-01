@@ -9,6 +9,7 @@
   justify-content: center;
   z-index: 15;
   font-family: 'Noto Sans', sans-serif;
+  letter-spacing: 1px;
 }
 
 .container {

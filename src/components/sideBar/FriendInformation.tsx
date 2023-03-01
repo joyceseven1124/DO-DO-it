@@ -21,17 +21,14 @@ const FriendInformation = (props: any) => {
     const year = useSelector(
         (state: RootState) => state.timeControlReducer.year
     );
-    console.log('這是誰的emai;', props.chooseEmail);
+
 
     useEffect(() => {
         const friendName = db.getFriendInformation(props.chooseEmail);
-        console.log(friendName);
         friendName.then((msg) => {
             if (msg.name) {
-                console.log('的確有此人');
                 setFriendName(msg.name);
             }
-            console.log(msg);
         });
     }, []);
 

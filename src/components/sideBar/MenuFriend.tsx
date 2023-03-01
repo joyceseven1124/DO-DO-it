@@ -19,19 +19,25 @@ const MenuFriend = (props: any) => {
             const result = db.getFriendData(memberInformation);
             result.then((msg) => {
                 if (msg.result !== null || !msg.result) {
-                    props.setFriendList(msg);
+                    props.setFriendListIndex(msg)
+                    let friendEmail:string[] = []
+                    Object.keys(msg).map((element)=>{
+                        friendEmail.push(msg[element])
+                    })
+                    props.setFriendList(friendEmail);
                 }
             });
         }
     }, [memberInformation]);
 
+
     let itemArray: any = [];
-    const friendData = Object.keys(props.friendList);
-    friendData.map((element) => {
+    const friendData = Object.keys(props.friendListIndex);
+    friendData.map((element:any) => {
         if (element === 'result') {
             return;
         }
-        let friendEmail = props.friendList[element];
+        let friendEmail = props.friendListIndex[element];
         let item = (
             <li
                 className={styles.item_container}
@@ -39,7 +45,7 @@ const MenuFriend = (props: any) => {
                 id={friendEmail}
                 onClick={(e) => {
                     props.setFriendInformationCard(true);
-                    props.setChooseEmail(element);
+                    props.setChooseEmail(props.friendList[element]);
                 }}
             >
                 <div>{friendEmail}</div>
@@ -48,7 +54,18 @@ const MenuFriend = (props: any) => {
                     <FontAwesomeIcon className={styles.menu_friend_delete_button} 
                         icon={faTrashCan}
                         onClick={(e)=>{
-                            console.log("hello")
+                            const result =db.deleteFriend( element,memberInformation )
+                            result.then((msg)=>{
+                                let newFriendList:any =[]
+                                if(msg === "success"){
+                                    delete props.friendListIndex[element];
+                                    let newFriendEmail = [...props.friendList]
+                                    newFriendEmail.push(friendEmail)
+                                    props.setFriendList(newFriendEmail)
+                                }
+                                props.setFriendList(newFriendList)
+                            })
+                            e.stopPropagation()
                         }}/>
                 </div>
             </li>
@@ -86,7 +103,7 @@ const MenuFriend = (props: any) => {
                         {itemArray.length === 0 ? (
                             <li>
                                 <div className={styles.no_item}>
-                                    目前沒有朋友
+                                    Friendless
                                 </div>
                             </li>
                         ) : null}

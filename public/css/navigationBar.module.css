@@ -13,6 +13,8 @@
     color: rgba(0,0,0,0);
     font-size: 1px;
     cursor: pointer;
+    letter-spacing: 1px;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 .icon:hover{
@@ -116,59 +118,7 @@
     cursor: pointer;
 }
 
-.search{
-    display: flex;
-    align-items: center;
-    width: 600px;
-    height: 36px;
-    border-radius: 5px;
-    background-color: white;
-}
 
-.search_input{
-    font-family: 'Potta One', cursive;
-    border: 0px;
-    outline: 0px;
-    width: 380px;
-    height: 30px;
-    margin-left: 10px;
-    background-color: white;
-    caret-color:#03e9f4;
-    width: 100%;
-}
-
-.search_input:focus{
-    content: black;
-}
-
-.search_button{
-    margin-left: 10px;
-    background-image: url(/public/assets/search_icon.png);
-    composes:icon;
-}
-
-
-.change_time_type{
-    font-family: 'Potta One', cursive;
-    margin-right: 20px;
-    box-sizing: border-box;
-    height: 36px;
-    width: 100px;
-    border: 1px solid grayLine;
-    border-radius: 5px;
-    text-align: center;
-    line-height: 36px;
-    cursor: pointer;
-}
-
-.time_type_items{
-    display: none;
-}
-
-.member_name{
-    margin-right: 10px;
-    font-size: 18px;
-}
 
 .login{
     margin-right: 20px;
@@ -179,6 +129,7 @@
     border-radius: 5px;
     text-align: center;
     cursor: pointer;
+    letter-spacing: 1px;
 }
 
 .login:hover{

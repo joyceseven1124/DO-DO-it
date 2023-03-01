@@ -15,15 +15,34 @@ export default function LogInPage(){
 
     return(
         <div>
-            
             {successCardShow? (<>
             <SuccessCard msg={msg} setCard={setSuccessCard}/>
             </>) : null}
             {errorCardShow? (<>
             <ErrorCard msg={msg} setCard={setErrorCard}/>
             </>) : null}
-            {signInCardStatus? (<>
-            <SingIn setRegister={setRegisterCardStatus} 
+            <SingIn
+                setErrorCard={setErrorCard}
+                setSuccessCard={setSuccessCard}
+                signInMsg={setMsg}
+            />
+        </div>
+    )
+} 
+
+//  <div className={styles.teach_information}>
+//     <div className={styles.teach_pic}>圖</div>
+//     <div></div>
+//     <div className={styles.step_one}></div>
+//     <div className={styles.step_two}></div>
+//     <div className={styles.step_three}></div>
+//     <div className={styles.step_}></div>
+// </div>
+
+
+
+
+/* <SingIn setRegister={setRegisterCardStatus} 
                     registerStatus={registerCardStatus}
                     setSignInCard={setSignInCardStatus}
                     signStatus={signInCardStatus}
@@ -38,16 +57,4 @@ export default function LogInPage(){
                     signStatus={signInCardStatus}
                     setErrorCard={setErrorCard}
                     setSuccessCard={setSuccessCard}
-                    registerMsg={setMsg}/></>) : null}
-        </div>
-    )
-} 
-
-//  <div className={styles.teach_information}>
-//     <div className={styles.teach_pic}>圖</div>
-//     <div></div>
-//     <div className={styles.step_one}></div>
-//     <div className={styles.step_two}></div>
-//     <div className={styles.step_three}></div>
-//     <div className={styles.step_}></div>
-// </div>
+                    registerMsg={setMsg}/></>) : null} */

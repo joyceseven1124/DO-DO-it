@@ -5,6 +5,7 @@ import { memberStatus } from '../../index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { v4 as uuidv4 } from "uuid";
 
 const AddFriendCard = (props: any) => {
     const [inputEmail, setInputEmail] = useState('');
@@ -48,17 +49,25 @@ const AddFriendCard = (props: any) => {
                             <div
                                 className={styles.add_button}
                                 onClick={(e) => {
+                                    const uuid =uuidv4()
                                     const result = db.addFriend(
                                         inputEmail,
-                                        memberInformation
+                                        memberInformation,
+                                        uuid
                                     );
                                     result.then((msg) => {
                                         if (msg) {
-                                            setResultMsg('新增成功');
-                                            setColor('#048517fa');
+                                            setResultMsg('Success');
+                                            setColor('rgb(7 255 44 / 98%)');
+                                            let newFriendListIndex = props.friendListIndex
+                                            newFriendListIndex[uuid] = inputEmail
+                                            props.setFriendListIndex(newFriendListIndex)
+                                            let newFriendEmail = [...props.friendList]
+                                            newFriendEmail.push(inputEmail)
+                                            props.setFriendList(newFriendEmail)
                                         } else {
-                                            setResultMsg('查無此人');
-                                            setColor('#ae0000fa');
+                                            setResultMsg('fail');
+                                            setColor('rgb(255 3 3 / 98%)');
                                         }
                                     });
                                 }}

@@ -17,8 +17,7 @@ function AddGuest(props:any) {
   const [openFriendList,setOpenFriendList] = useState(false)
   const [friendChoose,setFriendChoose]=useState([])
   let friendChooseStatus:string[] = []
-  console.log(friendChoose)
-  let friendListArray =Object.keys(props.friendData).map((element,index)=>{
+  let friendListArray =props.friendData.map((element:any,index:number)=>{
     //friendListStatusArray.push({email:element,check:"none",unCheck:"block"})
 
     return <div className={styles.friend_list_item_wrapper}

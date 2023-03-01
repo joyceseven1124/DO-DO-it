@@ -1,0 +1,217 @@
+
+.front_background_container{
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top:0px;
+    left: 0px;
+}
+.front_container{
+   display: grid;
+   grid-template-columns: 50% 50%;
+   background-color: rgb(34 34 34);
+   width: 100%;
+   height: 100%;
+   align-items: center;
+   justify-content: center;
+   color: white;
+   font-family: 'Noto Sans', sans-serif;
+   letter-spacing: 1.2px;
+   box-sizing: border-box;
+   text-align:justify;
+}
+
+.introduction_container{
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 100px;
+    z-index: 5;
+}
+
+.introduction_container{
+    width: 90%;
+    margin: auto;
+}
+
+.app_introduction{
+    margin-bottom: 10px;
+    line-height: 1.6;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+
+.front_pic{
+    background-image: url(/public/assets/frontPage_pic.jpeg);
+    height: 630px;
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    color: rgba(0,0,0,0);
+    margin-top: 50px;
+    margin-right: 30px;
+}
+
+.app_name{
+    font-size: 36px;
+    margin-bottom: 30px;
+    font-weight: 200;
+}
+
+
+
+.logIn_button,.register_button{
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #03e9f4;
+  font-size: 16px;
+  overflow: hidden;
+  transition: .5s;
+  border:1px solid white;
+  border-radius: 5px;
+  background-color: rgba(0,0,0,0);
+  margin-top: 50px;
+}
+
+.register_button{
+  margin-right: 20px;
+}
+
+.logIn_button:hover,.register_button:hover {
+  background: #03e9f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
+}
+
+.logIn_button:hover::before,.register_button:hover::before {
+  transform: scale(1.25);
+  transition: all ease-out .5s;
+  border: 1px solid #96f3e0;
+  opacity: 0;
+}
+
+.feature_box_wrapper{
+    width: 100%;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 21% 21% 21% 21%;
+    grid-template-rows: 300px;
+    background-color: #616161;
+    justify-content:space-around;
+    box-sizing: border-box;
+}
+
+.feature_box{
+    color: white;
+    text-align: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: 	#212121;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px -2px rgba(64,64,64,0.73);
+    font-weight: 100;
+    font-family: 'Noto Sans';
+    letter-spacing: 1px;
+}
+
+.drag_pic,.friend_pic,.note_pic,.rwd_pic{
+    height: 100px;
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+   
+}
+
+.drag_pic{
+    background-image: url(/public/assets/drag_pic.png);
+}
+
+.friend_pic{
+    background-image: url(/public/assets/friend_pic.png);
+}
+
+.note_pic{
+    background-image: url(/public/assets/note_pic.png);
+}
+
+.rwd_pic{
+    background-image: url(/public/assets/rwd_pic.png);
+}
+
+.description_title{
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+
+@media screen and (max-width:1200px) {
+  .front_container{
+    grid-template-columns: 90%;
+    margin-top: 100px;
+  }
+
+  .introduction_container{
+    padding-left: 0px;
+  }
+  .front_pic{
+    background-position: top;
+    height: 360px;
+    margin-bottom: 20px;
+  }
+
+  .feature_box_wrapper{
+    width: 100%;
+    grid-template-columns: 40% 40%;
+    padding: 0px;
+    padding-bottom: 20px;
+  }
+  .feature_box{
+    margin-top: 20px;
+  }
+
+  .drag_pic,.friend_pic,.note_pic,.rwd_pic{
+    margin-top: 20px;
+  }
+
+  .description_title{
+    text-align:justify;
+  }
+}
+
+@media screen and (max-width:650px) {
+  .feature_box_wrapper{
+        grid-template-columns: 80%;
+    }
+}
+
+@media screen and (max-width:500px) {
+  .front_pic{
+    background-position: top;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+
+  .front_container{
+    margin-top: 20px;
+  }
+
+  .app_name{
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .app_introduction{
+    font-size: 12px;
+  }
+}

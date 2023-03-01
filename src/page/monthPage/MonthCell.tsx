@@ -109,7 +109,6 @@ export default function MonthCell(props: any) {
             let data: any = [];
             let chooseCellData: any = [];
             monthData.then((msg) => {
-                console.log('接收到的資料', msg);
                 if (msg !== 'fail' && msg !== null) {
                     let moreRowsTag = msg.filter((element: any) => {
                         if (element.length > 1) {

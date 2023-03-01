@@ -80,6 +80,7 @@ ul,li{
 
 .check_box::before{
   content: "TODAY'S  TASK";
+  letter-spacing: 1px;
   font-weight: 500;
   position: absolute;
   box-sizing: border-box;
@@ -169,7 +170,7 @@ ul,li{
   box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
   text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);
   padding: 10px 10px;
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
   display: flex;
@@ -194,7 +195,7 @@ ul,li{
   box-shadow: 0 1px 0 white inset, 0 -1px 0 #d5d5d5 inset;
   text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);
   padding: 10px 10px;
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;

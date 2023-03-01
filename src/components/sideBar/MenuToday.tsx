@@ -86,7 +86,7 @@ const MenuToday = (props: any) => {
                         {dataArray.length === 0 ? (
                             <li>
                                 <div className={styles.no_item}>
-                                    目前沒有任務
+                                    Currently without any plans
                                 </div>
                             </li>
                         ) : null}

@@ -43,7 +43,6 @@ const MenuTomorrow = (props: any) => {
             tomorrowYear === year &&
             tomorrowMonth+1 === monthNumber
         ) {
-            console.log("tomorrowMonth === monthNumber",tomorrowMonth === monthNumber,tomorrowMonth,monthNumber)
             let item = (
                 <li
                     id={element.index}
@@ -84,7 +83,7 @@ const MenuTomorrow = (props: any) => {
                         {dataArray.length === 0 ? (
                             <li>
                                 <div className={styles.no_item}>
-                                    明日沒有任務
+                                    Currently without any plans
                                 </div>
                             </li>
                         ) : null}

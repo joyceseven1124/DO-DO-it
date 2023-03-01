@@ -19,7 +19,11 @@ const Container = styled.div`
     margin:auto auto;
     text-align:center;
     align-item:center;
+    letter-spacing: 1px;
+    line-height:1.6;
     justify-content: center;
+    font-family: 'Noto Sans';
+    font-weight:200
     div{
         margin-bottom:5px;
     }
@@ -30,9 +34,7 @@ export default function Footer(){
         <>
             <Wrapper>
                 <Container>
-                    <div>DO DO it</div>
-                    <div>圖片來源:pngTree</div>
-                    <div>設計參考:HUNG</div>
+                    <div>DO DO it © 2023</div>
                 </Container>
             </Wrapper>
         </>

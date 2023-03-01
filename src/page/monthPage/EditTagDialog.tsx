@@ -156,12 +156,10 @@ export default function EditTagDialog(props: any) {
             element.description = description;
             element.color = color;
             element.status = saveStatus;
-            console.log('element:', element.description);
             time = `${yearNumber}Y${monthNumber}M`;
             index = element.index;
             newDataArray.push(element);
             if (dialogData.length === 1) {
-                console.log('element', element);
                 const result = db.updateData(
                     memberInformation,
                     time,
@@ -169,7 +167,6 @@ export default function EditTagDialog(props: any) {
                     element
                 );
                 result.then((msg) => {
-                    console.log('結果,', msg);
                 });
             }
         });
@@ -181,7 +178,7 @@ export default function EditTagDialog(props: any) {
                 dialogData
             );
             result.then((msg) => {
-                console.log('結果,', msg);
+
             });
         }
         setTagsArray(newDataArray);

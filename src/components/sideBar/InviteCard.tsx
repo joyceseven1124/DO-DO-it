@@ -15,8 +15,6 @@ const InviteCard = (props: any) => {
     const { isTagsArray } = useContext(commonData);
 
     const messageData = props.informationList[props.chooseInformationIndex];
-    console.log('messageData', messageData.index);
-    console.log('messagedataAll', messageData);
     let messageConnectData = [];
     const messageDataIndexArray = Object.keys(props.informationList);
 
