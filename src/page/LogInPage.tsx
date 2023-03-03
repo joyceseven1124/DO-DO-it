@@ -29,32 +29,3 @@ export default function LogInPage(){
         </div>
     )
 } 
-
-//  <div className={styles.teach_information}>
-//     <div className={styles.teach_pic}>圖</div>
-//     <div></div>
-//     <div className={styles.step_one}></div>
-//     <div className={styles.step_two}></div>
-//     <div className={styles.step_three}></div>
-//     <div className={styles.step_}></div>
-// </div>
-
-
-
-
-/* <SingIn setRegister={setRegisterCardStatus} 
-                    registerStatus={registerCardStatus}
-                    setSignInCard={setSignInCardStatus}
-                    signStatus={signInCardStatus}
-                    setErrorCard={setErrorCard}
-                    setSuccessCard={setSuccessCard}
-                    signInMsg={setMsg}/>
-            </>) : null}
-            {registerCardStatus? (<>
-            <Register setRegister={setRegisterCardStatus} 
-                    registerStatus={registerCardStatus}
-                    setSignInCard={setSignInCardStatus}
-                    signStatus={signInCardStatus}
-                    setErrorCard={setErrorCard}
-                    setSuccessCard={setSuccessCard}
-                    registerMsg={setMsg}/></>) : null} */

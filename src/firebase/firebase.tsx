@@ -173,16 +173,21 @@ async function updateData(email:string,time:string,index:number,toDoListData:{[k
 async function deleteData(email:string,time:string,index:number){
     let msg =''
     try{
-
-        await updateDoc(doc(db, email, time), {
+        await updateDoc(doc(db, `${email}`, time), {
             [index]: deleteField()
         });
+        const commonIndex =await getDoc(doc(db, email,`CommonTag${time}`));
+        if(commonIndex.exists()){
+            await updateDoc(doc(db, `${email}`, `CommonTag${time}`), {
+                [index]: deleteField()
+            });
+        }
 
-        await updateDoc(doc(db, email, `CommonTag${time}`), {
-            [index]: deleteField()
-        });
-
-        await deleteDoc(doc(db, "commonTag", `${index}`));
+        const commonIndexDataBase =await getDoc(doc(db, "commonTag", `${index}`));
+        if(commonIndex.exists()){
+            await deleteDoc(doc(db, "commonTag", `${index}`));
+        }
+    
         msg="success"
     }
     catch(error){

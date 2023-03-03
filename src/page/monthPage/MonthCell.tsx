@@ -20,6 +20,8 @@ import dayjs from 'dayjs';
 import toObject from 'dayjs/plugin/toObject';
 import weekday from 'dayjs/plugin/weekday';
 import findMaxDay from '../../components/commonFunction/findMaxDay';
+import SuccessCard from '../../components/SuccessCard';
+import ErrorCard from '../../components/ErrorCard';
 dayjs.extend(toObject);
 dayjs.extend(weekday);
 
@@ -45,7 +47,7 @@ interface DayCell {
 const DayCell = styled.div<DayCell>`
     position: relative;
     background-color: ${({ bgColor }) => {
-        return bgColor ? 'var(--nowTimeBgColor)' : 'none';
+        return bgColor ? 'rgb(0 91 97)' : 'none';
     }};
 
     .date_word {
@@ -66,6 +68,8 @@ const DayCell = styled.div<DayCell>`
     }
 `;
 
+
+
 export default function MonthCell(props: any) {
     const [dayStart, setDayStart] = useState(0);
     const [dayEnd, setDayEnd] = useState(0);
@@ -74,6 +78,8 @@ export default function MonthCell(props: any) {
     const [activeCell, setActiveCell] = useState(false);
     const [showCardDisplay, setShowCardDisplay] = useState(false);
     const [monthCellHeight, setMonthCellHeight] = useState(700);
+    const [errorCardShow,setErrorCardShow] = useState(false)
+    const [errorCardWord,setErrorCardWord] = useState("")
     const startDayInit = useRef(0);
     const endDayInit = useRef(0);
     let thisPageDay: number[] = [];
@@ -109,6 +115,7 @@ export default function MonthCell(props: any) {
             let data: any = [];
             let chooseCellData: any = [];
             monthData.then((msg) => {
+                props.setLoading(false)
                 if (msg !== 'fail' && msg !== null) {
                     let moreRowsTag = msg.filter((element: any) => {
                         if (element.length > 1) {
@@ -158,12 +165,22 @@ export default function MonthCell(props: any) {
                     });
                     setChooseCell(chooseCellData);
                     setTagsArray(data);
+                    
                 }
             });
         } else {
             setChooseCell([]);
         }
     }, [searchMonth, memberInformation]);
+
+    function checkMouseUpPlace(e:any){
+        if (!e.target.className.includes('monthCell')) {
+            setErrorCardShow(true)
+            setErrorCardWord("Please release the mouse in the grid")
+            setActiveCell(false);
+        }
+        document.removeEventListener("mouseup",checkMouseUpPlace)
+    }
 
 
     function Cell() {
@@ -241,7 +258,7 @@ export default function MonthCell(props: any) {
                     }
                 }
             }, [orderNumber]);
-            let newTagArray = [...isTagsArray];
+            let newTagArray = [...isTagsArray].sort((a, b) => a.index - b.index);
             newTagArray = newTagArray.map((element) => {
                 const startPlace = element.id;
                 const endPlace = startPlace + element.width / 100 - 1;
@@ -324,6 +341,7 @@ export default function MonthCell(props: any) {
         setDayStart(chooseDate);
         setTagStartCell(cellId);
         startDayInit.current = chooseDate;
+        document.addEventListener("mouseup", checkMouseUpPlace);
     }
 
     function makeChooseCellArray(
@@ -356,9 +374,10 @@ export default function MonthCell(props: any) {
     }
 
     function mouseUp(e: any) {
-        if (!e.target.id.includes('cell')) {
-            return;
-        }
+         if (!e.target.id.includes('cell')) {
+             return;
+         }
+        
         setActiveCell(false);
         let chooseDate = e.target.classList[3];
         setDayEnd(chooseDate);
@@ -395,6 +414,13 @@ export default function MonthCell(props: any) {
             let yearEnd = yearNumber
             let monthStart = monthNumber;
             let monthEnd = monthNumber;
+            let title
+            let description
+            let color
+            let toDoListStatus
+            let receiveEmail: string[];
+            let sendEmail: string;
+            let sendEmailName: string;
             
 
             if(thisPageDay.length < endId){
@@ -420,7 +446,14 @@ export default function MonthCell(props: any) {
                 if (connectTagValueIndex.toString() !== index) {
                     return element;
                 } else {
-                    sendDataClean.push(element)
+                    title = element.title
+                    description = element.description
+                    color = element.color
+                    toDoListStatus = element.status
+                    receiveEmail = element.receiveEmail
+                    sendEmail = element.sendEmail
+                    sendEmailName = element.sendEmailName
+                    //sendDataClean.push(element)
                 }
             });
             if (startId < 7 && startDate > 7) {
@@ -455,102 +488,112 @@ export default function MonthCell(props: any) {
                 }
             }
 
-            const firstRowEndId = perRowEndNumber[Math.ceil(startId / 7) - 1];
-            const rowEnd = Math.ceil(endId / 7);
-            const rowStart = Math.ceil(startId / 7);
-            let allWidth = allConnectWidth;
-            if (rowEnd !== rowStart) {
-                let firstTagWidth =
-                    (Math.abs(startId - firstRowEndId) + 1) * 100;
-                if (startId === firstRowEndId) {
-                    firstTagWidth = 100;
+            const firstRowEndId = perRowEndNumber[Math.ceil(startId/7)-1]
+            const rowEnd = Math.ceil(endId/7)
+            const rowStart = Math.ceil(startId/7)
+            let allWidth = allConnectWidth
+            if(rowEnd !== rowStart){
+                let upDateArray = []
+                let tagItem ={}
+                let firstTagWidth = (Math.abs(startId-firstRowEndId)+1)*100
+                if(startId === firstRowEndId){
+                    firstTagWidth = 100
                 }
-                sendDataClean[0].id = startId
-                sendDataClean[0].width = firstTagWidth
-                sendDataClean[0].yearStart = yearStart
-                sendDataClean[0].yearEnd = yearEnd
-                sendDataClean[0].monthStart = monthStart
-                sendDataClean[0].monthEnd = monthEnd
-                sendDataClean[0].dayStart = startDate
-                sendDataClean[0].dayEnd = endDate
-                allWidth = allWidth - firstTagWidth;
-                let arrayIndex = 1
-                if (Math.abs(rowEnd - rowStart) >= 2) {
-                    for (let i = rowStart + 1; i < rowEnd; i++) {
-                        let otherTagStartId = perRowStartNumber[i - 1];
-                        let otherTagWidth = 700;
-                        sendDataClean[arrayIndex].id = otherTagStartId
-                        sendDataClean[arrayIndex].width = otherTagWidth
-                        sendDataClean[arrayIndex].yearStart = yearStart
-                        sendDataClean[arrayIndex].yearEnd = yearEnd
-                        sendDataClean[arrayIndex].monthStart = monthStart
-                        sendDataClean[arrayIndex].monthEnd = monthEnd
-                        sendDataClean[arrayIndex].dayStart = startDate
-                        sendDataClean[arrayIndex].dayEnd = endDate
-                        allWidth = allWidth - otherTagWidth;
-                        arrayIndex ++ 
+                tagItem = {
+                    id: startId,
+                    width: firstTagWidth,
+                    title: title,
+                    description: description,
+                    connectWidth: allConnectWidth,
+                    color: color,
+                    index: index,
+                    status: toDoListStatus,
+                    yearStart: yearStart,
+                    yearEnd: yearEnd,
+                    monthStart: monthStart,
+                    monthEnd: monthEnd,
+                    dayStart: startDate,
+                    dayEnd: endDate,
+                    receiveEmail: receiveEmail,
+                    sendEmail: sendEmail,
+                    sendEmailName: sendEmailName,}
+                newTagArray.push(tagItem)
+                upDateArray.push(tagItem)
+                allWidth = allWidth - firstTagWidth
+                if(Math.abs(rowEnd-rowStart)>=2){
+                    for(let i = rowStart+1; i<rowEnd;i++ ){
+                        let otherTagStartId = perRowStartNumber[i-1]
+                        let otherTagWidth = 700
+                        const tagItem = {
+                            id: otherTagStartId,
+                            width: otherTagWidth,
+                            title: title,
+                            description: description,
+                            connectWidth: allConnectWidth,
+                            color: color,
+                            index: index,
+                            status: toDoListStatus,
+                            yearStart: yearStart,
+                            yearEnd: yearEnd,
+                            monthStart: monthStart,
+                            monthEnd: monthEnd,
+                            dayStart: startDate,
+                            dayEnd: endDate,
+                            receiveEmail: receiveEmail,
+                            sendEmail: sendEmail,
+                            sendEmailName: sendEmailName,}
+                        newTagArray.push(tagItem)
+                        upDateArray.push(tagItem)
+                        allWidth = allWidth - otherTagWidth
                     }
                 }
-                let endTagWidth = allWidth;
-                let endTagStartId = perRowStartNumber[Math.ceil(endId / 7) - 1];
-                if(sendDataClean[arrayIndex]){
-                    sendDataClean[arrayIndex].id = endTagStartId
-                    sendDataClean[arrayIndex].width =  endTagWidth
-                    sendDataClean[arrayIndex].yearStart = yearStart
-                    sendDataClean[arrayIndex].yearEnd = yearEnd
-                    sendDataClean[arrayIndex].monthStart = monthStart
-                    sendDataClean[arrayIndex].monthEnd = monthEnd
-                    sendDataClean[arrayIndex].dayStart = startDate
-                    sendDataClean[arrayIndex].dayEnd = endDate
-                }else{
-                    let toDoListData = {
-                        title: sendDataClean[0].title,
-                        color: sendDataClean[0].color,
+                let endTagWidth = allWidth
+                if(endTagWidth>0){
+                    let endTagStartId = perRowStartNumber[Math.ceil(endId/7)-1]
+                    const tagItem = { 
+                        id: endTagStartId,
+                        width: endTagWidth,
+                        title: title,
+                        description: description,
+                        connectWidth: allConnectWidth,
+                        color: color,
+                        index: index,
+                        status: toDoListStatus,
                         yearStart: yearStart,
                         yearEnd: yearEnd,
                         monthStart: monthStart,
                         monthEnd: monthEnd,
                         dayStart: startDate,
                         dayEnd: endDate,
-                        description: sendDataClean[0].description,
-                        status: sendDataClean[0].status,
-                        index: sendDataClean[0].index,
-                        id: endTagStartId,
-                        connectWidth: sendDataClean[0].connectWidth,
-                        width: endTagWidth,
-                        receiveEmail: sendDataClean[0].receiveEmail,
-                        sendEmail: sendDataClean[0].sendEmail,
-                        sendEmailName: sendDataClean[0].sendEmailName,
-                    };
-                    sendDataClean.push(toDoListData)
+                        receiveEmail: receiveEmail,
+                        sendEmail: sendEmail,
+                        sendEmailName: sendEmailName,}
+                    newTagArray.push(tagItem)
+                    upDateArray.push(tagItem)
                 }
-
-                if(sendDataClean[arrayIndex+1]){
-                    sendDataClean = sendDataClean.filter((element:any,index:number)=>{
-                        if(index !== arrayIndex+1){
-                            return element
-                        }
-                    })
-                }
-
-                sendDataClean.map((element:any)=>{
-                    newTagArray.push(element);
-                })
-                updateData = [...sendDataClean];
-
-            } else {
-                sendDataClean[0].id = startId
-                sendDataClean[0].width = allWidth
-                sendDataClean[0].yearStart = yearStart,
-                sendDataClean[0].yearEnd = yearEnd,
-                sendDataClean[0].monthStart = monthStart,
-                sendDataClean[0].monthEnd = monthEnd,
-                sendDataClean[0].dayStart = startDate,
-                sendDataClean[0].dayEnd = endDate,
-                sendDataClean.map((element:any)=>{
-                    newTagArray.push(element);
-                    updateData = element;
-                })
+                updateData = [...upDateArray]
+            }else{
+                const tagItem = {
+                    id: startId,
+                    width: allWidth,
+                    title: title,
+                    description: description,
+                    connectWidth: allConnectWidth,
+                    color: color,
+                    index: index,
+                    status: toDoListStatus,
+                    yearStart: yearStart,
+                    yearEnd: yearEnd,
+                    monthStart: monthStart,
+                    monthEnd: monthEnd,
+                    dayStart: startDate,
+                    dayEnd: endDate,
+                    receiveEmail: receiveEmail,
+                    sendEmail: sendEmail,
+                    sendEmailName: sendEmailName,
+                };
+                newTagArray.push(tagItem)
+                updateData = tagItem
             }
             let newChooseAllCells = chooseCellArray.filter((element) => {
                 const start = element[0];
@@ -564,14 +607,22 @@ export default function MonthCell(props: any) {
                 newChooseCell.push(i);
             }
             newChooseAllCells.push(newChooseCell);
-            db.updateData(
+            let result = db.updateData(
                 memberInformation,
                 searchDataTime,
                 Number(index),
                 updateData
             );
-            setChooseCell(newChooseAllCells);
-            setTagsArray(newTagArray);
+        
+            result.then((msg)=>{
+                if(msg === "success"){
+                    setChooseCell(newChooseAllCells);
+                    setTagsArray(newTagArray);
+                }else{
+                    setErrorCardShow(true)
+                    setErrorCardWord("Save failed")
+                }
+            })
         }
     };
 
@@ -608,12 +659,15 @@ export default function MonthCell(props: any) {
             >
                 <Cell />
             </div>
+            {errorCardShow ? <ErrorCard msg={errorCardWord} setCard={setErrorCardShow}/>:null}
             {showCardDisplay ? (
                 <>
                     <ToDoListDialogBox
                         status={showCardDisplay}
                         setCardStatus={setShowCardDisplay}
                         friendData={props.friendData}
+                        setErrorCardShow = {setErrorCardShow}
+                        msg={setErrorCardWord}
                     />
                 </>
             ) : null}

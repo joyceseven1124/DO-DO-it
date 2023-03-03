@@ -37,7 +37,7 @@ export default function SingIn(props: any) {
                 navigate('/calender');
             } else {
                 props.setErrorCard(true);
-                props.signInMsg('帳號或密碼錯誤');
+                props.signInMsg('Account or password incorrect');
             }
         });
     };
@@ -154,6 +154,3 @@ export default function SingIn(props: any) {
     );
 }
 
-//  <div className='close_icon_box'>
-//     <div className='close_icon' onClick={closeCard}>叉</div>
-// </div>

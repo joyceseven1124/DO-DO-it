@@ -25,7 +25,7 @@ const SideBar= (props:any)=>{
             </div>
 
 
-            <div>
+            <div className={styles.menu_title_wrapper}>
                 <MenuToday />
                 <MenuTomorrow/>
                 <MenuFriend setFriend={props.setFriend}

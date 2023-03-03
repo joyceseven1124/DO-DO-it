@@ -77,7 +77,7 @@ const NavigationBar = (props:any) => {
 
                 </button>
                 <div className="nav_group">
-                    <ChangeTime />
+                    <ChangeTime/>
                 </div>
                 <div className="nav_group" >
                     <div className={styles.login} onClick={changeMemberStatus} >Log out</div>

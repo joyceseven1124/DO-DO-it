@@ -10,9 +10,9 @@ const SuccessCard= (props:any)=>{
     return(
         <div className={styles.msgCard_wrapper}>
             <div className={styles.msgCard_content}>
-                <div className={styles.successCard_title}>任務成功</div>
+                <div className={styles.successCard_title}>Success</div>
                 <div className={styles.successCard_information}>{props.msg}</div>
-                <div className={styles.msgCard_button} onClick={closeCard}>收到</div>
+                <div className={styles.msgCard_button} onClick={closeCard}>OK</div>
             </div>
         </div>
     )

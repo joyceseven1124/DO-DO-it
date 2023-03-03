@@ -23,26 +23,21 @@ const MenuTomorrow = (props: any) => {
     let tomorrowDay = new Date().getDate() + 1;
     let tomorrowMonth = new Date().getMonth();
     let tomorrowYear = new Date().getFullYear();
-    const thisMonthStartWeek: number = new Date(
-        tomorrowYear,
-        tomorrowMonth,
-        1
-    ).getDay();
-    const thisDateId = thisMonthStartWeek + tomorrowDay - 1;
-    const rowStartId = [1, 8, 15, 22, 29, 36];
     let dataArray: any = [];
+    let checkRepeatIndex = ""
 
     tomorrowData.forEach((element, index) => {
-        const thisWeekStartId = rowStartId[Math.ceil(element.id / 7) - 1];
-        const thisWeekEndId = thisWeekStartId + 6;
+        const dateStart = new Date(`${element.yearStart}-${element.monthStart}-${element.dayStart}`);
+        const dateEnd = new Date(`${element.yearEnd}-${element.monthEnd}-${element.dayEnd}`);
+        const dateToday = new Date(`${tomorrowYear}-${tomorrowMonth+1}-${tomorrowDay}`);
         if (
-            element.dayStart <= tomorrowDay &&
-            tomorrowDay <= element.dayEnd &&
-            thisWeekStartId <= thisDateId &&
-            thisDateId <= thisWeekEndId &&
-            tomorrowYear === year &&
-            tomorrowMonth+1 === monthNumber
+             dateStart <= dateToday && dateToday <= dateEnd
         ) {
+            if(checkRepeatIndex === element.index){
+                checkRepeatIndex = element.index
+                return
+            }
+            checkRepeatIndex = element.index
             let item = (
                 <li
                     id={element.index}

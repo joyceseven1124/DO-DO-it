@@ -1,0 +1,54 @@
+.msgCard_wrapper{
+    display: flex;
+    justify-content: center;
+    font-family: 'Noto Sans', sans-serif
+}
+
+.msgCard_content{
+    margin: auto auto;
+    position: absolute;
+    top:0px;
+    left: 50%;
+    transform: translateX(-65%);
+    z-index: 10;
+    width: 200px;
+    line-height: 30px;
+    letter-spacing: 0.5px;
+    color: white;
+    font-size: 12px;
+    height: 30px;
+    background-color: #515050b8;
+    border-radius: 5px;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 5px 6px 10px #333333;
+    -webkit-box-shadow: 5px 6px 10px #333333;
+    -moz-box-shadow: 5px 6px 10px #333333;
+    animation:show-block 3s;
+    animation-fill-mode: backwards;
+    opacity: 0;
+}
+
+@keyframes show-block{
+  0%{
+    top: 0px;
+    opacity: 0;
+  }
+
+  60%{
+    top: 60px;
+    opacity: 1;
+  }
+
+  100%{
+    top: 60px;
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width:1200px) { 
+    .msgCard_content{
+        left: auto;
+        transform: none;
+    }
+}

@@ -40,15 +40,15 @@ const MenuFriend = (props: any) => {
         let friendEmail = props.friendListIndex[element];
         let item = (
             <li
-                className={styles.item_container}
+                className={styles.item_container_friend}
                 key={`menuFriend-${element}`}
                 id={friendEmail}
                 onClick={(e) => {
                     props.setFriendInformationCard(true);
-                    props.setChooseEmail(props.friendList[element]);
+                    props.setChooseEmail(props.friendListIndex[element]);
                 }}
             >
-                <div>{friendEmail}</div>
+                <div className={styles.friend_email_word}>{friendEmail}</div>
                 <div className={styles.menu_friend_button_wrapper}>
                     <FontAwesomeIcon icon={faUser} />
                     <FontAwesomeIcon className={styles.menu_friend_delete_button} 
@@ -97,7 +97,7 @@ const MenuFriend = (props: any) => {
                                 props.setFriend(true);
                             }}
                         >
-                            <div>Add friend</div>
+                            <div>Add a friend</div>
                             <div>+</div>
                         </div>
                         {itemArray.length === 0 ? (

@@ -18,8 +18,8 @@ function AddGuest(props:any) {
   const [friendChoose,setFriendChoose]=useState([])
   let friendChooseStatus:string[] = []
   let friendListArray =props.friendData.map((element:any,index:number)=>{
-    //friendListStatusArray.push({email:element,check:"none",unCheck:"block"})
 
+    
     return <div className={styles.friend_list_item_wrapper}
                 key={`friend-list-${index}`}
                 id={`friend-list-${index}`}
@@ -46,19 +46,19 @@ function AddGuest(props:any) {
                 <div className={styles.friend_list_item_check} key={`friend-status-item-${index}`}>
                     {!friendChoose.includes(element) ?(
                         <div className={styles.friend_list_check}
-                          id = {`list_unCheck_${index}`}
+                        id = {`list_unCheck_${index}`}
                         >◯</div>
                     ):null}
 
                     {friendChoose.includes(element) ?(
-                         <FontAwesomeIcon  icon={faCircleCheck} className={styles.friend_list_check}
+                        <FontAwesomeIcon  icon={faCircleCheck} className={styles.friend_list_check}
                                             id = {`list_check_${index}`}
-                                           style={{color:"var(--brightMainDecorateColor)"}}/>
+                                        style={{color:"var(--brightMainDecorateColor)"}}/>
                     ):null}
                 </div>
             </div>
+        
   })
-
 
   return <>
             <div className={styles.add_guest_container}>
@@ -106,8 +106,14 @@ function AddGuest(props:any) {
                         setRotate(rotateDeg)
                     }}
                     ></div>
+
                     <div style={{display:`${openFriendList}`}} className={styles.friends_list_wrapper}>
-                        <div className={styles.friends_list}>{friendListArray}</div>
+                        <div className={styles.friends_list}>{
+                            !(props.friendData.length === 0) ? friendListArray:(
+                                <div className={styles.empty_email}>
+                                    You can add friends in the FRIEND LIST menu
+                                </div>
+                        )}</div>
                     </div>
                 </>
             ):null}

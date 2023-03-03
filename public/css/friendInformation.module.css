@@ -91,10 +91,11 @@
   display: flex;
   align-items: center;
   margin-top: 10px;
+  margin-right: 5px;
 }
 
 .friend_email{
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
 .inner:hover .inner_image {

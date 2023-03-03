@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/index';
 import ReactDOM from 'react-dom/client';
 import styles from '/public/css/toDoListDialogBox.module.css';
 import TimeInformation from './toDoListDialog/TimeInformation';
@@ -10,12 +12,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { commonData } from '../MonthPage';
 import DescriptionQuillEditor from './toDoListDialog/DescriptionQuillEditor';
 import AddGuest from './toDoListDialog/AddGuest';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import SaveSuccessBlock from '../../components/SaveSuccessBlock';
 
-const remindWriteTitleWord = () => {};
 
-const writeTitleOnTag = (e: any) => {};
 
 export default function ToDoListDialogBox(props: any) {
     const { memberNowStatus } = useContext(memberStatus);
@@ -29,6 +28,11 @@ export default function ToDoListDialogBox(props: any) {
     const { chooseCell } = useContext(commonData);
     const { searchMonth } = useContext(tagData);
     const [showRemind, setShowRemind] = useState('none');
+
+
+    let monthNumber = useSelector(
+        (state: RootState) => state.timeControlReducer.monthNumber
+    );
 
     const closedDialog = (e: any) => {
         props.setCardStatus(false);
@@ -51,15 +55,12 @@ export default function ToDoListDialogBox(props: any) {
     };
 
     const saveData = (e: any) => {
-        let time = `${toDoListData.yearStart}Y${toDoListData.monthStart}M`;
+        let time = `${toDoListData.yearStart}Y${monthNumber}M`;
         if (toDoListData.title === '') {
             setShowRemind('block');
             return;
         }
         if (memberNowStatus) {
-            //let yearChangeDay = Math.abs(Number(toDoListData.yearEnd)-Number(toDoListData.yearStart))
-            //if(toDoListData.yearEnd-toDoListData.yearStart)
-            //const [saveResult,setSaveResult] = useState(false)
             let newData = [...isTagsArray];
 
             const cleanTags = Math.abs(startRow - endRow) + 1;
@@ -82,7 +83,6 @@ export default function ToDoListDialogBox(props: any) {
                         dayEnd: toDoListData.dayEnd,
                         description: toDoListData.description,
                         status: toDoListData.status,
-                        //index:uuid,
                         index: uuidDate,
                         id: element[0],
                         connectWidth: toDoListData.connectWidth,
@@ -94,13 +94,14 @@ export default function ToDoListDialogBox(props: any) {
                     newData.push(moreRowsListData);
                     sendData.push(moreRowsListData);
                 });
-                //const result = db.saveToDoList(time,sendData,uuid)
                 const result = db.saveToDoList(time, sendData, uuidDate);
                 result.then((msg) => {
                     if (msg === 'success') {
-                        props.setCardStatus(false);
-                        //newData.push(sendData)
                         setTagsArray(newData);
+                        props.setCardStatus(false);
+                    }else{
+                        props.setErrorCardShow("fail")
+                        props.msg("Save failed")
                     }
                 });
             } else if (tagIdWidthArray.length === 1) {
@@ -109,9 +110,12 @@ export default function ToDoListDialogBox(props: any) {
                 const result = db.saveToDoList(time, toDoListData, uuidDate);
                 result.then((msg) => {
                     if (msg === 'success') {
-                        props.setCardStatus(false);
                         newData.push(toDoListData);
                         setTagsArray(newData);
+                        props.setCardStatus(false);
+                    }else{
+                        props.setErrorCardShow("fail")
+                        props.msg("Save failed")
                     }
                 });
             }
@@ -236,7 +240,6 @@ export default function ToDoListDialogBox(props: any) {
     return (
         <div
             id="toDoListDialogBox"
-            onClick={writeTitleOnTag}
             className={styles.toDoListDialogBox_background}
         >
             <div className={styles.toDoListDialogBox_container}>
@@ -271,7 +274,7 @@ export default function ToDoListDialogBox(props: any) {
                                 className={styles.remind_word}
                                 style={{ display: showRemind }}
                             >
-                                請填寫標題
+                                Please fill in the title
                             </div>
                         </div>
                         <ColorSelector data={toDoListData} />

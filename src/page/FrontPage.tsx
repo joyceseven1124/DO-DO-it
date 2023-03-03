@@ -41,37 +41,38 @@ export default function FrontPage(props:any){
             </div>
 
             <div  className={styles.feature_box_wrapper}>
-                
-                <div className={styles.feature_box}>
-                    <div className={styles.note_pic}></div>
-                    <div>Write content</div>
-                    <div className={styles.description_title}>
-                        Click on the empty space in the calendar to write your schedule.
-                        After writing, a label will be generated in the calendar.</div>
-                </div>
+                <div className={styles.feature_box_container}>
+                    <div className={styles.feature_box}>
+                        <div className={styles.note_pic}></div>
+                        <div>Write content</div>
+                        <div className={styles.description_title}>
+                            Click on the empty space in the calendar to write your schedule.
+                            After writing, a label will be generated in the calendar.</div>
+                    </div>
 
-                <div className={styles.feature_box}>
-                    <div className={styles.drag_pic}></div>
-                    <div>Drag & Drop</div>
-                    <div className={styles.description_title}>
-                        The labels in the calendar can be freely 
-                        dragged to other date cells.</div>
-                </div>
+                    <div className={styles.feature_box}>
+                        <div className={styles.drag_pic}></div>
+                        <div>Drag & Drop</div>
+                        <div className={styles.description_title}>
+                            The labels in the calendar can be freely 
+                            dragged to other date cells.</div>
+                    </div>
 
-                <div className={styles.feature_box}>
-                    <div className={styles.friend_pic}></div>
-                    <div>Co-edit tags</div>
-                    <div className={styles.description_title}>
-                        The content recorded in the labels can be 
-                        collaboratively edited with others.</div>
-                </div>
+                    <div className={styles.feature_box}>
+                        <div className={styles.friend_pic}></div>
+                        <div>Co-edit tags</div>
+                        <div className={styles.description_title}>
+                            The content recorded in the labels can be 
+                            collaboratively edited with others.</div>
+                    </div>
 
-                <div className={styles.feature_box}>
-                    <div className={styles.rwd_pic}></div>
-                    <div>RWD</div>
-                    <div className={styles.description_title}>
-                        Different device sizes have their 
-                        own layout arrangements.</div>
+                    <div className={styles.feature_box}>
+                        <div className={styles.rwd_pic}></div>
+                        <div>RWD</div>
+                        <div className={styles.description_title}>
+                            Different device sizes have their 
+                            own layout arrangements.</div>
+                    </div>
                 </div>
             </div>
 

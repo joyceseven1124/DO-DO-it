@@ -40,10 +40,10 @@ export default function Register(props: any) {
             msg.then((msg) => {
                 if (msg !== 'fail') {
                     props.setSuccessCard(true);
-                    props.registerMsg('註冊成功');
+                    props.registerMsg('Registration success');
                 } else {
                     props.setErrorCard(true);
-                    props.registerMsg('註冊失敗');
+                    props.registerMsg('Registration failed');
                 }
             });
             setEmail('');

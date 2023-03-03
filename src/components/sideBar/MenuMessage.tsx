@@ -15,11 +15,14 @@ const MenuItem = (props: any) => {
     useEffect(() => {
         if (memberInformation) {
             const result = db.getMessageData(memberInformation);
+            
             result.then((msg) => {
-                //msg[1677052893310][0]["width"]
                 let msgArray: { [key: number]: number | string }[] = [];
                 const keyArray = Object.keys(msg);
                 const cleanMsg = keyArray.map((element: any) => {
+                    if(keyArray.length === 0){
+                        return
+                    }
                     if (msg[element].length > 1) {
                         msgArray.push(msg[element][0]);
                         msgArray.push(msg[element][1]);

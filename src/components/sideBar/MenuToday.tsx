@@ -23,29 +23,25 @@ const MenuToday = (props: any) => {
     let todayDay = new Date().getDate();
     let todayMonth = new Date().getMonth();
     let todayYear = new Date().getFullYear();
-    const thisMonthStartWeek: number = new Date(
-        todayYear,
-        todayMonth,
-        1
-    ).getDay();
-
-    const thisDateId = thisMonthStartWeek + todayDay - 1;
-    const rowStartId = [1, 8, 15, 22, 29, 36];
+   
     let dataArray: any = [];
+    let checkRepeatIndex = ""
     todayData.forEach((element, index) => {
-        //知道目前的星期，並把id算出來
-        //thisDateId && < element.id
-        //rowStartId[Math.ceil(element.id/7)-1] <= thisDateId
-        const thisWeekStartId = rowStartId[Math.ceil(element.id / 7) - 1];
-        const thisWeekEndId = thisWeekStartId + 6;
+        
+        const dateStart = new Date(`${element.yearStart}-${element.monthStart}-${element.dayStart}`);
+        const dateEnd = new Date(`${element.yearEnd}-${element.monthEnd}-${element.dayEnd}`);
+        const dateToday = new Date(`${todayYear}-${todayMonth+1}-${todayDay}`);
+
+
         if (
-            element.dayStart <= todayDay &&
-            todayDay <= element.dayEnd &&
-            thisWeekStartId <= thisDateId &&
-            thisDateId <= thisWeekEndId &&
-            todayYear === year &&
-            todayMonth+1 === monthNumber
+            dateStart <= dateToday && dateToday <= dateEnd
         ) {
+            if(checkRepeatIndex === element.index){
+                checkRepeatIndex = element.index
+                return
+            }
+            checkRepeatIndex = element.index
+            
             let item = (
                 <li
                     id={element.index}
@@ -62,6 +58,8 @@ const MenuToday = (props: any) => {
             );
             dataArray.push(item);
         }
+
+
     });
 
     return (

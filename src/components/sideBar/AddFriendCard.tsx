@@ -34,6 +34,7 @@ const AddFriendCard = (props: any) => {
                                 placeholder="111@gmail.com"
                                 className={styles.email_search_input}
                                 maxLength={30}
+                                value = {inputEmail}
                                 onChange={(e) => {
                                     setInputEmail(e.target.value);
                                 }}
@@ -49,6 +50,11 @@ const AddFriendCard = (props: any) => {
                             <div
                                 className={styles.add_button}
                                 onClick={(e) => {
+                                    if(props.friendList.includes(inputEmail) || memberInformation === inputEmail){
+                                        setResultMsg('You already have');
+                                        setColor('rgb(255 3 3 / 98%)');
+                                        return
+                                    }
                                     const uuid =uuidv4()
                                     const result = db.addFriend(
                                         inputEmail,
@@ -58,6 +64,7 @@ const AddFriendCard = (props: any) => {
                                     result.then((msg) => {
                                         if (msg) {
                                             setResultMsg('Success');
+                                            setInputEmail(" ");
                                             setColor('rgb(7 255 44 / 98%)');
                                             let newFriendListIndex = props.friendListIndex
                                             newFriendListIndex[uuid] = inputEmail
@@ -65,8 +72,9 @@ const AddFriendCard = (props: any) => {
                                             let newFriendEmail = [...props.friendList]
                                             newFriendEmail.push(inputEmail)
                                             props.setFriendList(newFriendEmail)
+                                            
                                         } else {
-                                            setResultMsg('fail');
+                                            setResultMsg('Fail');
                                             setColor('rgb(255 3 3 / 98%)');
                                         }
                                     });

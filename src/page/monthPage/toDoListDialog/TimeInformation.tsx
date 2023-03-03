@@ -72,10 +72,14 @@ export default function TimeInformation(props:any) {
 
 
 
-    props.data.yearStart =year
-    props.data.yearEnd=year
-    props.data.monthStart=monthNumber
-    props.data.monthEnd=monthNumber
+    //props.data.yearStart =year
+    //props.data.yearEnd=year
+    //props.data.monthStart=monthNumber
+    //props.data.monthEnd=monthNumber
+    props.data.yearStart =startYear
+    props.data.yearEnd=endYear
+    props.data.monthStart=amendMonthStart
+    props.data.monthEnd=amendMonthEnd
     props.data.dayStart=dayStart
     props.data.dayEnd=dayEnd
 

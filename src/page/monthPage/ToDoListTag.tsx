@@ -30,7 +30,7 @@ const Tag = styled.div<Tag>`
     font-weight: 400;
     color: white;
     letter-spacing: 1.2px;
-    text-shadow: 5px 15px -2px rgba(64, 64, 64, 0.73);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     padding-left: 10px;
     :active {
         cursor: grabbing;
@@ -125,7 +125,7 @@ export default function ToDoListTag(props: any) {
             color={props.color}
         >
             <div
-                title={props.title}
+                title={"drag it or click it"}
                 connect-width={props.connectWidth}
                 index-time={props.index}
                 description-word={props.description}

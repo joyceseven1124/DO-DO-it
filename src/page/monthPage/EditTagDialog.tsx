@@ -18,6 +18,7 @@ import {faUsers} from '@fortawesome/free-solid-svg-icons'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import parse from 'html-react-parser';
+import ErrorCard from '../../components/ErrorCard';
 
 export default function EditTagDialog(props: any) {
     const monthNumber = useSelector(
@@ -45,6 +46,9 @@ export default function EditTagDialog(props: any) {
     const [buttonWord, setButtonWord] = useState('MARK FINISH');
     const [friend, setFriend] = useState([]);
     const [theme, setTheme] = useState('bubble');
+    
+    const [errorCardShow,setErrorCardShow] = useState(false)
+    const [errorCardWord,setErrorCardWord] = useState("")
 
     //const parser = new DOMParser();
 
@@ -64,7 +68,8 @@ export default function EditTagDialog(props: any) {
     let statusWord: string;
     let saveStatus: string = status;
     let databaseFileName: string;
-    let friendEmail: string[];
+    let friendEmail: string[] =[];
+    let sendEmail:string
 
     const dialogData = isTagsArray.filter((element: any) => {
         if (element.index === showTagIndex) {
@@ -81,17 +86,20 @@ export default function EditTagDialog(props: any) {
             ];
             const weekStart = new Date(
                 element.yearStart,
-                element.monthStart,
+                element.monthStart-1,
                 element.dayStart
             ).getDay();
 
             const weekEnd = new Date(
                 element.yearEnd,
-                element.monthEnd,
+                element.monthEnd-1,
                 element.dayEnd
             ).getDay();
             const weekStartWord = week[weekStart];
             const weekEndWord = week[weekEnd];
+            let monthNumber = useSelector(
+                (state: RootState) => state.timeControlReducer.monthNumber
+            );
 
             dateData = {
                 yearStart: element.yearStart,
@@ -108,20 +116,14 @@ export default function EditTagDialog(props: any) {
             //descriptionWord = Object.values(element.description)[0]
 
             colorWord = element.color;
-            databaseFileName = `${element.yearStart}Y${element.monthStart}M`;
+            databaseFileName = `${element.yearStart}Y${monthNumber}M`;
             if (element.status === '未完成') {
                 statusWord = 'Carrying out ';
             } else {
                 statusWord = 'Mission accomplished! ';
             }
-
-            if (element.receiveEmail) {
-                if (element.receiveEmail === memberInformation) {
-                    friendEmail = element.sendEmail;
-                } else {
-                    friendEmail = element.receiveEmail;
-                }
-            }
+            friendEmail = element.receiveEmail
+            sendEmail = element.sendEmail
             return element;
         }
     });
@@ -137,7 +139,17 @@ export default function EditTagDialog(props: any) {
             setStatus('完成');
         }
         if (friendEmail) {
-            setFriend(friendEmail);
+            let emailArray = []
+            friendEmail.forEach((element)=>{
+                if(element !== memberInformation){
+                    emailArray.push(element)
+                }
+            })
+
+            if(sendEmail !== memberInformation){
+                emailArray.push(sendEmail)
+            }
+            setFriend(emailArray);
         }
     }, []);
 
@@ -167,21 +179,28 @@ export default function EditTagDialog(props: any) {
                     element
                 );
                 result.then((msg) => {
+                    if(msg === "fail"){
+                        setErrorCardShow(true)
+                        setErrorCardWord("save failed")
+                    }
+                });
+                }
+            });
+            if (dialogData.length > 1) {
+                const result = db.updateData(
+                    memberInformation,
+                    time,
+                    index,
+                    dialogData
+                );
+                result.then((msg) => {
+                    if(msg === "fail"){
+                        setErrorCardShow(true)
+                        setErrorCardWord("save failed")
+                    }
                 });
             }
-        });
-        if (dialogData.length > 1) {
-            const result = db.updateData(
-                memberInformation,
-                time,
-                index,
-                dialogData
-            );
-            result.then((msg) => {
-
-            });
-        }
-        setTagsArray(newDataArray);
+            setTagsArray(newDataArray);
     };
 
     const deleteHandle = () => {
@@ -214,6 +233,7 @@ export default function EditTagDialog(props: any) {
 
     return (
         <div className={styles.edit_card_wrapper}>
+            {errorCardShow ? <ErrorCard msg={errorCardWord} setCard={setErrorCardShow}/>:null}
             <div className={styles.edit_card_content}>
                 <div className={styles.list_information}>
                     <div className={styles.edit_buttons_container}>
@@ -242,6 +262,9 @@ export default function EditTagDialog(props: any) {
                                         if (msg === 'success') {
                                             setShowListDialog(false);
                                             deleteHandle();
+                                        }else{
+                                            setErrorCardShow(true)
+                                            setErrorCardWord("save failed")
                                         }
                                     });
                                 }}
@@ -337,7 +360,11 @@ export default function EditTagDialog(props: any) {
                     <div className={styles.description_content}>
                         {editContent ? (
                             <div className={styles.description_no_edit_content}>
-                                <FontAwesomeIcon icon={faAlignLeft} className={styles.description_icon}/>
+                                {descriptionWord ?
+                                    <FontAwesomeIcon icon={faAlignLeft} className={styles.description_icon}/> :
+                                    null
+                                }
+                                
                                 <div className={styles.no_edit_description}>{parse(description)}</div>
                             </div>
                         ) : (

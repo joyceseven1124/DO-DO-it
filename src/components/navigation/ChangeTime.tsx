@@ -8,7 +8,7 @@ import { faAngleRight} from '@fortawesome/free-solid-svg-icons'
 import { faAngleLeft} from '@fortawesome/free-solid-svg-icons'
 
 
-export default function ChangeTime() {
+export default function ChangeTime(props:any) {
     const monthNumber = useSelector(
         (state: RootState) => state.timeControlReducer.monthNumber
     );
