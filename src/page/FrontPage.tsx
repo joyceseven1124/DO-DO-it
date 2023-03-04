@@ -37,8 +37,15 @@ export default function FrontPage(props:any){
                         >Sign In</button>
                     </div>
                 </div>
-                <div className={styles.front_pic}></div>
+                <div className={styles.front_pic}>
+                    <div className={styles.front_gif__wrapper}>
+                        <div className={styles.front_gif}></div>
+                    </div>
+                </div>
             </div>
+
+
+            
 
             <div  className={styles.feature_box_wrapper}>
                 <div className={styles.feature_box_container}>

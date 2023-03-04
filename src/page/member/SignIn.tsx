@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '/public/css/member.module.css';
@@ -8,6 +8,8 @@ import { RootState } from '../../store/index';
 import { logIn } from '../../store/action/logInControl';
 
 export default function SingIn(props: any) {
+    const emailReg = /^\w+([-+.']\w+)*@gmail\.com$/;
+    const passwordReg = /^.{6,}$/;
     const { memberNowStatus } = useContext(memberStatus);
     const { setMemberStatus } = useContext(memberStatus);
     const { setMemberInformation } = useContext(memberStatus);
@@ -17,6 +19,8 @@ export default function SingIn(props: any) {
     const [passwordCheck, setPassWordCheck] = useState('none');
     const [emailCheck, setEmailCheck] = useState('none');
     const [inputCheck, setInputCheck] = useState('none');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let user = {
@@ -24,8 +28,12 @@ export default function SingIn(props: any) {
         password: '',
     };
     const enterAccount = (e: any) => {
-        const result = db.enterAccount(user.email, user.password);
-        let email = '';
+        if(!emailReg.test(email) || !passwordReg.test(password)){
+            props.setErrorCard(true);
+            props.signInMsg('Check your input');
+            return
+        }
+        const result = db.enterAccount(email,password);
         result.then((msg) => {
             if (msg !== 'fail') {
                 let memberData = db.getMemberInformation(msg);
@@ -55,6 +63,30 @@ export default function SingIn(props: any) {
             ? setPasswordType('text')
             : setPasswordType('password');
     };
+
+
+    useEffect(()=>{
+        if (emailReg.test(email)) {
+            setEmailCheck("#03e9f4")
+        }else{
+            setEmailCheck("rgb(123, 123, 123)")
+        }
+
+        if(passwordReg.test(password)){
+            setPassWordCheck("#03e9f4")
+        }else{
+            setPassWordCheck("rgb(123, 123, 123)")
+        }
+
+        if(emailReg.test(email) && passwordReg.test(password)){
+            setInputCheck("#03e9f4")
+        }else{
+            setInputCheck("rgb(123, 123, 123)")
+        }
+
+    },[email,password])
+
+
     return (
         <div id="sing_in" className={styles.user_background}>
             <div className="user_card_box">
@@ -76,9 +108,10 @@ export default function SingIn(props: any) {
                                     className="user_input"
                                     type="text"
                                     name=""
+                                    value={email}
                                     autoFocus={true}
                                     onChange={(e) => {
-                                        user.email = e.target.value;
+                                        setEmail(e.target.value);
                                     }}
                                     required
                                 />
@@ -91,10 +124,11 @@ export default function SingIn(props: any) {
                                 <input
                                     id="sign_in_password"
                                     className="user_input"
+                                    value={password}
                                     type={passwordType}
                                     name=""
                                     onChange={(e) => {
-                                        user.password = e.target.value;
+                                        setPassword(e.target.value);
                                     }}
                                     required
                                 />
@@ -133,9 +167,9 @@ export default function SingIn(props: any) {
                         </div>
 
                         <div className={styles.remind_word}>
-                            <div style={{ color: 'none' }}>✔信箱格式@gmail.com</div>
-                            <div style={{ color: 'none' }}>✔密碼六個字元以上</div>
-                            <div style={{ color: 'none' }}>✔欄位不可空白</div>
+                            <div style={{ color: `${emailCheck}` }}>✔信箱格式@gmail.com</div>
+                            <div style={{ color: `${passwordCheck}` }}>✔密碼六個字元以上</div>
+                            <div style={{ color: `${inputCheck}` }}>✔欄位不可空白</div>
                         </div>
 
                         <div className="user_button_box">

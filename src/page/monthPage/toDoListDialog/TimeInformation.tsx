@@ -67,15 +67,6 @@ export default function TimeInformation(props:any) {
         }
     }
 
-
-
-
-
-
-    //props.data.yearStart =year
-    //props.data.yearEnd=year
-    //props.data.monthStart=monthNumber
-    //props.data.monthEnd=monthNumber
     props.data.yearStart =startYear
     props.data.yearEnd=endYear
     props.data.monthStart=amendMonthStart

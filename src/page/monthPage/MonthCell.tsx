@@ -62,6 +62,7 @@ const DayCell = styled.div<DayCell>`
         border-radius: 50%;
         margin: auto;
         margin-top: 5px;
+        z-index:-1;
         background-color: ${({ nowTime }) => {
             return nowTime ? 'rgb(0,91,97)' : null;
         }};
@@ -453,7 +454,6 @@ export default function MonthCell(props: any) {
                     receiveEmail = element.receiveEmail
                     sendEmail = element.sendEmail
                     sendEmailName = element.sendEmailName
-                    //sendDataClean.push(element)
                 }
             });
             if (startId < 7 && startDate > 7) {

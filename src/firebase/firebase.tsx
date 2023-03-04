@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { v4 as uuidv4 } from "uuid";
 import { getAuth, 
@@ -21,11 +20,7 @@ import { getFirestore,
          deleteDoc,
          
         }from "firebase/firestore"
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyC0o-dPdBKUUlU-1o5BeCg_awOyMiW5AVo",
   authDomain: "dodoit-40a56.firebaseapp.com",
@@ -71,7 +66,6 @@ async function saveToDoList(time:string,toDoListData:{[key:string]:any},uuid:any
                         setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
                     }
                 }
-                //setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
             }
         })
         msg="success"
@@ -87,8 +81,6 @@ async function saveToDoList(time:string,toDoListData:{[key:string]:any},uuid:any
 
 
 async function getToDoListData(email:string,time:string){
-    //await getDoc(doc(db, email,time));
-    //const querySnapshot = await getDocs(collection(db, email));
     let msg:{[key:string]:{[key:string]:string}}
      let data:any
     try{
@@ -99,7 +91,6 @@ async function getToDoListData(email:string,time:string){
             data = dataKey.map((element:string)=>{
                 return msg[element]
             })
-            //return  data
         }
 
         const commonIndex =await getDoc(doc(db, email,`CommonTag${time}`));
@@ -135,9 +126,6 @@ async function getToDoListData(email:string,time:string){
 }
 
 
-
-
-//email:string,time:string
 async function updateData(email:string,time:string,index:number,toDoListData:{[key:string]:any}){
     let msg =''
     let isCommonTag:boolean | undefined
@@ -389,10 +377,6 @@ async function getMessageData(email:string) {
 }
 
 
-
-
-
-//註冊
 async function buildAccount(email:string, password:string,name:string){
     let msg =""
     try{
@@ -424,7 +408,6 @@ async function enterAccount(email:string, password:string){
   try{
     const auth = getAuth();
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    //msg = "success"
     msg = userCredential.user.email
   }
   catch(error){
@@ -444,7 +427,6 @@ async function memberStatus(){
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                //const uid = user.uid;
                 msg = user.email
             } else {
                 msg = "登出"

@@ -35,24 +35,13 @@ const MainContainer = styled.div`
   width: 100%;
 `
 const root = ReactDOM.createRoot(document.getElementById('root'));
-//<ToDoListDialogBox/>
-//</StrictMode>
 const App = () => {
-  /*const memberStatus = useSelector(
-        (state: RootState) => state.logInReducer.status
-    );*/
   let memberRoute
   const [memberNowStatus,setMemberStatus] = useState(true)
   const [memberInformation,setMemberInformation] = useState("")
   const [thisMonthData,setThisMonthData] = useState([])
   const [memberName,setMemberName] = useState("")
 
-  //const navigate = useNavigate()
-  //const navigate = useNavigate();
-  //const [signInCardStatus,setSignInCardStatus] = useState(false)
-  //const [registerCardStatus,setRegisterCardStatus] = useState(false)
-  
-    
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -60,13 +49,9 @@ const App = () => {
     setMemberInformation(user.email)
   }else{
     setMemberStatus(false)
-    //navigate("/logIn")
   }
   })
-    //setMemberStatus(false)
 
-
- 
   return (
       <Provider store={store}>
         <memberStatus.Provider
@@ -95,5 +80,3 @@ const App = () => {
   );
 };
 root.render(<App />);
-//<Route  path="/home" element={memberNowStatus ? <MonthPage/> : <Navigate to="/login" replace/>} />
-//<Route path="/day" element={memberNowStatus ? <DayBlock/> : <Navigate to="/login" replace />} />

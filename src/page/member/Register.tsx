@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-//import { RootState } from '../../../store/index';
-//import { addTime, minusTime } from '../../../store/action/timeControl';
 import styles from '/public/css/member.module.css';
 import db from '../../firebase/firebase';
 
 export default function Register(props: any) {
+    const emailReg = /^\w+([-+.']\w+)*@gmail\.com$/;
+    const passwordReg = /^.{6,}$/;
     const openRegister = props.setRegister;
     const openLogIn = props.setSignInCard;
     const [passwordType, setPasswordType] = useState('password');
@@ -17,12 +17,8 @@ export default function Register(props: any) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    //記得正規化檢查輸入的東西
-    // let user = {
-    // email: "",
-    // password: "",
-    // name:"",
-    // };
+
+
     let user = {
         email: email,
         password: password,
@@ -35,21 +31,26 @@ export default function Register(props: any) {
     };
 
     const buildAccount = (e: any) => {
-        if (user.email !== '' && user.password !== '') {
-            const msg = db.buildAccount(user.email, user.password, user.name);
-            msg.then((msg) => {
-                if (msg !== 'fail') {
-                    props.setSuccessCard(true);
-                    props.registerMsg('Registration success');
-                } else {
-                    props.setErrorCard(true);
-                    props.registerMsg('Registration failed');
-                }
-            });
-            setEmail('');
-            setPassword('');
-            setName('');
+        if(!emailReg.test(email) || !passwordReg.test(password) || name === ""){
+            props.setErrorCard(true);
+            props.registerMsg('Check your input');
+            return
         }
+        
+        const msg = db.buildAccount(user.email, user.password, user.name);
+        msg.then((msg) => {
+            if (msg !== 'fail') {
+                props.setSuccessCard(true);
+                props.registerMsg('Registration success');
+            } else {
+                props.setErrorCard(true);
+                props.registerMsg('Registration failed');
+            }
+        });
+        setEmail('');
+        setPassword('');
+        setName('');
+        
     };
 
     const showPassword = (e: any) => {
@@ -59,6 +60,32 @@ export default function Register(props: any) {
             ? setPasswordType('text')
             : setPasswordType('password');
     };
+
+    
+    useEffect(()=>{
+        if (emailReg.test(email)) {
+            setEmailCheck("#03e9f4")
+        }else{
+            setEmailCheck("rgb(123, 123, 123)")
+        }
+
+        if(passwordReg.test(password)){
+            setPassWordCheck("#03e9f4")
+        }else{
+            setPassWordCheck("rgb(123, 123, 123)")
+        }
+
+        if(emailReg.test(email) && passwordReg.test(password) && name !== ""){
+            setInputCheck("#03e9f4")
+        }else{
+            setInputCheck("rgb(123, 123, 123)")
+        }
+
+
+    },[email,password,name])
+
+    
+
 
     return (
         <div id="register" className={styles.user_background}>
@@ -84,7 +111,6 @@ export default function Register(props: any) {
                                     autoFocus={true}
                                     value={name}
                                     onChange={(e) => {
-                                        //user.name = e.target.value
                                         setName(e.target.value);
                                     }}
                                 />
@@ -120,7 +146,6 @@ export default function Register(props: any) {
                                     value={password}
                                     required
                                     onChange={(e) => {
-                                        //user.password = e.target.value
                                         setPassword(e.target.value);
                                     }}
                                 />
@@ -155,9 +180,9 @@ export default function Register(props: any) {
                             </span>
                         </div>
                         <div className={styles.remind_word}>
-                            <div style={{ color: 'none' }}>✔信箱格式@gmail.com</div>
-                            <div style={{ color: 'none' }}>✔密碼六個字元以上</div>
-                            <div style={{ color: 'none' }}>✔欄位不可空白</div>
+                            <div style={{ color: `${emailCheck}` }}>✔信箱格式@gmail.com</div>
+                            <div style={{ color: `${passwordCheck}` }}>✔密碼六個字元以上</div>
+                            <div style={{ color: `${inputCheck}` }}>✔欄位不可空白</div>
                         </div>
                         <div className="user_button_box">
                             <div
@@ -175,8 +200,3 @@ export default function Register(props: any) {
     );
 }
 
-{
-    /* <div className='close_icon_box'>
-    <div className='close_icon' onClick={closeCard}>叉</div>
-</div> */
-}

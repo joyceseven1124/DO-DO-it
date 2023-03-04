@@ -42,7 +42,7 @@ export default function EditTagDialog(props: any) {
     const [titleRow, setTitleRow] = useState(1);
     const [color, setColor] = useState('');
     const [status, setStatus] = useState('未完成');
-    const [statusSentence, setStatusSentence] = useState('Carrying out ...');
+    const [statusSentence, setStatusSentence] = useState('Unfinished');
     const [buttonWord, setButtonWord] = useState('MARK FINISH');
     const [friend, setFriend] = useState([]);
     const [theme, setTheme] = useState('bubble');
@@ -50,7 +50,6 @@ export default function EditTagDialog(props: any) {
     const [errorCardShow,setErrorCardShow] = useState(false)
     const [errorCardWord,setErrorCardWord] = useState("")
 
-    //const parser = new DOMParser();
 
     let titleWord: string;
     let dateData: {
@@ -113,12 +112,11 @@ export default function EditTagDialog(props: any) {
             };
             titleWord = element.title;
             descriptionWord = element.description;
-            //descriptionWord = Object.values(element.description)[0]
 
             colorWord = element.color;
             databaseFileName = `${element.yearStart}Y${monthNumber}M`;
             if (element.status === '未完成') {
-                statusWord = 'Carrying out ';
+                statusWord = 'Unfinished';
             } else {
                 statusWord = 'Mission accomplished! ';
             }
@@ -134,8 +132,8 @@ export default function EditTagDialog(props: any) {
         setDescription(descriptionWord);
         setColor(colorWord);
         setStatusSentence(statusWord);
-        if (statusWord !== 'Carrying out ') {
-            setButtonWord('UNDONE');
+        if (statusWord !== 'Unfinished') {
+            setButtonWord('Unfinished');
             setStatus('完成');
         }
         if (friendEmail) {
@@ -285,7 +283,8 @@ export default function EditTagDialog(props: any) {
                             style={{
                                 backgroundColor: `${color}`,
                                 cursor: `${cursorStatus}`,
-                                marginLeft:`${!editContent ? "10px" : "0px"}`
+                                marginLeft:`${!editContent ? "10px" : "0px"}`,
+                                border: "1px solid  rgb(161, 161, 161)"
                             }}
                             className={styles.list_color}
                             disabled={editContent}
@@ -414,7 +413,7 @@ export default function EditTagDialog(props: any) {
                                     saveStatus = '未完成';
                                     setStatus('未完成');
                                     updateData();
-                                    setStatusSentence('Carrying out ');
+                                    setStatusSentence('Unfinished');
                                     setButtonWord('MARK FINISH');
                                 }
                             }}

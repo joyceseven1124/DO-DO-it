@@ -7,13 +7,9 @@ import weekday from 'dayjs/plugin/weekday';
 import ChangeTime from '../../components/navigation/ChangeTime';
 dayjs.extend(toObject);
 dayjs.extend(weekday);
-//判斷月份
-//判斷星期
+
 let monthDataArray: any[] = [];
 let maxDay: number;
-
-//const [monthIsValue, setMonth] = useState(0);
-
 let nowTime = dayjs().toObject();
 const initState = {
     monthNumber: dayjs().toObject().months + 1,
@@ -56,14 +52,4 @@ const timeControlReducer = (
 };
 export default timeControlReducer;
 
-/*const initState = {
-    todoList: ['第一件事情', '第二件事情'],
-  };
 
-const todoReducer = (state = initState, action:any) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
-export default todoReducer;*/

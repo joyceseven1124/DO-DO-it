@@ -35,7 +35,6 @@ function MonthPage() {
     const { memberInformation } = useContext(memberStatus);
 
     const [sideBarStatus,setSideBarStatus] = useState(true)
-    const [buttonWord,setButtonWord] = useState("CLOSE")
     const [buttonRight,setButtonRight] = useState('380px')
     const [gridRow,setGridRow] = useState("85% 15%")
 
@@ -43,7 +42,6 @@ function MonthPage() {
     const [informationCard,setInformationCard] = useState(false)
     const [friendInformationCard,setFriendInformationCard] = useState(false)
     const [showListDialog,setShowListDialog] = useState(false)
-    //const [commonData,setCommonData] = useState([])
     const [isTagsArray, setTagsArray] = useState([]);
     const [chooseCell,setChooseCell] = useState([])
     const [showTagIndex, setShowTagIndex] = useState(0);
@@ -59,6 +57,8 @@ function MonthPage() {
     const handleRWD=()=>{
         if(window.innerWidth>1200){
             setHiddenSideBarButton("flex")
+            setSideBarStatus(true)
+            setGridRow("85% 15%")
         }
         else
             setHiddenSideBarButton("none")
@@ -66,32 +66,18 @@ function MonthPage() {
 
     useEffect(()=>{
         window.addEventListener('resize',handleRWD);
-        window.addEventListener('scroll',movePositionY)
         handleRWD();
         if(memberInformation){
             setLoading(false)
         }
         return(()=>{
             window.removeEventListener('resize',handleRWD);
-            window.removeEventListener('scroll',movePositionY)
         })
     },[]);
 
     
 
-    // 監聽滾動事件
-    const movePositionY= (element:any) => {
-        const THRESHOLD = 20; // 定義滾動閾值為50像素
-        const mouseY = element.offsetTop;
-        const windowHeight = window.innerHeight;
-        const pageHeight = document.documentElement.scrollHeight;
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
-        if (mouseY > windowHeight - THRESHOLD && scrollTop + windowHeight < pageHeight) {
-            // 滑鼠在視窗底部以下THRESHOLD像素，且頁面還沒有滾動到底部
-            window.scrollBy(0, THRESHOLD); // 滾動頁面
-        }
-    };
 
     return (
             <commonData.Provider value={{isTagsArray,
@@ -103,7 +89,9 @@ function MonthPage() {
                                         setChooseCell}}>
                 <div className={styles.monthPage_background}>
                     <NavigationBar
-                        setSideBarStatus = {setHiddenSideBarButton}
+                        setHiddenSideBarButton = {setHiddenSideBarButton}
+                        setSideBarStatus = {setSideBarStatus}
+                        sideBarStatus = {sideBarStatus}
                     />
 
                     {friendCard?(

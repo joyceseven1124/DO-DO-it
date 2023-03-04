@@ -6,7 +6,7 @@ import { memberStatus } from '../..';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-//<InviteCard/>
+
 const MenuItem = (props: any) => {
     const [check, setCheck] = useState(false);
     const [message, setMessage] = useState({});

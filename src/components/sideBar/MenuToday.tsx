@@ -7,7 +7,7 @@ import { commonData } from '../../page/MonthPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
-//<InviteCard/>
+
 const MenuToday = (props: any) => {
     const monthNumber = useSelector(
         (state: RootState) => state.timeControlReducer.monthNumber

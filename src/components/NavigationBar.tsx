@@ -65,10 +65,12 @@ const NavigationBar = (props:any) => {
                 <button className={styles.nav_group_icon} 
                     onClick={appIconButton ? ((e)=>{
                                 if(openMenu){
-                                    props.setSideBarStatus("none")
+                                    props.setHiddenSideBarButton("none")
+                                    props.setSideBarStatus(false)
                                     setOpenMenu(false)
                                 }else{
-                                    props.setSideBarStatus("block")
+                                    props.setHiddenSideBarButton("block")
+                                    props.setSideBarStatus(true)
                                     setOpenMenu(true)
                                 }
                             }):null}>
@@ -90,4 +92,3 @@ const NavigationBar = (props:any) => {
 };
 
 export default NavigationBar;
-//<div className={styles.member_name}>{memberName}</div>

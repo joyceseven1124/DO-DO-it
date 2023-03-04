@@ -46,12 +46,6 @@ export default function ToDoListDialogBox(props: any) {
         }
         setTagsArray(newData);
         setChooseCell(newChooseCell);
-        //let emendArray = [...isTagsArray]
-        //emendArray.pop()
-        //setTagsArray(emendArray)
-        //let emendChooseCell = [...chooseCell]
-        //emendChooseCell.pop()
-        //setChooseCell(emendChooseCell)
     };
 
     const saveData = (e: any) => {
@@ -70,7 +64,6 @@ export default function ToDoListDialogBox(props: any) {
             if (tagIdWidthArray.length > 1) {
                 let sendData: any = [];
                 let uuidDate = new Date().getTime().toString();
-                //const uuid = uuidv4()
                 tagIdWidthArray.forEach((element) => {
                     let moreRowsListData = {
                         title: toDoListData.title,
@@ -105,8 +98,6 @@ export default function ToDoListDialogBox(props: any) {
                     }
                 });
             } else if (tagIdWidthArray.length === 1) {
-                //db.saveToDoList(time,toDoListData,index)
-                // const result = db.saveToDoList(time,toDoListData,index)
                 const result = db.saveToDoList(time, toDoListData, uuidDate);
                 result.then((msg) => {
                     if (msg === 'success') {
@@ -119,12 +110,9 @@ export default function ToDoListDialogBox(props: any) {
                     }
                 });
             }
-
-            //db.saveToDoList(time,toDoListData,index)
         }
     };
 
-    //const [data,setData] = useState()
     let uuidDate = new Date().getTime().toString();
     let toDoListData = {
         title: '',
@@ -137,7 +125,6 @@ export default function ToDoListDialogBox(props: any) {
         dayEnd: '',
         description: '',
         status: '未完成',
-        //index:index,
         index: uuidDate,
         id: 0,
         connectWidth: 0,
@@ -172,8 +159,7 @@ export default function ToDoListDialogBox(props: any) {
                 tagId = perRowStartNumber[i - 1];
                 width = 700;
             }
-            //const tagItem = {[tagId]:width}
-            //const tagItem = {[tagId]:[width,title,description,connectWidth]}
+            
             tagIdWidthArray.push([tagId, width]);
             const tagItem = {
                 id: tagId,
@@ -198,7 +184,6 @@ export default function ToDoListDialogBox(props: any) {
                 width = 700;
             }
             tagIdWidthArray.push([tagId, width]);
-            //const tagItem = {[tagId]:width}
             const tagItem = {
                 id: tagId,
                 width: width,
@@ -207,7 +192,6 @@ export default function ToDoListDialogBox(props: any) {
                 connectWidth: connectWidth,
                 color: toDoListData.color,
             };
-            //const tagItem = {[tagId]:[width,title,description,connectWidth]}
             tagArray.push(tagItem);
         }
     } else {

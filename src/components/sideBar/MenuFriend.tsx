@@ -9,7 +9,7 @@ import { faAtom } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-//<InviteCard/>
+
 const MenuFriend = (props: any) => {
     const [check, setCheck] = useState(false);
     const { memberInformation } = useContext(memberStatus);

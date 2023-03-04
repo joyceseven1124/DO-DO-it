@@ -265,6 +265,7 @@ ul,li{
 .friend_email_word{
   width: 100%;
   overflow: hidden;
+  text-align: left;
 }
 
 .check_box:checked ~ .menu_item{

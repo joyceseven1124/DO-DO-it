@@ -92,4 +92,4 @@ const AddFriendCard = (props: any) => {
 
 export default AddFriendCard;
 
-// /<div className={styles.result_msg} style={{color:`${color}`}}>{resultMsg}</div>
+

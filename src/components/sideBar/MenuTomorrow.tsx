@@ -7,7 +7,7 @@ import { commonData } from '../../page/MonthPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
-//<InviteCard/>
+
 const MenuTomorrow = (props: any) => {
     const monthNumber = useSelector(
         (state: RootState) => state.timeControlReducer.monthNumber
@@ -92,10 +92,4 @@ const MenuTomorrow = (props: any) => {
 
 export default MenuTomorrow;
 
-/* <li className={styles.item_container}
-                            onClick={
-                            (e)=>{}
-}>
-    <div>title名稱</div>
-    <div className={styles.today_icon}>1</div>
-</li> */
+
