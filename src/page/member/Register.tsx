@@ -29,7 +29,11 @@ export default function Register(props: any) {
         openRegister(false);
         openLogIn(false);
     };
-
+    const buildAccountByKeyDown = (e:any) =>{
+        if(e.key === "Enter"){
+            buildAccount(e)
+        }
+    }
     const buildAccount = (e: any) => {
         if(!emailReg.test(email) || !passwordReg.test(password) || name === ""){
             props.setErrorCard(true);
@@ -44,7 +48,7 @@ export default function Register(props: any) {
                 props.registerMsg('Registration success');
             } else {
                 props.setErrorCard(true);
-                props.registerMsg('Registration failed');
+                props.registerMsg('Registration failed (email repeat)');
             }
         });
         setEmail('');
@@ -98,7 +102,7 @@ export default function Register(props: any) {
                     <div className='close_icon_box'>
                         <div className='close_icon' onClick={()=>navigate('/')}>叉</div>
                     </div>
-                    <div className={styles.user_box_content}>
+                    <div className={styles.user_box_content} onKeyDown={buildAccountByKeyDown}>
                         <h2 className="card_title">Register</h2>
                         <div>
                             <div className="user_box">

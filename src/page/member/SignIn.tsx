@@ -50,6 +50,11 @@ export default function SingIn(props: any) {
         });
     };
 
+    const enterAccountByKeyDown = (e:any) =>{
+        if(e.key === "Enter"){
+            enterAccount(e)
+        }
+    }
 
     const closeCard = (e: any) => {
         openRegister(false);
@@ -99,7 +104,7 @@ export default function SingIn(props: any) {
                     <div className='close_icon_box'>
                         <div className='close_icon' onClick={()=>navigate('/')}>叉</div>
                     </div>
-                    <div  className={styles.user_box_content}>
+                    <div  className={styles.user_box_content}   onKeyDown={enterAccountByKeyDown}>
                         <h2 className="card_title">Sign In</h2>
                         <div>
                             <div className="user_box">

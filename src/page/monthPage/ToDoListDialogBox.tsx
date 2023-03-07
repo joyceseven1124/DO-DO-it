@@ -26,7 +26,6 @@ export default function ToDoListDialogBox(props: any) {
     const { isTagsArray } = useContext(commonData);
     const { setChooseCell } = useContext(commonData);
     const { chooseCell } = useContext(commonData);
-    const { searchMonth } = useContext(tagData);
     const [showRemind, setShowRemind] = useState('none');
 
 
@@ -263,7 +262,6 @@ export default function ToDoListDialogBox(props: any) {
                         </div>
                         <ColorSelector data={toDoListData} />
                         <TimeInformation
-                            month={searchMonth}
                             data={toDoListData}
                         />
                         <AddGuest

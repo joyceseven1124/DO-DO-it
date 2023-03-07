@@ -28,7 +28,6 @@ dayjs.extend(weekday);
 export const tagData = createContext({
     tagStartCell: undefined,
     tagEndCell: undefined,
-    searchMonth: undefined,
     setTagStartCell: undefined,
     setTagEndCell: undefined,
     dayStart: undefined,
@@ -251,14 +250,14 @@ export default function MonthCell(props: any) {
                     }
                 }
             });
-            useEffect(() => {
-                if (orderNumber > 2) {
-                    const height = 300 * orderNumber;
-                    if (height > monthCellHeight) {
-                        setMonthCellHeight(height);
-                    }
-                }
-            }, [orderNumber]);
+             useEffect(() => {
+                 if (orderNumber > 2) {
+                     const height = 300 * orderNumber;
+                     if (height > monthCellHeight) {
+                         setMonthCellHeight(height);
+                     }
+                 }
+             }, [orderNumber]);
             let newTagArray = [...isTagsArray].sort((a, b) => a.index - b.index);
             newTagArray = newTagArray.map((element) => {
                 const startPlace = element.id;
@@ -644,7 +643,6 @@ export default function MonthCell(props: any) {
                 setTagStartCell,
                 tagStartCell,
                 tagEndCell,
-                searchMonth,
                 dayStart,
                 setDayStart,
                 dayEnd,

@@ -24,8 +24,6 @@ export const memberStatus = createContext({
   setMemberStatus:undefined,
   memberInformation:undefined,
   setMemberInformation:undefined,
-  thisMonthData:undefined,
-  setThisMonthData:undefined,
   memberName:undefined,
   setMemberName:undefined
 })
@@ -39,7 +37,6 @@ const App = () => {
   let memberRoute
   const [memberNowStatus,setMemberStatus] = useState(true)
   const [memberInformation,setMemberInformation] = useState("")
-  const [thisMonthData,setThisMonthData] = useState([])
   const [memberName,setMemberName] = useState("")
 
   const auth = getAuth();
@@ -59,8 +56,6 @@ const App = () => {
                     setMemberStatus,
                     setMemberInformation,
                     memberInformation,
-                    thisMonthData,
-                    setThisMonthData,
                     memberName,
                     setMemberName
                     }}>

@@ -8,7 +8,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from "uuid";
 
 const AddFriendCard = (props: any) => {
-    const [inputEmail, setInputEmail] = useState('');
+    const [inputEmail, setInputEmail] = useState('111@gmail.com');
     const [resultMsg, setResultMsg] = useState('');
     const [color, setColor] = useState('#048517fa');
     const { memberInformation } = useContext(memberStatus);

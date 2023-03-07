@@ -187,6 +187,12 @@
   }
 }
 
+@media screen and (max-width:600px) { 
+  .sideBar_container{
+    width: 40%;
+  }
+}
+
 
 @media screen and (max-width:500px) { 
   .sideBar_container{
