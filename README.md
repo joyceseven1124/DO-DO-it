@@ -41,6 +41,7 @@ Website URL https://dodoit-40a56.web.app/
 |Firebase|Authentication, Cloud Firestore, Hoisting|
 
 ## React Structure
+   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/new_flow_chart.png)
 
 ## Features
 
@@ -61,9 +62,11 @@ Website URL https://dodoit-40a56.web.app/
    ### Drag And Drop
    You can drag and drop to Sunday, and it will automatically move the other days to the next row. It will also move the header to the last cell and calculate    the number of days backwards, so it won't exceed the calendar.
 
-   ![image]()
+   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/drag_and_drop_gif.gif)
    
    ### Change Time
+   To switch to a different month, simply click on the arrow in the navigation. To record your tags for each month.
+   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/change_time_gif.gif)
    
    ### Edit Tag
    Clicking on a tag will display detailed information. You can click on the pen icon to edit the information or click on the trash can icon delete the tag.      The bottom at the black area is used to mark whether an event is completed. After clicking the 'Finish' button, a check mark will appear on the tag in        the calendar.
@@ -85,10 +88,11 @@ Website URL https://dodoit-40a56.web.app/
    **STEP 4:**
    Afterwards, if you or your friend click tag to edit, it will change the tag status for both parties.
    
-   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/receive_invite_gif.gif)
-   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/invite_friend_gif.gif)
+   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/choose_friend.jpg)
+   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/receive_invite_ok_gif.gif)
+   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/co-edit_result.png)
    
-   ### RWD
+
    
 ## Contact
  * Chia-Yi,Liu
