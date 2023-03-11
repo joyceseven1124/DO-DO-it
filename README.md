@@ -41,7 +41,7 @@ Website URL https://dodoit-40a56.web.app/
 |Firebase|Authentication, Cloud Firestore, Hoisting|
 
 ## React Structure
-   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/new_flow_chart.png)
+   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/flow_chart.png)
 
 ## Features
 
