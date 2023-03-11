@@ -65,7 +65,10 @@ const InviteCard = (props: any) => {
                             props.setInformation(false);
                         }}
                     >
-                        <FontAwesomeIcon className={styles.close_button} icon={faXmark}/>
+                        <FontAwesomeIcon
+                            className={styles.close_button}
+                            icon={faXmark}
+                        />
                     </div>
                     <h2>Invitation Card</h2>
 

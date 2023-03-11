@@ -5,12 +5,10 @@ import React, {
     createContext,
     useContext,
 } from 'react';
-import ReactDOM from 'react-dom/client';
 import { Provider, useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
-import ToDoListDialogBox from './ToDoListDialogBox';
-import ToDoListTag from './ToDoListTag';
-import EditTagDialog from './EditTagDialog';
+import ToDoListDialogBox from './monthCell/ToDoListDialogBox';
+import ToDoListTag from './monthCell/ToDoListTag';
 import { memberStatus } from '../../';
 import { commonData } from '../MonthPage';
 import db from '../../firebase/firebase';
@@ -20,8 +18,9 @@ import dayjs from 'dayjs';
 import toObject from 'dayjs/plugin/toObject';
 import weekday from 'dayjs/plugin/weekday';
 import findMaxDay from '../../components/commonFunction/findMaxDay';
-import SuccessCard from '../../components/SuccessCard';
 import ErrorCard from '../../components/ErrorCard';
+import makeChooseCellArray from './utilityFunction/makeChooseCellArray';
+import Cell from './monthCell/Cell';
 dayjs.extend(toObject);
 dayjs.extend(weekday);
 
@@ -38,51 +37,18 @@ export const tagData = createContext({
     endDayInit: undefined,
 });
 
-interface DayCell {
-    primary: string;
-    nowTime?: boolean;
-    bgColor?: boolean;
-}
-const DayCell = styled.div<DayCell>`
-    position: relative;
-    background-color: ${({ bgColor }) => {
-        return bgColor ? 'rgb(0 91 97)' : 'none';
-    }};
-
-    .date_word {
-        color: ${(props) => props.primary};
-        cursor: auto;
-        padding: 5px;
-        border: 50%;
-        width: 20px;
-        height: 20px;
-        padding: 2px;
-        box-sizing: border-box;
-        border-radius: 50%;
-        margin: auto;
-        margin-top: 5px;
-        z-index:-1;
-        background-color: ${({ nowTime }) => {
-            return nowTime ? 'rgb(0,91,97)' : null;
-        }};
-    }
-`;
-
-
-
 export default function MonthCell(props: any) {
     const [dayStart, setDayStart] = useState(0);
     const [dayEnd, setDayEnd] = useState(0);
     const [tagStartCell, setTagStartCell] = useState(0);
     const [tagEndCell, setTagEndCell] = useState(0);
-    const [activeCell, setActiveCell] = useState(false);
     const [showCardDisplay, setShowCardDisplay] = useState(false);
     const [monthCellHeight, setMonthCellHeight] = useState(700);
-    const [errorCardShow,setErrorCardShow] = useState(false)
-    const [errorCardWord,setErrorCardWord] = useState("")
+    const [maxOrderNumberResult ,setMaxOrderNumberResult] = useState(0)
+    const [errorCardShow, setErrorCardShow] = useState(false);
+    const [errorCardWord, setErrorCardWord] = useState('');
     const startDayInit = useRef(0);
     const endDayInit = useRef(0);
-    let thisPageDay: number[] = [];
     const { memberInformation } = useContext(memberStatus);
     const { setTagsArray } = useContext(commonData);
     const { isTagsArray } = useContext(commonData);
@@ -98,9 +64,18 @@ export default function MonthCell(props: any) {
     const yearNumber = useSelector(
         (state: RootState) => state.timeControlReducer.year
     );
-    const memberEmail = useSelector(
-        (state: RootState) => state.logInReducer.email
-    );
+    useEffect(() => {
+        if (maxOrderNumberResult > 2) {
+            const height = 300 * maxOrderNumberResult;
+            if (height > monthCellHeight && maxOrderNumberResult >= 3) {
+                setMonthCellHeight(height);
+            }else{
+                setMonthCellHeight(height)
+            }
+        }else{
+            setMonthCellHeight(700)
+        }
+    }, [maxOrderNumberResult]);
 
     useEffect(() => {
         setTagsArray([]);
@@ -115,7 +90,7 @@ export default function MonthCell(props: any) {
             let data: any = [];
             let chooseCellData: any = [];
             monthData.then((msg) => {
-                props.setLoading(false)
+                props.setLoading(false);
                 if (msg !== 'fail' && msg !== null) {
                     let moreRowsTag = msg.filter((element: any) => {
                         if (element.length > 1) {
@@ -127,7 +102,8 @@ export default function MonthCell(props: any) {
                         const result = makeChooseCellArray(
                             startId,
                             endId,
-                            'change'
+                            'change',
+                            chooseCell
                         );
                         chooseCellData.push(result[0]);
                     });
@@ -140,7 +116,8 @@ export default function MonthCell(props: any) {
                             const result = makeChooseCellArray(
                                 startId,
                                 endId,
-                                'change'
+                                'change',
+                                chooseCell
                             );
                             chooseCellData.push(result[0]);
                         }
@@ -165,476 +142,12 @@ export default function MonthCell(props: any) {
                     });
                     setChooseCell(chooseCellData);
                     setTagsArray(data);
-                    
                 }
             });
         } else {
             setChooseCell([]);
         }
     }, [searchMonth, memberInformation]);
-
-    function checkMouseUpPlace(e:any){
-        if (!e.target.className.includes('monthCell')) {
-            setErrorCardShow(true)
-            setErrorCardWord("Please release the mouse in the grid")
-            setActiveCell(false);
-        }
-        document.removeEventListener("mouseup",checkMouseUpPlace)
-    }
-
-
-    function Cell() {
-        let nowMonthMaxDay = findMaxDay(monthNumber);
-        let preMonthMaxDay = findMaxDay(monthNumber - 1);
-
-        let nowTime: string = dayjs().format('YYYY-MM-DD');
-        const nowMonth = Number(nowTime.split('-')[1]);
-        const nowDate = Number(nowTime.split('-')[2]);
-
-        let monthStart: number = dayjs()
-            .add(searchMonth, 'month')
-            .date(1)
-            .get('day');
-        let monthEnd: number = dayjs()
-            .add(searchMonth, 'month')
-            .date(nowMonthMaxDay)
-            .get('day');
-
-        let cells = 35;
-        if (monthStart === 0) {
-            monthStart = monthStart + 7;
-            cells = 42;
-        } else if (monthStart === 6 && monthEnd !== 0) {
-            cells = 42;
-        }
-
-        let monthDataArray = [];
-        let nextMonthDay = 1;
-        let thisMonthDay = 1;
-        let preMonthDay = preMonthMaxDay - monthStart + 2;
-
-        for (let i = 1; i <= cells; i++) {
-            let color: string;
-            let date: number;
-            let nowTimeResult: boolean = false;
-            let activeStatus: boolean = false;
-            if (i < monthStart) {
-                color = 'var(--otherMonthWorldColor)';
-                date = preMonthDay;
-                preMonthDay++;
-            } else if (i <= nowMonthMaxDay + monthStart - 1) {
-                color = 'white';
-                date = thisMonthDay;
-                if (monthNumber === nowMonth && thisMonthDay === nowDate) {
-                    nowTimeResult = true;
-                }
-                thisMonthDay++;
-            } else {
-                color = 'var(--otherMonthWorldColor)';
-                date = nextMonthDay;
-                nextMonthDay++;
-            }
-
-            let chooseCellArray = [...chooseCell];
-            let orderNumber = 0;
-            const perRowStartNumber = [1, 8, 15, 22, 29, 36];
-            chooseCellArray.map((element) => {
-                if (element.includes(i)) {
-                    orderNumber++;
-                    if (element[0] === i && element.length === 1) {
-                        orderNumber--;
-                    } else if (element[0] === i) {
-                        orderNumber--;
-                    } else if (perRowStartNumber.includes(i)) {
-                        orderNumber--;
-                    }
-                }
-            });
-             useEffect(() => {
-                 if (orderNumber > 2) {
-                     const height = 300 * orderNumber;
-                     if (height > monthCellHeight) {
-                         setMonthCellHeight(height);
-                     }
-                 }
-             }, [orderNumber]);
-            let newTagArray = [...isTagsArray].sort((a, b) => a.index - b.index);
-            newTagArray = newTagArray.map((element) => {
-                const startPlace = element.id;
-                const endPlace = startPlace + element.width / 100 - 1;
-                if (startPlace === i && endPlace === i) {
-                    orderNumber++;
-                } else if (startPlace === i && endPlace > i) {
-                    orderNumber++;
-                }
-
-                if (startPlace === i) {
-                    const tagWidth = `${element.width}%`;
-                    const connectWidth = element.connectWidth;
-                    return (
-                        <ToDoListTag
-                            key={`tag-content-${i}-${orderNumber}`}
-                            id={`tag-${i}-${orderNumber}`}
-                            title={element.title}
-                            width={tagWidth}
-                            connectWidth={connectWidth}
-                            tagOrder={orderNumber}
-                            date={date}
-                            color={element.color}
-                            index={element.index}
-                            description={element.description}
-                            status={element.status}
-                            friend={element.receiveEmail}
-                        />
-                    );
-                }
-            });
-
-            let row = Math.ceil(i / 7);
-            if (activeCell) {
-                if (tagStartCell <= i && i <= tagEndCell) {
-                    activeStatus = true;
-                } else if (tagStartCell >= i && i >= tagEndCell) {
-                    activeStatus = true;
-                }
-            }
-                let dayHtml = (
-                    <DayCell
-                        id={`cell-${i}-${row}`}
-                        key={`cmd-${i}`}
-                        className={`date ${date}`}
-                        primary={color}
-                        nowTime={nowTimeResult}
-                        bgColor={activeStatus}
-                        onPointerEnter={activeCell ? EnterCell:null}
-                        onPointerDown={mouseDown}
-                        onPointerUp={mouseUp}
-                        onDragOver={dragover}
-                        onDragEnter={dragenter}
-                        onDragLeave={dragleave}
-                        onDrop={dragDrop}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <div className="date_word">{date}</div>
-                        <div>{newTagArray}</div>
-                    </DayCell>
-                );
-                monthDataArray.push(dayHtml);
-                thisPageDay.push(date);
-        }
-        return <>{monthDataArray}</>;
-    }
-
-    function EnterCell(e: any) {
-        const id = Number(e.target.id.split('-')[1]);
-        setTagEndCell(id);
-    }
-
-    function mouseDown(e: any) {
-        if (e.target.parentNode.className.includes('toDoListTag')) {
-            return;
-        }
-        setActiveCell(true);
-        e.target.style.cursor = 'grab';
-        let cellId = Number(e.target.id.split('-')[1]);
-        let chooseDate = e.target.classList[3];
-        setDayStart(chooseDate);
-        setTagStartCell(cellId);
-        startDayInit.current = chooseDate;
-        document.addEventListener("mouseup", checkMouseUpPlace);
-    }
-
-    function makeChooseCellArray(
-        tagStartCell: number,
-        tagEndCell: number,
-        status: string
-    ) {
-        let prevChooseCell: any;
-        if (status === 'usual') {
-            prevChooseCell = [...chooseCell];
-        } else {
-            prevChooseCell = [];
-        }
-
-        let nowChooseCell = [];
-        if (tagStartCell > tagEndCell) {
-            for (let i = tagEndCell; i <= tagStartCell; i++) {
-                nowChooseCell.push(i);
-            }
-        } else if (tagStartCell < tagEndCell) {
-            for (let i = tagStartCell; i <= tagEndCell; i++) {
-                nowChooseCell.push(i);
-            }
-        } else {
-            let oneCell = tagStartCell;
-            nowChooseCell.push(oneCell);
-        }
-        prevChooseCell.push(nowChooseCell);
-        return prevChooseCell;
-    }
-
-    function mouseUp(e: any) {
-         if (!e.target.id.includes('cell')) {
-             return;
-         }
-        
-        setActiveCell(false);
-        let chooseDate = e.target.classList[3];
-        setDayEnd(chooseDate);
-        const newChooseAllCells = makeChooseCellArray(
-            tagStartCell,
-            tagEndCell,
-            'usual'
-        );
-        setChooseCell(newChooseAllCells);
-        setShowCardDisplay(true);
-        endDayInit.current = chooseDate;
-    }
-
-    const dragDrop = (e: any) => {
-        if (e.target.id) {
-            const searchDataTime = `${yearNumber}Y${monthNumber}M`;
-            const allConnectWidth = Number(
-                e.dataTransfer.getData('allConnectWidth')
-            );
-            const startOldTag = Number(e.dataTransfer.getData('startOldTag'));
-            const endOldTag = startOldTag + allConnectWidth / 100 - 1;
-            const insertPlace = e.dataTransfer.getData('insertPlace');
-            const index = e.dataTransfer.getData('index');
-            let date = Number(e.target.className.split(' ')[3]);
-            let startId: number = Number(e.target.id.split('-')[1]);
-            let endId: number = startId + allConnectWidth / 100 - 1;
-            let startDate: number = date;
-            let endDate: number = thisPageDay[endId - 1];
-            let tagArray = [...isTagsArray];
-            let chooseCellArray = [...chooseCell];
-            let sendDataClean:any = []
-            let updateData;
-            let yearStart = yearNumber
-            let yearEnd = yearNumber
-            let monthStart = monthNumber;
-            let monthEnd = monthNumber;
-            let title
-            let description
-            let color
-            let toDoListStatus
-            let receiveEmail: string[];
-            let sendEmail: string;
-            let sendEmailName: string;
-            
-
-            if(thisPageDay.length < endId){
-                let extraDay = endId - thisPageDay.length
-                startId = startId - extraDay
-                startDate = thisPageDay[startId-1]
-                endId = thisPageDay.length
-                endDate = thisPageDay[endId-1]
-            }
-
-            if (allConnectWidth <= 700) {
-                if (insertPlace !== 0) {
-                    startId = startId - (insertPlace - 1);
-                    startDate = thisPageDay[startId - 1];
-                    endId = startId + allConnectWidth / 100 - 1;
-                    endDate = thisPageDay[endId - 1];
-                }
-            }
-            const perRowStartNumber = [1, 8, 15, 22, 29, 36];
-            const perRowEndNumber = [7, 14, 21, 28, 35, 42];
-            let newTagArray = tagArray.filter((element) => {
-                let connectTagValueIndex = element.index;
-                if (connectTagValueIndex.toString() !== index) {
-                    return element;
-                } else {
-                    title = element.title
-                    description = element.description
-                    color = element.color
-                    toDoListStatus = element.status
-                    receiveEmail = element.receiveEmail
-                    sendEmail = element.sendEmail
-                    sendEmailName = element.sendEmailName
-                }
-            });
-            if (startId < 7 && startDate > 7) {
-                    monthStart = monthNumber - 1;
-                    if(monthStart === 0){
-                        monthStart = 12
-                        yearStart = yearNumber - 1
-                    }
-            }
-
-            if (startId > 28 && startDate < 7) {
-                monthStart = monthNumber + 1;
-                if(monthStart === 13){
-                    monthStart = 1
-                    yearStart = yearNumber + 1
-                }
-            }
-
-            if (endId < 7 && endDate > 7) {
-                monthEnd = monthNumber - 1;
-                if(monthEnd === 0){
-                    monthEnd = 12
-                    yearEnd = yearNumber - 1
-                }
-            }
-
-            if (endId > 28 && endDate < 7) {
-                monthEnd = monthNumber + 1;
-                if(monthEnd === 13){
-                    monthEnd = 1
-                    yearEnd = yearNumber + 1
-                }
-            }
-
-            const firstRowEndId = perRowEndNumber[Math.ceil(startId/7)-1]
-            const rowEnd = Math.ceil(endId/7)
-            const rowStart = Math.ceil(startId/7)
-            let allWidth = allConnectWidth
-            if(rowEnd !== rowStart){
-                let upDateArray = []
-                let tagItem ={}
-                let firstTagWidth = (Math.abs(startId-firstRowEndId)+1)*100
-                if(startId === firstRowEndId){
-                    firstTagWidth = 100
-                }
-                tagItem = {
-                    id: startId,
-                    width: firstTagWidth,
-                    title: title,
-                    description: description,
-                    connectWidth: allConnectWidth,
-                    color: color,
-                    index: index,
-                    status: toDoListStatus,
-                    yearStart: yearStart,
-                    yearEnd: yearEnd,
-                    monthStart: monthStart,
-                    monthEnd: monthEnd,
-                    dayStart: startDate,
-                    dayEnd: endDate,
-                    receiveEmail: receiveEmail,
-                    sendEmail: sendEmail,
-                    sendEmailName: sendEmailName,}
-                newTagArray.push(tagItem)
-                upDateArray.push(tagItem)
-                allWidth = allWidth - firstTagWidth
-                if(Math.abs(rowEnd-rowStart)>=2){
-                    for(let i = rowStart+1; i<rowEnd;i++ ){
-                        let otherTagStartId = perRowStartNumber[i-1]
-                        let otherTagWidth = 700
-                        const tagItem = {
-                            id: otherTagStartId,
-                            width: otherTagWidth,
-                            title: title,
-                            description: description,
-                            connectWidth: allConnectWidth,
-                            color: color,
-                            index: index,
-                            status: toDoListStatus,
-                            yearStart: yearStart,
-                            yearEnd: yearEnd,
-                            monthStart: monthStart,
-                            monthEnd: monthEnd,
-                            dayStart: startDate,
-                            dayEnd: endDate,
-                            receiveEmail: receiveEmail,
-                            sendEmail: sendEmail,
-                            sendEmailName: sendEmailName,}
-                        newTagArray.push(tagItem)
-                        upDateArray.push(tagItem)
-                        allWidth = allWidth - otherTagWidth
-                    }
-                }
-                let endTagWidth = allWidth
-                if(endTagWidth>0){
-                    let endTagStartId = perRowStartNumber[Math.ceil(endId/7)-1]
-                    const tagItem = { 
-                        id: endTagStartId,
-                        width: endTagWidth,
-                        title: title,
-                        description: description,
-                        connectWidth: allConnectWidth,
-                        color: color,
-                        index: index,
-                        status: toDoListStatus,
-                        yearStart: yearStart,
-                        yearEnd: yearEnd,
-                        monthStart: monthStart,
-                        monthEnd: monthEnd,
-                        dayStart: startDate,
-                        dayEnd: endDate,
-                        receiveEmail: receiveEmail,
-                        sendEmail: sendEmail,
-                        sendEmailName: sendEmailName,}
-                    newTagArray.push(tagItem)
-                    upDateArray.push(tagItem)
-                }
-                updateData = [...upDateArray]
-            }else{
-                const tagItem = {
-                    id: startId,
-                    width: allWidth,
-                    title: title,
-                    description: description,
-                    connectWidth: allConnectWidth,
-                    color: color,
-                    index: index,
-                    status: toDoListStatus,
-                    yearStart: yearStart,
-                    yearEnd: yearEnd,
-                    monthStart: monthStart,
-                    monthEnd: monthEnd,
-                    dayStart: startDate,
-                    dayEnd: endDate,
-                    receiveEmail: receiveEmail,
-                    sendEmail: sendEmail,
-                    sendEmailName: sendEmailName,
-                };
-                newTagArray.push(tagItem)
-                updateData = tagItem
-            }
-            let newChooseAllCells = chooseCellArray.filter((element) => {
-                const start = element[0];
-                const end = element[element.length - 1];
-                if (start !== startOldTag && end !== endOldTag) {
-                    return element;
-                }
-            });
-            let newChooseCell = [];
-            for (let i = startId; i <= endId; i++) {
-                newChooseCell.push(i);
-            }
-            newChooseAllCells.push(newChooseCell);
-            let result = db.updateData(
-                memberInformation,
-                searchDataTime,
-                Number(index),
-                updateData
-            );
-        
-            result.then((msg)=>{
-                if(msg === "success"){
-                    setChooseCell(newChooseAllCells);
-                    setTagsArray(newTagArray);
-                }else{
-                    setErrorCardShow(true)
-                    setErrorCardWord("Save failed")
-                }
-            })
-        }
-    };
-
-    const dragover = (e: any) => {
-        e.preventDefault();
-    };
-    const dragenter = (e: any) => {
-        e.preventDefault();
-    };
-
-    const dragleave = (e: any) => {
-        e.preventDefault();
-    };
 
     return (
         <tagData.Provider
@@ -655,16 +168,25 @@ export default function MonthCell(props: any) {
                 className={styles.monthCell}
                 style={{ height: `${monthCellHeight}px` }}
             >
-                <Cell />
+                <Cell
+                    setErrorCardShow={setErrorCardShow}
+                    setErrorCardWord={setErrorCardWord}
+                    setShowCardDisplay={setShowCardDisplay}
+                    monthCellHeight={monthCellHeight}
+                    setMaxOrderNumberResult={setMaxOrderNumberResult}
+                    maxOrderNumberResult={maxOrderNumberResult}
+                />
             </div>
-            {errorCardShow ? <ErrorCard msg={errorCardWord} setCard={setErrorCardShow}/>:null}
+            {errorCardShow ? (
+                <ErrorCard msg={errorCardWord} setCard={setErrorCardShow} />
+            ) : null}
             {showCardDisplay ? (
                 <>
                     <ToDoListDialogBox
                         status={showCardDisplay}
                         setCardStatus={setShowCardDisplay}
                         friendData={props.friendData}
-                        setErrorCardShow = {setErrorCardShow}
+                        setErrorCardShow={setErrorCardShow}
                         msg={setErrorCardWord}
                     />
                 </>

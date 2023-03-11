@@ -12,9 +12,9 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import {faAlignLeft} from '@fortawesome/free-solid-svg-icons'
-import {faClock} from '@fortawesome/free-solid-svg-icons'
-import {faUsers} from '@fortawesome/free-solid-svg-icons'
+import { faAlignLeft } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import parse from 'html-react-parser';
@@ -46,10 +46,9 @@ export default function EditTagDialog(props: any) {
     const [buttonWord, setButtonWord] = useState('MARK FINISH');
     const [friend, setFriend] = useState([]);
     const [theme, setTheme] = useState('bubble');
-    
-    const [errorCardShow,setErrorCardShow] = useState(false)
-    const [errorCardWord,setErrorCardWord] = useState("")
 
+    const [errorCardShow, setErrorCardShow] = useState(false);
+    const [errorCardWord, setErrorCardWord] = useState('');
 
     let titleWord: string;
     let dateData: {
@@ -67,8 +66,8 @@ export default function EditTagDialog(props: any) {
     let statusWord: string;
     let saveStatus: string = status;
     let databaseFileName: string;
-    let friendEmail: string[] =[];
-    let sendEmail:string
+    let friendEmail: string[] = [];
+    let sendEmail: string;
 
     const dialogData = isTagsArray.filter((element: any) => {
         if (element.index === showTagIndex) {
@@ -85,13 +84,13 @@ export default function EditTagDialog(props: any) {
             ];
             const weekStart = new Date(
                 element.yearStart,
-                element.monthStart-1,
+                element.monthStart - 1,
                 element.dayStart
             ).getDay();
 
             const weekEnd = new Date(
                 element.yearEnd,
-                element.monthEnd-1,
+                element.monthEnd - 1,
                 element.dayEnd
             ).getDay();
             const weekStartWord = week[weekStart];
@@ -120,8 +119,8 @@ export default function EditTagDialog(props: any) {
             } else {
                 statusWord = 'Mission accomplished! ';
             }
-            friendEmail = element.receiveEmail
-            sendEmail = element.sendEmail
+            friendEmail = element.receiveEmail;
+            sendEmail = element.sendEmail;
             return element;
         }
     });
@@ -137,15 +136,15 @@ export default function EditTagDialog(props: any) {
             setStatus('完成');
         }
         if (friendEmail) {
-            let emailArray = []
-            friendEmail.forEach((element)=>{
-                if(element !== memberInformation){
-                    emailArray.push(element)
+            let emailArray = [];
+            friendEmail.forEach((element) => {
+                if (element !== memberInformation) {
+                    emailArray.push(element);
                 }
-            })
+            });
 
-            if(sendEmail !== memberInformation){
-                emailArray.push(sendEmail)
+            if (sendEmail !== memberInformation) {
+                emailArray.push(sendEmail);
             }
             setFriend(emailArray);
         }
@@ -177,28 +176,28 @@ export default function EditTagDialog(props: any) {
                     element
                 );
                 result.then((msg) => {
-                    if(msg === "fail"){
-                        setErrorCardShow(true)
-                        setErrorCardWord("save failed")
-                    }
-                });
-                }
-            });
-            if (dialogData.length > 1) {
-                const result = db.updateData(
-                    memberInformation,
-                    time,
-                    index,
-                    dialogData
-                );
-                result.then((msg) => {
-                    if(msg === "fail"){
-                        setErrorCardShow(true)
-                        setErrorCardWord("save failed")
+                    if (msg === 'fail') {
+                        setErrorCardShow(true);
+                        setErrorCardWord('save failed');
                     }
                 });
             }
-            setTagsArray(newDataArray);
+        });
+        if (dialogData.length > 1) {
+            const result = db.updateData(
+                memberInformation,
+                time,
+                index,
+                dialogData
+            );
+            result.then((msg) => {
+                if (msg === 'fail') {
+                    setErrorCardShow(true);
+                    setErrorCardWord('save failed');
+                }
+            });
+        }
+        setTagsArray(newDataArray);
     };
 
     const deleteHandle = () => {
@@ -231,7 +230,9 @@ export default function EditTagDialog(props: any) {
 
     return (
         <div className={styles.edit_card_wrapper}>
-            {errorCardShow ? <ErrorCard msg={errorCardWord} setCard={setErrorCardShow}/>:null}
+            {errorCardShow ? (
+                <ErrorCard msg={errorCardWord} setCard={setErrorCardShow} />
+            ) : null}
             <div className={styles.edit_card_content}>
                 <div className={styles.list_information}>
                     <div className={styles.edit_buttons_container}>
@@ -260,9 +261,9 @@ export default function EditTagDialog(props: any) {
                                         if (msg === 'success') {
                                             setShowListDialog(false);
                                             deleteHandle();
-                                        }else{
-                                            setErrorCardShow(true)
-                                            setErrorCardWord("save failed")
+                                        } else {
+                                            setErrorCardShow(true);
+                                            setErrorCardWord('save failed');
                                         }
                                     });
                                 }}
@@ -283,8 +284,8 @@ export default function EditTagDialog(props: any) {
                             style={{
                                 backgroundColor: `${color}`,
                                 cursor: `${cursorStatus}`,
-                                marginLeft:`${!editContent ? "10px" : "0px"}`,
-                                border: "1px solid  rgb(161, 161, 161)"
+                                marginLeft: `${!editContent ? '10px' : '0px'}`,
+                                border: '1px solid  rgb(161, 161, 161)',
                             }}
                             className={styles.list_color}
                             disabled={editContent}
@@ -316,7 +317,10 @@ export default function EditTagDialog(props: any) {
                     </div>
 
                     <div className={styles.list_date}>
-                        <FontAwesomeIcon className={styles.time_icon} icon={faClock} />
+                        <FontAwesomeIcon
+                            className={styles.time_icon}
+                            icon={faClock}
+                        />
                         <div className={styles.list_days_wrapper}>
                             <div className={styles.list_one_day_wrapper}>
                                 <div className={styles.list_week}>
@@ -340,7 +344,10 @@ export default function EditTagDialog(props: any) {
 
                     {friend.length > 0 ? (
                         <div className={styles.friend_email_container}>
-                            <FontAwesomeIcon className={styles.friend_icon} icon={faUsers} />
+                            <FontAwesomeIcon
+                                className={styles.friend_icon}
+                                icon={faUsers}
+                            />
                             <div className={styles.friend_email_wrapper}>
                                 {friend.map((element: string, index) => {
                                     return (
@@ -359,12 +366,16 @@ export default function EditTagDialog(props: any) {
                     <div className={styles.description_content}>
                         {editContent ? (
                             <div className={styles.description_no_edit_content}>
-                                {descriptionWord ?
-                                    <FontAwesomeIcon icon={faAlignLeft} className={styles.description_icon}/> :
-                                    null
-                                }
-                                
-                                <div className={styles.no_edit_description}>{parse(description)}</div>
+                                {descriptionWord ? (
+                                    <FontAwesomeIcon
+                                        icon={faAlignLeft}
+                                        className={styles.description_icon}
+                                    />
+                                ) : null}
+
+                                <div className={styles.no_edit_description}>
+                                    {parse(description)}
+                                </div>
                             </div>
                         ) : (
                             <div className={styles.description_edit_content}>

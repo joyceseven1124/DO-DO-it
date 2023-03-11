@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '/public/css/member.module.css';
@@ -28,12 +28,12 @@ export default function SingIn(props: any) {
         password: '',
     };
     const enterAccount = (e: any) => {
-        if(!emailReg.test(email) || !passwordReg.test(password)){
+        if (!emailReg.test(email) || !passwordReg.test(password)) {
             props.setErrorCard(true);
             props.signInMsg('Check your input');
-            return
+            return;
         }
-        const result = db.enterAccount(email,password);
+        const result = db.enterAccount(email, password);
         result.then((msg) => {
             if (msg !== 'fail') {
                 let memberData = db.getMemberInformation(msg);
@@ -50,11 +50,11 @@ export default function SingIn(props: any) {
         });
     };
 
-    const enterAccountByKeyDown = (e:any) =>{
-        if(e.key === "Enter"){
-            enterAccount(e)
+    const enterAccountByKeyDown = (e: any) => {
+        if (e.key === 'Enter') {
+            enterAccount(e);
         }
-    }
+    };
 
     const closeCard = (e: any) => {
         openRegister(false);
@@ -69,28 +69,25 @@ export default function SingIn(props: any) {
             : setPasswordType('password');
     };
 
-
-    useEffect(()=>{
+    useEffect(() => {
         if (emailReg.test(email)) {
-            setEmailCheck("#03e9f4")
-        }else{
-            setEmailCheck("rgb(123, 123, 123)")
+            setEmailCheck('#03e9f4');
+        } else {
+            setEmailCheck('rgb(123, 123, 123)');
         }
 
-        if(passwordReg.test(password)){
-            setPassWordCheck("#03e9f4")
-        }else{
-            setPassWordCheck("rgb(123, 123, 123)")
+        if (passwordReg.test(password)) {
+            setPassWordCheck('#03e9f4');
+        } else {
+            setPassWordCheck('rgb(123, 123, 123)');
         }
 
-        if(emailReg.test(email) && passwordReg.test(password)){
-            setInputCheck("#03e9f4")
-        }else{
-            setInputCheck("rgb(123, 123, 123)")
+        if (emailReg.test(email) && passwordReg.test(password)) {
+            setInputCheck('#03e9f4');
+        } else {
+            setInputCheck('rgb(123, 123, 123)');
         }
-
-    },[email,password])
-
+    }, [email, password]);
 
     return (
         <div id="sing_in" className={styles.user_background}>
@@ -100,11 +97,19 @@ export default function SingIn(props: any) {
                     <div>PASS CARD</div>
                 </div>
 
-                <div  id="sign_in_box" className={styles.user_box_wrapper}>
-                    <div className='close_icon_box'>
-                        <div className='close_icon' onClick={()=>navigate('/')}>叉</div>
+                <div id="sign_in_box" className={styles.user_box_wrapper}>
+                    <div className="close_icon_box">
+                        <div
+                            className="close_icon"
+                            onClick={() => navigate('/')}
+                        >
+                            叉
+                        </div>
                     </div>
-                    <div  className={styles.user_box_content}   onKeyDown={enterAccountByKeyDown}>
+                    <div
+                        className={styles.user_box_content}
+                        onKeyDown={enterAccountByKeyDown}
+                    >
                         <h2 className="card_title">Sign In</h2>
                         <div>
                             <div className="user_box">
@@ -165,16 +170,22 @@ export default function SingIn(props: any) {
                             <span
                                 id="switch_register_button"
                                 className="switch_card_button"
-                                onClick={()=>navigate('/register')}
+                                onClick={() => navigate('/register')}
                             >
                                 註冊
                             </span>
                         </div>
 
                         <div className={styles.remind_word}>
-                            <div style={{ color: `${emailCheck}` }}>✔信箱格式@gmail.com</div>
-                            <div style={{ color: `${passwordCheck}` }}>✔密碼六個字元以上</div>
-                            <div style={{ color: `${inputCheck}` }}>✔欄位不可空白</div>
+                            <div style={{ color: `${emailCheck}` }}>
+                                ✔信箱格式@gmail.com
+                            </div>
+                            <div style={{ color: `${passwordCheck}` }}>
+                                ✔密碼六個字元以上
+                            </div>
+                            <div style={{ color: `${inputCheck}` }}>
+                                ✔欄位不可空白
+                            </div>
                         </div>
 
                         <div className="user_button_box">
@@ -192,4 +203,3 @@ export default function SingIn(props: any) {
         </div>
     );
 }
-

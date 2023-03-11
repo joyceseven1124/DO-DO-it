@@ -7,7 +7,6 @@ import { commonData } from '../../page/MonthPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
-
 const MenuTomorrow = (props: any) => {
     const monthNumber = useSelector(
         (state: RootState) => state.timeControlReducer.monthNumber
@@ -24,20 +23,24 @@ const MenuTomorrow = (props: any) => {
     let tomorrowMonth = new Date().getMonth();
     let tomorrowYear = new Date().getFullYear();
     let dataArray: any = [];
-    let checkRepeatIndex = ""
+    let checkRepeatIndex = '';
 
     tomorrowData.forEach((element, index) => {
-        const dateStart = new Date(`${element.yearStart}-${element.monthStart}-${element.dayStart}`);
-        const dateEnd = new Date(`${element.yearEnd}-${element.monthEnd}-${element.dayEnd}`);
-        const dateToday = new Date(`${tomorrowYear}-${tomorrowMonth+1}-${tomorrowDay}`);
-        if (
-             dateStart <= dateToday && dateToday <= dateEnd
-        ) {
-            if(checkRepeatIndex === element.index){
-                checkRepeatIndex = element.index
-                return
+        const dateStart = new Date(
+            `${element.yearStart}-${element.monthStart}-${element.dayStart}`
+        );
+        const dateEnd = new Date(
+            `${element.yearEnd}-${element.monthEnd}-${element.dayEnd}`
+        );
+        const dateToday = new Date(
+            `${tomorrowYear}-${tomorrowMonth + 1}-${tomorrowDay}`
+        );
+        if (dateStart <= dateToday && dateToday <= dateEnd) {
+            if (checkRepeatIndex === element.index) {
+                checkRepeatIndex = element.index;
+                return;
             }
-            checkRepeatIndex = element.index
+            checkRepeatIndex = element.index;
             let item = (
                 <li
                     id={element.index}
@@ -91,5 +94,3 @@ const MenuTomorrow = (props: any) => {
 };
 
 export default MenuTomorrow;
-
-

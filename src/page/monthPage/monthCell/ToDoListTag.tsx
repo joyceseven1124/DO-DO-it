@@ -2,8 +2,8 @@ import { title } from 'process';
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
-import { commonData } from '../MonthPage';
-import { tagData } from './MonthCell';
+import { commonData } from '../../MonthPage';
+import { tagData } from '../MonthCell';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 

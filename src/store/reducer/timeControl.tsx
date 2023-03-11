@@ -51,5 +51,3 @@ const timeControlReducer = (
     }
 };
 export default timeControlReducer;
-
-

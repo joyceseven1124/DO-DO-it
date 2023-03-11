@@ -9,7 +9,6 @@ import { faAtom } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-
 const MenuFriend = (props: any) => {
     const [check, setCheck] = useState(false);
     const { memberInformation } = useContext(memberStatus);
@@ -19,21 +18,20 @@ const MenuFriend = (props: any) => {
             const result = db.getFriendData(memberInformation);
             result.then((msg) => {
                 if (msg.result !== null || !msg.result) {
-                    props.setFriendListIndex(msg)
-                    let friendEmail:string[] = []
-                    Object.keys(msg).map((element)=>{
-                        friendEmail.push(msg[element])
-                    })
+                    props.setFriendListIndex(msg);
+                    let friendEmail: string[] = [];
+                    Object.keys(msg).map((element) => {
+                        friendEmail.push(msg[element]);
+                    });
                     props.setFriendList(friendEmail);
                 }
             });
         }
     }, [memberInformation]);
 
-
     let itemArray: any = [];
     const friendData = Object.keys(props.friendListIndex);
-    friendData.map((element:any) => {
+    friendData.map((element: any) => {
         if (element === 'result') {
             return;
         }
@@ -51,22 +49,27 @@ const MenuFriend = (props: any) => {
                 <div className={styles.friend_email_word}>{friendEmail}</div>
                 <div className={styles.menu_friend_button_wrapper}>
                     <FontAwesomeIcon icon={faUser} />
-                    <FontAwesomeIcon className={styles.menu_friend_delete_button} 
+                    <FontAwesomeIcon
+                        className={styles.menu_friend_delete_button}
                         icon={faTrashCan}
-                        onClick={(e)=>{
-                            const result =db.deleteFriend( element,memberInformation )
-                            result.then((msg)=>{
-                                let newFriendList:any =[]
-                                if(msg === "success"){
+                        onClick={(e) => {
+                            const result = db.deleteFriend(
+                                element,
+                                memberInformation
+                            );
+                            result.then((msg) => {
+                                let newFriendList: any = [];
+                                if (msg === 'success') {
                                     delete props.friendListIndex[element];
-                                    let newFriendEmail = [...props.friendList]
-                                    newFriendEmail.push(friendEmail)
-                                    props.setFriendList(newFriendEmail)
+                                    let newFriendEmail = [...props.friendList];
+                                    newFriendEmail.push(friendEmail);
+                                    props.setFriendList(newFriendEmail);
                                 }
-                                props.setFriendList(newFriendList)
-                            })
-                            e.stopPropagation()
-                        }}/>
+                                props.setFriendList(newFriendList);
+                            });
+                            e.stopPropagation();
+                        }}
+                    />
                 </div>
             </li>
         );
@@ -102,9 +105,7 @@ const MenuFriend = (props: any) => {
                         </div>
                         {itemArray.length === 0 ? (
                             <li>
-                                <div className={styles.no_item}>
-                                    Friendless
-                                </div>
+                                <div className={styles.no_item}>Friendless</div>
                             </li>
                         ) : null}
                         {itemArray}

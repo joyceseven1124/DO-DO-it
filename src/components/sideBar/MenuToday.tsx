@@ -7,7 +7,6 @@ import { commonData } from '../../page/MonthPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
-
 const MenuToday = (props: any) => {
     const monthNumber = useSelector(
         (state: RootState) => state.timeControlReducer.monthNumber
@@ -23,25 +22,27 @@ const MenuToday = (props: any) => {
     let todayDay = new Date().getDate();
     let todayMonth = new Date().getMonth();
     let todayYear = new Date().getFullYear();
-   
+
     let dataArray: any = [];
-    let checkRepeatIndex = ""
+    let checkRepeatIndex = '';
     todayData.forEach((element, index) => {
-        
-        const dateStart = new Date(`${element.yearStart}-${element.monthStart}-${element.dayStart}`);
-        const dateEnd = new Date(`${element.yearEnd}-${element.monthEnd}-${element.dayEnd}`);
-        const dateToday = new Date(`${todayYear}-${todayMonth+1}-${todayDay}`);
+        const dateStart = new Date(
+            `${element.yearStart}-${element.monthStart}-${element.dayStart}`
+        );
+        const dateEnd = new Date(
+            `${element.yearEnd}-${element.monthEnd}-${element.dayEnd}`
+        );
+        const dateToday = new Date(
+            `${todayYear}-${todayMonth + 1}-${todayDay}`
+        );
 
-
-        if (
-            dateStart <= dateToday && dateToday <= dateEnd
-        ) {
-            if(checkRepeatIndex === element.index){
-                checkRepeatIndex = element.index
-                return
+        if (dateStart <= dateToday && dateToday <= dateEnd) {
+            if (checkRepeatIndex === element.index) {
+                checkRepeatIndex = element.index;
+                return;
             }
-            checkRepeatIndex = element.index
-            
+            checkRepeatIndex = element.index;
+
             let item = (
                 <li
                     id={element.index}
@@ -58,8 +59,6 @@ const MenuToday = (props: any) => {
             );
             dataArray.push(item);
         }
-
-
     });
 
     return (

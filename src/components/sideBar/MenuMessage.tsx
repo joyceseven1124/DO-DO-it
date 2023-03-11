@@ -6,7 +6,6 @@ import { memberStatus } from '../..';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-
 const MenuItem = (props: any) => {
     const [check, setCheck] = useState(false);
     const [message, setMessage] = useState({});
@@ -15,13 +14,13 @@ const MenuItem = (props: any) => {
     useEffect(() => {
         if (memberInformation) {
             const result = db.getMessageData(memberInformation);
-            
+
             result.then((msg) => {
                 let msgArray: { [key: number]: number | string }[] = [];
                 const keyArray = Object.keys(msg);
                 const cleanMsg = keyArray.map((element: any) => {
-                    if(keyArray.length === 0){
-                        return
+                    if (keyArray.length === 0) {
+                        return;
                     }
                     if (msg[element].length > 1) {
                         msgArray.push(msg[element][0]);
@@ -81,7 +80,7 @@ const MenuItem = (props: any) => {
                         {itemArray.length === 0 ? (
                             <li>
                                 <div className={styles.no_item}>
-                                   Without notification
+                                    Without notification
                                 </div>
                             </li>
                         ) : null}

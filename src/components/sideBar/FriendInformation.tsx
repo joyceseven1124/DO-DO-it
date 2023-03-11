@@ -22,7 +22,6 @@ const FriendInformation = (props: any) => {
         (state: RootState) => state.timeControlReducer.year
     );
 
-
     useEffect(() => {
         const friendName = db.getFriendInformation(props.chooseEmail);
         friendName.then((msg) => {
