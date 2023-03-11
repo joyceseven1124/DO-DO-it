@@ -92,6 +92,9 @@ Website URL https://dodoit-40a56.web.app/
    ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/receive_invite_ok_gif.gif)
    ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/co-edit_result.png)
    
+   ### RWD
+   ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/RWD_gif.gif)
+   
 
    
 ## Contact
