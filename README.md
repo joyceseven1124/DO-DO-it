@@ -24,6 +24,9 @@ Website URL https://dodoit-40a56.web.app/
 |-----|--------|
 |Account|111@gmail.com|
 |Password|111111|
+|- |-|
+|Account|999@gmail.com|
+|Password|999999|
 
 
 ## Framework and Library
@@ -41,6 +44,7 @@ Website URL https://dodoit-40a56.web.app/
 |Firebase|Authentication, Cloud Firestore, Hoisting|
 
 ## React Structure
+
    ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/flow_chart.png)
 
 ## Features
@@ -66,13 +70,17 @@ Website URL https://dodoit-40a56.web.app/
    
    ### Change Time
    To switch to a different month, simply click on the arrow in the navigation. To record your tags for each month.
+   
    ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/change_time_gif.gif)
    
    ### Edit Tag
    Clicking on a tag will display detailed information. You can click on the pen icon to edit the information or click on the trash can icon delete the tag.      The bottom at the black area is used to mark whether an event is completed. After clicking the 'Finish' button, a check mark will appear on the tag in        the calendar.
+   
    ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/Edit_tag_gif.gif)
    
    ### Add Friends
+   The friend list will be used for the list-sharing feature in collaborative editing.
+   
    ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/add_friend_gif.gif)
    
    ### Collaborate Edit Tags
@@ -93,6 +101,7 @@ Website URL https://dodoit-40a56.web.app/
    ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/co-edit_result.png)
    
    ### RWD
+   
    ![image](https://github.com/joyceseven1124/DO-DO-it/blob/main/public/assets/RWD_gif.gif)
    
 
