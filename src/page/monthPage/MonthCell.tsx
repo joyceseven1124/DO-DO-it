@@ -44,7 +44,7 @@ export default function MonthCell(props: any) {
     const [tagEndCell, setTagEndCell] = useState(0);
     const [showCardDisplay, setShowCardDisplay] = useState(false);
     const [monthCellHeight, setMonthCellHeight] = useState(700);
-    const [maxOrderNumberResult ,setMaxOrderNumberResult] = useState(0)
+    const [maxOrderNumberResult, setMaxOrderNumberResult] = useState(0);
     const [errorCardShow, setErrorCardShow] = useState(false);
     const [errorCardWord, setErrorCardWord] = useState('');
     const startDayInit = useRef(0);
@@ -69,11 +69,11 @@ export default function MonthCell(props: any) {
             const height = 300 * maxOrderNumberResult;
             if (height > monthCellHeight && maxOrderNumberResult >= 3) {
                 setMonthCellHeight(height);
-            }else{
-                setMonthCellHeight(height)
+            } else {
+                setMonthCellHeight(height);
             }
-        }else{
-            setMonthCellHeight(700)
+        } else {
+            setMonthCellHeight(700);
         }
     }, [maxOrderNumberResult]);
 
@@ -164,19 +164,11 @@ export default function MonthCell(props: any) {
                 endDayInit,
             }}
         >
-            <div
-                className={styles.monthCell}
-                style={{ height: `${monthCellHeight}px` }}
-            >
-                <Cell
-                    setErrorCardShow={setErrorCardShow}
-                    setErrorCardWord={setErrorCardWord}
-                    setShowCardDisplay={setShowCardDisplay}
-                    monthCellHeight={monthCellHeight}
-                    setMaxOrderNumberResult={setMaxOrderNumberResult}
-                    maxOrderNumberResult={maxOrderNumberResult}
-                />
-            </div>
+            <Cell
+                setErrorCardShow={setErrorCardShow}
+                setErrorCardWord={setErrorCardWord}
+                setShowCardDisplay={setShowCardDisplay}
+            />
             {errorCardShow ? (
                 <ErrorCard msg={errorCardWord} setCard={setErrorCardShow} />
             ) : null}

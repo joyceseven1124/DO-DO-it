@@ -12,6 +12,7 @@ import { memberStatus } from '../../../';
 import { commonData } from '../../MonthPage';
 import { tagData } from '../MonthCell';
 import db from '../../../firebase/firebase';
+import styles from '/public/css/monthPage.module.css';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import toObject from 'dayjs/plugin/toObject';
@@ -70,6 +71,8 @@ export default function Cell(props:any) {
     const { tagStartCell } = useContext(tagData);
     const { tagEndCell } = useContext(tagData);
     const [activeCell, setActiveCell] = useState(false);
+    //const [monthCellHeight, setMonthCellHeight] = useState(700);
+    const monthCellHeight = useRef(700)
     let thisPageDay: number[] = [];
 
     const searchMonth = useSelector(
@@ -194,14 +197,7 @@ export default function Cell(props:any) {
     let nextMonthDay = 1;
     let thisMonthDay = 1;
     let preMonthDay = preMonthMaxDay - monthStart + 2;
-    let maxOrderNumber = useRef(0)
-
-    useEffect(() => {
-        if (maxOrderNumber.current > 2) {
-            props.setMaxOrderNumberResult(maxOrderNumber.current)
-        }
-    }, [maxOrderNumber]);
-
+    let maxOrderNumber = 0
 
     for (let i = 1; i <= cells; i++) {
         let color: string;
@@ -256,10 +252,6 @@ export default function Cell(props:any) {
             }
             
 
-            if(orderNumber > maxOrderNumber.current){
-                maxOrderNumber.current = orderNumber
-            }
-
             if (startPlace === i) {
                 const tagWidth = `${element.width}%`;
                 const connectWidth = element.connectWidth;
@@ -281,7 +273,21 @@ export default function Cell(props:any) {
                 );
             }
         });
+        
 
+        if(orderNumber > maxOrderNumber){
+            maxOrderNumber = orderNumber
+            if (maxOrderNumber > 2) {
+                const height = 300 * maxOrderNumber;
+                if (height > monthCellHeight.current && maxOrderNumber >= 3) {
+                    monthCellHeight.current = height;
+                }else{
+                    monthCellHeight.current = height;
+                }
+            }else{
+                monthCellHeight.current = 700;
+            }
+        }
 
 
         let row = Math.ceil(i / 7);
@@ -292,29 +298,34 @@ export default function Cell(props:any) {
                 activeStatus = true;
             }
         }
-            let dayHtml = (
-                <DayCell
-                    id={`cell-${i}-${row}`}
-                    key={`cmd-${i}`}
-                    className={`date ${date}`}
-                    primary={color}
-                    nowTime={nowTimeResult}
-                    bgColor={activeStatus}
-                    onPointerEnter={activeCell ? EnterCell:null}
-                    onPointerDown={mouseDown}
-                    onPointerUp={mouseUp}
-                    onDragOver={dragover}
-                    onDragEnter={dragenter}
-                    onDragLeave={dragleave}
-                    onDrop={dragDrop}
-                    style={{ cursor: 'pointer' }}
-                >
-                    <div className="date_word">{date}</div>
-                    <div>{newTagArray}</div>
-                </DayCell>
+        let dayHtml = (
+            <DayCell
+                id={`cell-${i}-${row}`}
+                key={`cmd-${i}`}
+                className={`date ${date}`}
+                primary={color}
+                nowTime={nowTimeResult}
+                bgColor={activeStatus}
+                onPointerEnter={activeCell ? EnterCell:null}
+                onPointerDown={mouseDown}
+                onPointerUp={mouseUp}
+                onDragOver={dragover}
+                onDragEnter={dragenter}
+                onDragLeave={dragleave}
+                onDrop={dragDrop}
+                style={{ cursor: 'pointer' }}
+            >
+                <div className="date_word">{date}</div>
+                <div>{newTagArray}</div>
+            </DayCell>
+        
             );
             monthDataArray.push(dayHtml);
             thisPageDay.push(date);
     }
-    return <>{monthDataArray}</>;
+    return <div
+            className={styles.monthCell}
+            style={{ height: `${monthCellHeight.current}px` }}>
+                {monthDataArray}
+            </div>
 }
