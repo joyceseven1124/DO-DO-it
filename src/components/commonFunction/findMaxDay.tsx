@@ -1,10 +1,14 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
-import dayjs from 'dayjs';
-import toObject from 'dayjs/plugin/toObject';
-import weekday from 'dayjs/plugin/weekday';
-dayjs.extend(toObject);
-dayjs.extend(weekday);
+
+
+function IsLeapYear(year:number){
+    if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+        return true
+    } else {
+        return false
+    }
+}
 
 function findMaxDay(monthNumber: number) {
     const year: number = useSelector(
@@ -18,7 +22,8 @@ function findMaxDay(monthNumber: number) {
     if (bigMonth.includes(monthNumber)) {
         maxDay = 31;
     } else if (monthNumber === 2) {
-        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+        const resultLeapYear = IsLeapYear(year)
+        if (resultLeapYear) {
             maxDay = 29;
         } else {
             maxDay = 28;
@@ -29,4 +34,4 @@ function findMaxDay(monthNumber: number) {
     return maxDay;
 }
 
-export default findMaxDay;
+export default {findMaxDay,IsLeapYear};

@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import toObject from 'dayjs/plugin/toObject';
 import weekday from 'dayjs/plugin/weekday';
-import findMaxDay from '../../../components/commonFunction/findMaxDay';
+import find from '../../../components/commonFunction/findMaxDay';
 import dragDropHandle  from "../utilityFunction/dropFunction"
 import makeChooseCellArray  from "../utilityFunction/makeChooseCellArray"
 dayjs.extend(toObject);
@@ -169,8 +169,8 @@ export default function Cell(props:any) {
     };
 
 
-    let nowMonthMaxDay = findMaxDay(monthNumber);
-    let preMonthMaxDay = findMaxDay(monthNumber - 1);
+    let nowMonthMaxDay = find.findMaxDay(monthNumber);
+    let preMonthMaxDay = find.findMaxDay(monthNumber - 1);
 
     let nowTime: string = dayjs().format('YYYY-MM-DD');
     const nowMonth = Number(nowTime.split('-')[1]);

@@ -74,4 +74,5 @@ const App = () => {
     
   );
 };
+export default App
 root.render(<App />);
