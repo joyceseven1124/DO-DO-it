@@ -35,6 +35,9 @@ Website URL https://dodoit-40a56.web.app/
 |-----|--------|
 |React|use React building a Single Page Application|
 |React Hook| useContext, useState, useEffect|
+|Redux| store, action, reducer|
+|TypeScript| JavaScript with syntax for types|
+|Jest| unit test|
 |Router|use React Router setting up routes for this project|
 |Drag & Drop|achieve drag and drop effect with JavaScript|
 |CSS Modules | use CSS Modules to avoid class name collision |
