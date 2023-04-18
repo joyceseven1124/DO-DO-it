@@ -1,13 +1,13 @@
-.msgCard_wrapper{
+.msgCard_wrapper {
     display: flex;
     justify-content: center;
-    font-family: 'Noto Sans', sans-serif
+    font-family: 'Noto Sans', sans-serif;
 }
 
-.msgCard_content{
+.msgCard_content {
     margin: auto auto;
     position: absolute;
-    top:0px;
+    top: 0px;
     left: 50%;
     transform: translateX(-65%);
     z-index: 10;
@@ -24,30 +24,30 @@
     box-shadow: 5px 6px 10px #333333;
     -webkit-box-shadow: 5px 6px 10px #333333;
     -moz-box-shadow: 5px 6px 10px #333333;
-    animation:show-block 3s;
+    animation: show-block 3s;
     animation-fill-mode: backwards;
     opacity: 0;
 }
 
-@keyframes show-block{
-  0%{
-    top: 0px;
-    opacity: 0;
-  }
+@keyframes show-block {
+    0% {
+        top: 0px;
+        opacity: 0;
+    }
 
-  60%{
-    top: 60px;
-    opacity: 1;
-  }
+    60% {
+        top: 60px;
+        opacity: 1;
+    }
 
-  100%{
-    top: 60px;
-    opacity: 1;
-  }
+    100% {
+        top: 60px;
+        opacity: 1;
+    }
 }
 
-@media screen and (max-width:1200px) { 
-    .msgCard_content{
+@media screen and (max-width: 1200px) {
+    .msgCard_content {
         left: auto;
         transform: none;
     }

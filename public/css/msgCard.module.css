@@ -1,13 +1,13 @@
-.msgCard_wrapper{
+.msgCard_wrapper {
     display: flex;
     justify-content: center;
-    font-family: 'Noto Sans', sans-serif
+    font-family: 'Noto Sans', sans-serif;
 }
 
-.msgCard_content{
+.msgCard_content {
     margin: auto auto;
     position: absolute;
-    top:300px;
+    top: 300px;
     z-index: 20;
     width: 300px;
     height: 125px;
@@ -17,9 +17,9 @@
     box-sizing: border-box;
     box-shadow: 5px 6px 10px #333333;
     -webkit-box-shadow: 5px 6px 10px #333333;
-    -moz-box-shadow: 5px 6px 10px #333333
+    -moz-box-shadow: 5px 6px 10px #333333;
 }
-.errorCard_title{
+.errorCard_title {
     background-color: rgb(253, 118, 118);
     width: 100%;
     height: 30px;
@@ -28,7 +28,7 @@
     margin-top: 0px;
 }
 
-.errorCard_information{
+.errorCard_information {
     height: 50px;
     display: flex;
     align-items: center;
@@ -36,7 +36,7 @@
     width: 100%;
 }
 
-.successCard_title{
+.successCard_title {
     background-color: rgb(84, 230, 243);
     width: 100%;
     height: 30px;
@@ -45,7 +45,7 @@
     margin-top: 0px;
 }
 
-.successCard_information{
+.successCard_information {
     height: 50px;
     display: flex;
     align-items: center;
@@ -53,31 +53,28 @@
     width: 100%;
 }
 
-.msgCard_button{
+.msgCard_button {
     cursor: pointer;
     display: inline-block;
     padding: 10px 20px;
     font-size: 12px;
     overflow: hidden;
-    transition: .5s;
-    border:1px solid black;
+    transition: 0.5s;
+    border: 1px solid black;
     border-radius: 5px;
-    font-family: 'Noto Sans', sans-serif
+    font-family: 'Noto Sans', sans-serif;
 }
 .msgCard_button:hover {
-  background: #03e9f4;
-  border: none;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #03e9f4,
-              0 0 25px #03e9f4,
-              0 0 50px #03e9f4,
-              0 0 100px #03e9f4;
+    background: #03e9f4;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+        0 0 100px #03e9f4;
 }
 
-
-@media screen and (max-width:370px) { 
-    .msgCard_content{
+@media screen and (max-width: 370px) {
+    .msgCard_content {
         width: 90%;
     }
 }

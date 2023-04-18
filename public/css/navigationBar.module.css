@@ -1,27 +1,26 @@
 @value grayLine from "./colors.module.css";
 @value grayWorld from "./colors.module.css";
 
-.icon{
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -o-user-select:none;
+.icon {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
     width: 10px;
     height: 10px;
-    background-size:contain;
-    background-position:center;
+    background-size: contain;
+    background-position: center;
     background-repeat: no-repeat;
-    color: rgba(0,0,0,0);
+    color: rgba(0, 0, 0, 0);
     font-size: 1px;
     cursor: pointer;
     letter-spacing: 1px;
     font-family: 'Noto Sans', sans-serif;
 }
 
-.icon:hover{
-    
+.icon:hover {
 }
 
-.nav_container{
+.nav_container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,7 +33,7 @@
     margin-top: 0px;
 }
 
-.nav_bar{
+.nav_bar {
     display: flex;
     width: 95%;
     align-items: center;
@@ -44,32 +43,32 @@
     margin: auto;
 }
 
-:global(.nav_group){
+:global(.nav_group) {
     display: flex;
     align-items: center;
 }
 
-.nav_group_icon{
+.nav_group_icon {
     height: auto;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     border: 0px;
     width: auto;
     display: flex;
     align-items: center;
 }
 
-.app_icon{
+.app_icon {
     background-image: url(/public/assets/app_icon.png);
-    width:100px;
+    width: 100px;
     height: 30px;
-    background-size:cover;
-    background-position:center;
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     margin-right: 20px;
-    color: rgba(0,0,0,0);
+    color: rgba(0, 0, 0, 0);
 }
 
-.arrow_down_icon{
+.arrow_down_icon {
     display: none;
     cursor: pointer;
     margin-left: 15px;
@@ -77,7 +76,7 @@
     margin-top: 5px;
 }
 
-.change_time{
+.change_time {
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -89,23 +88,21 @@
     font-weight: 800;
 }
 
-:global(.arrow_background){
+:global(.arrow_background) {
     width: 20px;
     height: 20px;
     border-radius: 25px;
     cursor: pointer;
 }
 
-.arrow_icon:hover{
+.arrow_icon:hover {
     background: #03e9f4;
     color: #fff;
-    box-shadow: 0 0 5px #03e9f4,
-              0 0 25px #03e9f4,
-              0 0 50px #03e9f4,
-              0 0 100px #03e9f4;
+    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+        0 0 100px #03e9f4;
 }
 
-.arrow_icon{
+.arrow_icon {
     color: #6f6f6f;
     margin: 5px;
     font-size: 10px;
@@ -118,9 +115,7 @@
     cursor: pointer;
 }
 
-
-
-.login{
+.login {
     margin-right: 20px;
     box-sizing: border-box;
     font-size: 12px;
@@ -132,81 +127,68 @@
     letter-spacing: 1px;
 }
 
-.login:hover{
+.login:hover {
     background: #03e9f4;
     color: #fff;
-    box-shadow: 0 0 5px #03e9f4,
-              0 0 25px #03e9f4,
-              0 0 50px #03e9f4,
-              0 0 100px #03e9f4;
+    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+        0 0 100px #03e9f4;
 }
 
-
-
-@media screen and (max-width:1200px) { 
-  .nav_bar{
-    width: 100%;
-    padding-right: 2.5%;
-  }
-
- .arrow_down_icon{
-    display: block;
-    cursor: pointer;
- }
-
- .nav_group_icon{
-    cursor: pointer;
-    color: white;
- }
-
-
- .app_icon{
-    width: 100px;
-    margin-left: 1px;
-    margin-right: 0px;
-    cursor: pointer;
-  }
-
-
- .nav_group_icon:active{
-    background-color: #03e9f4;
-    padding: 2px;
-    box-sizing: border-box;
-    box-shadow: 0 0 5px #03e9f4,
-              0 0 25px #03e9f4,
-              0 0 50px #03e9f4,
-              0 0 100px #03e9f4;
- }
-
-
-  .change_time{
-    margin-right: 10px;
-  }
-  .login{
-    margin-right: 0px;
-  }
- 
-
-}
-
-@media screen and (max-width:768px) { 
-    .app_icon{
-       width: 100px;
-       margin-left: 10px;
-       margin-right: 0px;
+@media screen and (max-width: 1200px) {
+    .nav_bar {
+        width: 100%;
+        padding-right: 2.5%;
     }
 
-    .login{
+    .arrow_down_icon {
+        display: block;
+        cursor: pointer;
+    }
+
+    .nav_group_icon {
+        cursor: pointer;
+        color: white;
+    }
+
+    .app_icon {
+        width: 100px;
+        margin-left: 1px;
+        margin-right: 0px;
+        cursor: pointer;
+    }
+
+    .nav_group_icon:active {
+        background-color: #03e9f4;
+        padding: 2px;
+        box-sizing: border-box;
+        box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+            0 0 100px #03e9f4;
+    }
+
+    .change_time {
+        margin-right: 10px;
+    }
+    .login {
+        margin-right: 0px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .app_icon {
+        width: 100px;
+        margin-left: 10px;
+        margin-right: 0px;
+    }
+
+    .login {
         padding: 5px 10px;
     }
 
-
-    .arrow_icon{
+    .arrow_icon {
         margin: 0px;
     }
 
-
-    .change_time{
+    .change_time {
         margin-right: 10px;
         width: 150px;
         font-size: 14px;
@@ -214,34 +196,31 @@
     }
 }
 
-@media screen and (max-width:370px) { 
-    .app_icon{
-       width: 50px;
-       background-size: contain;
-       margin-left: 10px;
-       margin-right: 0px;
-       background-image: url(/public/assets/app_vertical_icon.png);
-
+@media screen and (max-width: 370px) {
+    .app_icon {
+        width: 50px;
+        background-size: contain;
+        margin-left: 10px;
+        margin-right: 0px;
+        background-image: url(/public/assets/app_vertical_icon.png);
     }
 
-
-    .arrow_icon{
+    .arrow_icon {
         margin: 0px;
         width: 12px;
-        background-color: rgba(0,0,0,0);
+        background-color: rgba(0, 0, 0, 0);
         color: white;
     }
 
-    .change_time{
+    .change_time {
         margin-left: 10px;
         width: 100px;
         font-size: 14px;
         align-items: center;
     }
 
-    .login{
+    .login {
         padding: 5px 10px;
         font-size: 12px;
     }
 }
-

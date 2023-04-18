@@ -1,4 +1,4 @@
-.invite_wrapper{
+.invite_wrapper {
     top: 0px;
     position: absolute;
     width: 100%;
@@ -11,8 +11,8 @@
     font-size: 16px;
 }
 
-.invite_content{
-    width:400px;
+.invite_content {
+    width: 400px;
     height: auto;
     background-color: rgb(40, 40, 40);
     box-shadow: 5px 5px 5px 1px #242424;
@@ -28,36 +28,31 @@
     text-align: center;
 }
 
-.close_container{
+.close_container {
     width: 100%;
     display: flex;
     justify-content: right;
     cursor: pointer;
 }
 
-.close_button{
+.close_button {
     font-size: 12px;
     color: white;
     width: 20px;
     height: 20px;
 }
 
-
-
-
-
-.invite_information{
+.invite_information {
     text-align: left;
     margin-bottom: 20px;
-    
 }
 
-.invite_information > div{
+.invite_information > div {
     margin-bottom: 10px;
     font-size: 12px;
 }
 
-.title_and_name_container{
+.title_and_name_container {
     padding: 20px;
     border-bottom: 1px solid white;
     border-top: 1px solid white;
@@ -65,22 +60,22 @@
     font-size: 24px;
 }
 
-.invite_receiver{
+.invite_receiver {
     font-weight: 400;
     margin-bottom: 10px;
     font-size: 12px;
 }
 
-.item_title_word{
+.item_title_word {
     margin-bottom: 5px;
     font-size: 12px;
 }
 
-.title{
+.title {
     font-size: 16px;
 }
 
-.time_and_description_container{
+.time_and_description_container {
     display: grid;
     grid-template-columns: 40% 50%;
     column-gap: 10%;
@@ -91,89 +86,90 @@
     border-bottom: 1px solid white;
 }
 
-.time_container{
+.time_container {
     border-right: 1px solid white;
     padding-right: 20px;
     font-size: 14px;
-
 }
 
-.date_weekday{
+.date_weekday {
     font-size: 10px;
 }
 
-.date_number{
+.date_number {
     font-size: 14px;
     font-weight: 500;
 }
 
-.schedule_content{
+.schedule_content {
     font-size: 12px;
 }
 
-.schedule_content_word{
+.schedule_content_word {
     font-size: 12px;
     margin-top: 10px;
 }
 
-.send_name_container{
+.send_name_container {
     margin: 20px auto;
     text-align: center;
 }
 
-.send_name{
+.send_name {
     font-weight: 400;
     font-size: 12px;
     margin-bottom: 5px;
 }
 
-.buttons_container{
+.buttons_container {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
 .invite_button {
-  width: 80px;
-  height: 40px;
-  border-radius: 10px;
-  background: none;
-  border: 2px solid;
-  font: inherit;
-  line-height: 1;
-  transition: 0.25s;
-  cursor: pointer;
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    background: none;
+    border: 2px solid;
+    font: inherit;
+    line-height: 1;
+    transition: 0.25s;
+    cursor: pointer;
 }
 
-.invite_button:hover,.invite_button:focus{
+.invite_button:hover,
+.invite_button:focus {
     color: #fff;
     transform: translateY(-0.25em);
 }
 
-:global(#agree){
+:global(#agree) {
     color: #94d6ff;
     margin-left: 40px;
 }
 
-:global(#agree):hover,:global(#agree):focus{
+:global(#agree):hover,
+:global(#agree):focus {
     border-color: #60f4ff;
     box-shadow: 0 0.5em 0.5em -0.4em #60f4ff;
 }
 
-:global(#reject){
+:global(#reject) {
     color: #ffb294;
 }
 
-:global(#reject):hover,:global(#reject):focus{
+:global(#reject):hover,
+:global(#reject):focus {
     border-color: var(--deleteButtonColor);
     box-shadow: 0 0.5em 0.5em -0.4em var(--deleteButtonShadow);
 }
 
-@media screen and (max-width:500px) { 
-  .invite_content{
-    width: 90%;
-    margin: auto;
-    margin-top: 100px;
-  }
-
+@media screen and (max-width: 500px) {
+    .invite_content {
+        width: 90%;
+        margin: auto;
+        margin-top: 100px;
+    }
 }

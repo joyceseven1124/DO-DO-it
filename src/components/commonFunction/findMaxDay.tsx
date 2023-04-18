@@ -1,12 +1,11 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
 
-
-function IsLeapYear(year:number){
+function IsLeapYear(year: number) {
     if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-        return true
+        return true;
     } else {
-        return false
+        return false;
     }
 }
 
@@ -22,7 +21,7 @@ function findMaxDay(monthNumber: number) {
     if (bigMonth.includes(monthNumber)) {
         maxDay = 31;
     } else if (monthNumber === 2) {
-        const resultLeapYear = IsLeapYear(year)
+        const resultLeapYear = IsLeapYear(year);
         if (resultLeapYear) {
             maxDay = 29;
         } else {
@@ -34,4 +33,4 @@ function findMaxDay(monthNumber: number) {
     return maxDay;
 }
 
-export default {findMaxDay,IsLeapYear};
+export default { findMaxDay, IsLeapYear };

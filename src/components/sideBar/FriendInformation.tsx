@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import styles from '/public/css/friendInformation.module.css';
 import { memberStatus } from '../..';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
 import db from '../../firebase/firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

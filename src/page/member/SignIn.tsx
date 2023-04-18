@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {  useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from '/public/css/member.module.css';
 import db from '../../firebase/firebase';
 import { memberStatus } from '../../';

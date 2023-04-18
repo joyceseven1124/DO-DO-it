@@ -76,7 +76,11 @@ const MenuItem = (props: any) => {
                         onChange={() => {}}
                     />
 
-                    <label htmlFor='Message' className={styles.check_box_label} id="tomorrow_label">
+                    <label
+                        htmlFor="Message"
+                        className={styles.check_box_label}
+                        id="tomorrow_label"
+                    >
                         Invitation
                     </label>
 

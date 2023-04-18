@@ -8,35 +8,32 @@
 @value mainBgColor rgb(43, 43, 43);
 
 :root {
-  --tagBgColor:yellow;
-  --mainBgColor:rgb(32, 32, 34);
-  --mainDecorateColor:rgb(0,116,124);
-  --brightMainDecorateColor:rgb(0,187,201);
-  --cardCommonBackground:rgba(0, 0, 0, 0.437);
-  --wordColor:black;
-  --cardWordColor:white;
-  --navWordColor:white;
-  --borderColor:white;
-  --cardInputBg:black;
-  --buttonColor:#0bccff;
-  --deleteButtonColor:rgb(245, 121, 83);
-  --deleteButtonShadow:#f57953;
-  --underLineGray:rgb(202,202,202);
+    --tagBgColor: yellow;
+    --mainBgColor: rgb(32, 32, 34);
+    --mainDecorateColor: rgb(0, 116, 124);
+    --brightMainDecorateColor: rgb(0, 187, 201);
+    --cardCommonBackground: rgba(0, 0, 0, 0.437);
+    --wordColor: black;
+    --cardWordColor: white;
+    --navWordColor: white;
+    --borderColor: white;
+    --cardInputBg: black;
+    --buttonColor: #0bccff;
+    --deleteButtonColor: rgb(245, 121, 83);
+    --deleteButtonShadow: #f57953;
+    --underLineGray: rgb(202, 202, 202);
 
-
-  --navBgColor:rgb(32, 32, 34);
-  --otherMonthWorldColor:#8a8a8a;
-  --thisMonthWorldColor: black;
-  --nowTimeWorldColor:white;
-  --nowTimeBgColor: #03e9f4;
-  --nowTimeBgHoverColor:rgb(204, 174, 5);
-  --otherTimeBgColor:white;
-  --inputFocus: #4c95f4;
-  --grayBgHoverColor:rgba(240, 240, 240, 0.834);
+    --navBgColor: rgb(32, 32, 34);
+    --otherMonthWorldColor: #8a8a8a;
+    --thisMonthWorldColor: black;
+    --nowTimeWorldColor: white;
+    --nowTimeBgColor: #03e9f4;
+    --nowTimeBgHoverColor: rgb(204, 174, 5);
+    --otherTimeBgColor: white;
+    --inputFocus: #4c95f4;
+    --grayBgHoverColor: rgba(240, 240, 240, 0.834);
 }
 
-
-.CSS{
+.CSS {
     background-color: rgb(204, 174, 5);
 }
-

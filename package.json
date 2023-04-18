@@ -8,8 +8,8 @@
     "start": "webpack serve --open",
     "clean-build-folder": "rimraf ./build/*",
     "build": "npm run clean-build-folder && webpack build",
-    "format": "prettier --ignore-path .gitignore --write \"./src/*/*/*.+(js|ts|tsx|json)\"",
-    "format-two": "prettier --ignore-path .gitignore --write \"./src/*/*.+(js|ts|tsx|json)\"",
+    "format": "prettier --ignore-path .gitignore --write \"./src/*/*/*.+(js|ts|tsx|json)\" \"./public/css/*.css\"",
+    "format-two": "prettier --ignore-path .gitignore --write \"./src/*/*.+(js|ts|tsx|json)\" \"./public/css/*.css\"",
     "test": "jest --coverage"
   },
   "keywords": [],

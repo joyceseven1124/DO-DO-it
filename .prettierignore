@@ -8,4 +8,3 @@ package-lock.json
 webpack.config.js
 build
 node_modules
-public

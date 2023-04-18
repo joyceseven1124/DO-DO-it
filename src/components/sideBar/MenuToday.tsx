@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
 import styles from '../../../public/css/sideBar.module.css';
 import { commonData } from '../../page/MonthPage';
@@ -73,8 +73,8 @@ const MenuToday = (props: any) => {
                         onChange={() => {}}
                     />
 
-                    <label htmlFor='today' className={styles.check_box_label}>
-                        Today's  task
+                    <label htmlFor="today" className={styles.check_box_label}>
+                        Today's task
                     </label>
 
                     <ul className={styles.menu_item}>

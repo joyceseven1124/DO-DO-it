@@ -57,22 +57,26 @@ const MenuTomorrow = (props: any) => {
             <ul>
                 <li className={styles.sidebar_menu_content}>
                     <input
-                            type="radio"
-                            className={styles.check_box}
-                            id="tomorrow"
-                            checked={check}
-                            onClick={(e) => {
-                                if (!check) {
-                                    setCheck(true);
-                                } else {
-                                    setCheck(false);
-                                }
-                            }}
-                            onChange={() => {}}
+                        type="radio"
+                        className={styles.check_box}
+                        id="tomorrow"
+                        checked={check}
+                        onClick={(e) => {
+                            if (!check) {
+                                setCheck(true);
+                            } else {
+                                setCheck(false);
+                            }
+                        }}
+                        onChange={() => {}}
                     />
 
-                    <label htmlFor='tomorrow' className={styles.check_box_label} id="tomorrow_label">
-                        Tomorrow's  task
+                    <label
+                        htmlFor="tomorrow"
+                        className={styles.check_box_label}
+                        id="tomorrow_label"
+                    >
+                        Tomorrow's task
                     </label>
 
                     <ul className={styles.menu_item}>

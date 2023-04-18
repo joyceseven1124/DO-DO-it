@@ -59,11 +59,17 @@ const MenuFriend = (props: any) => {
                                 if (msg === 'success') {
                                     delete props.friendListIndex[element];
                                     let oldFriendEmail = [...props.friendList];
-                                    let newFriendEmailList = oldFriendEmail.filter((noDeleteElement:any)=>{
-                                        if( noDeleteElement !== friendEmail){
-                                            return noDeleteElement
-                                        }
-                                    })
+                                    let newFriendEmailList =
+                                        oldFriendEmail.filter(
+                                            (noDeleteElement: any) => {
+                                                if (
+                                                    noDeleteElement !==
+                                                    friendEmail
+                                                ) {
+                                                    return noDeleteElement;
+                                                }
+                                            }
+                                        );
                                     props.setFriendList(newFriendEmailList);
                                 }
                             });
@@ -94,7 +100,11 @@ const MenuFriend = (props: any) => {
                         onChange={() => {}}
                     />
 
-                    <label htmlFor='friend' className={styles.check_box_label} id="Friend_label">
+                    <label
+                        htmlFor="friend"
+                        className={styles.check_box_label}
+                        id="Friend_label"
+                    >
                         Friend list
                     </label>
 
