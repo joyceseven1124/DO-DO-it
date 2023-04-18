@@ -5,19 +5,15 @@ import React, {
     createContext,
     useContext,
 } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/index';
 import ToDoListDialogBox from './monthCell/ToDoListDialogBox';
-import ToDoListTag from './monthCell/ToDoListTag';
 import { memberStatus } from '../../';
 import { commonData } from '../MonthPage';
 import db from '../../firebase/firebase';
-import styled from 'styled-components';
-import styles from '/public/css/monthPage.module.css';
 import dayjs from 'dayjs';
 import toObject from 'dayjs/plugin/toObject';
 import weekday from 'dayjs/plugin/weekday';
-import findMaxDay from '../../components/commonFunction/findMaxDay';
 import ErrorCard from '../../components/ErrorCard';
 import makeChooseCellArray from './utilityFunction/makeChooseCellArray';
 import Cell from './monthCell/Cell';
@@ -51,7 +47,6 @@ export default function MonthCell(props: any) {
     const endDayInit = useRef(0);
     const { memberInformation } = useContext(memberStatus);
     const { setTagsArray } = useContext(commonData);
-    const { isTagsArray } = useContext(commonData);
     const { chooseCell } = useContext(commonData);
     const { setChooseCell } = useContext(commonData);
 

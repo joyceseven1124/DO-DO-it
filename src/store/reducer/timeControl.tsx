@@ -1,16 +1,10 @@
 import * as actions from '../action/timeControl';
-import { Reducer } from 'redux';
-import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import toObject from 'dayjs/plugin/toObject';
 import weekday from 'dayjs/plugin/weekday';
-import ChangeTime from '../../components/navigation/ChangeTime';
 dayjs.extend(toObject);
 dayjs.extend(weekday);
 
-let monthDataArray: any[] = [];
-let maxDay: number;
-let nowTime = dayjs().toObject();
 const initState = {
     monthNumber: dayjs().toObject().months + 1,
     year: dayjs().toObject().years,

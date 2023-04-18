@@ -16,7 +16,6 @@ export default function dragDropHandle(e: any,thisPageDay:number[],isTagsArray:{
         let endDate: number = thisPageDay[endId - 1];
         let tagArray = [...isTagsArray];
         let chooseCellArray = [...chooseCell];
-        let sendDataClean:any = []
         let updateData;
         let yearStart = yearNumber
         let yearEnd = yearNumber

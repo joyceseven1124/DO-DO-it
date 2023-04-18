@@ -8,7 +8,6 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const MenuItem = (props: any) => {
     const [check, setCheck] = useState(false);
-    const [message, setMessage] = useState({});
     const { memberInformation } = useContext(memberStatus);
 
     useEffect(() => {
@@ -61,7 +60,7 @@ const MenuItem = (props: any) => {
     return (
         <>
             <ul>
-                <li className={styles.today_content}>
+                <li className={styles.sidebar_menu_content}>
                     <input
                         type="radio"
                         className={styles.check_box}
@@ -76,6 +75,11 @@ const MenuItem = (props: any) => {
                         }}
                         onChange={() => {}}
                     />
+
+                    <label htmlFor='Message' className={styles.check_box_label} id="tomorrow_label">
+                        Invitation
+                    </label>
+
                     <ul className={styles.menu_item}>
                         {itemArray.length === 0 ? (
                             <li>

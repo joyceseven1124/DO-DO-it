@@ -1,21 +1,16 @@
-import {StrictMode, useEffect, useState,createContext} from 'react';
+import { useState,createContext} from 'react';
 import { getAuth, 
-         createUserWithEmailAndPassword ,
-         signInWithEmailAndPassword,
          onAuthStateChanged,
-         signOut } from "firebase/auth";
+          } from "firebase/auth";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import styled from 'styled-components';
-import { BrowserRouter, Route, Routes ,useNavigate,Navigate} from "react-router-dom";
+import { BrowserRouter, Route, Routes ,Navigate} from "react-router-dom";
 import "../public/css/index.css"
 import store from './store';
-import { RootState } from './store/index';
-import {Provider, useSelector} from "react-redux"
-import db from "./firebase/firebase"
+import {Provider} from "react-redux"
 import LonInPage from './page/LogInPage';
 import RegisterPage from "./page/RegisterPage"
-import Footer from './components/Footer';
 import MonthPage from './page/MonthPage';
 import FrontPage from "./page/FrontPage"
 

@@ -1,12 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/index';
-import { logOut } from '../store/action/logInControl';
+import { useDispatch } from 'react-redux';
 import styles from '/public/css/navigationBar.module.css';
 import ChangeTime from './navigation/ChangeTime';
-import { NEXT_MONTH } from '../store/action/timeControl';
 import { memberStatus } from '../';
-import SideBar from './SideBar';
 import db from "../firebase/firebase"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faAngleDown} from '@fortawesome/free-solid-svg-icons'
@@ -16,19 +12,18 @@ import {faAngleUp} from '@fortawesome/free-solid-svg-icons'
 
 const NavigationBar = (props:any) => {
     const {setMemberStatus} = useContext(memberStatus)
-    const {setMemberInformation} = useContext(memberStatus)
     const {memberInformation} = useContext(memberStatus)
-    const {memberName} = useContext(memberStatus)
     const {setMemberName} = useContext(memberStatus)
     const [openMenu,setOpenMenu] = useState(false)
     const [appIconButton,setAppIconButton] = useState(false)
-    const dispatch = useDispatch();
 
     useEffect(()=>{
         if(memberInformation){
             const result = db.getMemberInformation(memberInformation)
-            result.then((msg)=>{
-                setMemberName(msg.name)
+            result.then((msg:{[key:string]:string})=>{
+                if(!msg.result){
+                    setMemberName(msg.name)
+                }
             })
         }
 
@@ -36,7 +31,6 @@ const NavigationBar = (props:any) => {
 
     const changeMemberStatus = (e:any) => {
         const result = db.leaveAccount()
-        dispatch(logOut())
         result.then((msg)=>{
             if(msg === "success"){
                 setMemberStatus(false)

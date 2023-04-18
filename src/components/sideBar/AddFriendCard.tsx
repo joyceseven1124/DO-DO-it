@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from '/public/css/addFriendCard.module.css';
 import db from '../../firebase/firebase';
 import { memberStatus } from '../../index';

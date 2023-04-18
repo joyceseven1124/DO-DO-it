@@ -1,16 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {  useDispatch } from 'react-redux';
 import styles from '/public/css/member.module.css';
 import db from '../../firebase/firebase';
 import { memberStatus } from '../../';
-import { RootState } from '../../store/index';
-import { logIn } from '../../store/action/logInControl';
 
 export default function SingIn(props: any) {
     const emailReg = /^\w+([-+.']\w+)*@gmail\.com$/;
     const passwordReg = /^.{6,}$/;
-    const { memberNowStatus } = useContext(memberStatus);
     const { setMemberStatus } = useContext(memberStatus);
     const { setMemberInformation } = useContext(memberStatus);
     const openLogIn = props.setSignInCard;
@@ -21,7 +18,6 @@ export default function SingIn(props: any) {
     const [inputCheck, setInputCheck] = useState('none');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     let user = {
         email: '',
@@ -36,10 +32,6 @@ export default function SingIn(props: any) {
         const result = db.enterAccount(email, password);
         result.then((msg) => {
             if (msg !== 'fail') {
-                let memberData = db.getMemberInformation(msg);
-                memberData.then((msg: { [key: string]: string }) => {
-                    dispatch(logIn(msg.name, msg.email));
-                });
                 setMemberStatus(true);
                 setMemberInformation(msg);
                 navigate('/calender');

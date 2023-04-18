@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { v4 as uuidv4 } from "uuid";
 import { getAuth, 
          createUserWithEmailAndPassword ,
          signInWithEmailAndPassword,
@@ -11,11 +10,7 @@ import { getFirestore,
          doc,
          setDoc,
          getDoc,
-         getDocs,
-         collection,
          updateDoc,
-         query,
-         where,
          deleteField,
          deleteDoc,
          

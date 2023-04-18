@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Register from './member/Register'
+import React, { useState } from 'react';
 import SingIn from './member/SignIn';
 import ErrorCard from '../components/ErrorCard';
 import SuccessCard from '../components/SuccessCard';
@@ -7,8 +6,6 @@ import SuccessCard from '../components/SuccessCard';
 
 
 export default function LogInPage(){
-    const [signInCardStatus,setSignInCardStatus] = useState(true)
-    const [registerCardStatus,setRegisterCardStatus] = useState(false)
     const [errorCardShow,setErrorCard] = useState(false)
     const [successCardShow,setSuccessCard] = useState(false)
     const [msg,setMsg] = useState("")

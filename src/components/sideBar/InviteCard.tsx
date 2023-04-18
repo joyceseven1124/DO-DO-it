@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useContext } from 'react';
 import styles from '/public/css/InviteCard.module.css';
 import { memberStatus } from '../..';
 import { commonData } from '../../page/MonthPage';
 import db from '../../firebase/firebase';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const InviteCard = (props: any) => {
@@ -15,7 +14,6 @@ const InviteCard = (props: any) => {
     const { isTagsArray } = useContext(commonData);
 
     const messageData = props.informationList[props.chooseInformationIndex];
-    let messageConnectData = [];
     const messageDataIndexArray = Object.keys(props.informationList);
 
     const month = [

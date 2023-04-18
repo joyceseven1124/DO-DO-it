@@ -1,12 +1,9 @@
 import React, { useEffect, useState,createContext,useContext } from 'react';
-import { useSelector } from 'react-redux';
 import styles from '/public/css/monthPage.module.css';
 import MonthCell from './monthPage/MonthCell';
-import { RootState } from '../store';
 import NavigationBar from '../components/NavigationBar';
 import Footer from '../components/Footer';
 import SideBar from '../components/SideBar';
-import db from "../firebase/firebase"
 import EditTagDialog from './monthPage/EditTagDialog';
 import InviteCard from '../components/sideBar/InviteCard';
 import FriendInformation from "../components/sideBar/FriendInformation"

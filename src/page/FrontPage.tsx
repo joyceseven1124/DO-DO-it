@@ -1,6 +1,6 @@
 import React, { useEffect, useState,createContext } from 'react';
 import styles from '/public/css/frontPage.module.css';
-import { NavLink, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 export default function FrontPage(props:any){

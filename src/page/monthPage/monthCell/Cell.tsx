@@ -1,11 +1,9 @@
 import React, {
-    useEffect,
     useState,
     useRef,
-    createContext,
     useContext,
 } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 import { RootState } from '../../../store/index';
 import ToDoListTag from '../monthCell/ToDoListTag';
 import { memberStatus } from '../../../';
@@ -48,6 +46,7 @@ const DayCell = styled.div<DayCell>`
         margin: auto;
         margin-top: 5px;
         z-index:-1;
+        font-size:12px;
         background-color: ${({ nowTime }) => {
             return nowTime ? 'rgb(0,91,97)' : null;
         }};
@@ -71,7 +70,7 @@ export default function Cell(props:any) {
     const { tagStartCell } = useContext(tagData);
     const { tagEndCell } = useContext(tagData);
     const [activeCell, setActiveCell] = useState(false);
-    //const [monthCellHeight, setMonthCellHeight] = useState(700);
+   
     const monthCellHeight = useRef(700)
     let thisPageDay: number[] = [];
 
@@ -257,7 +256,7 @@ export default function Cell(props:any) {
                 const connectWidth = element.connectWidth;
                 return (
                     <ToDoListTag
-                        key={`tag-content-${i}-${orderNumber}`}
+                        key={`tag-content-${element.index}-${orderNumber}`}
                         id={`tag-${i}-${orderNumber}`}
                         title={element.title}
                         width={tagWidth}

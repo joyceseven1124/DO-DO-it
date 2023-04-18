@@ -1,19 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 import { RootState } from '../../store/index';
-import styled from 'styled-components';
 import styles from '../../../public/css/sideBar.module.css';
 import { commonData } from '../../page/MonthPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
 const MenuToday = (props: any) => {
-    const monthNumber = useSelector(
-        (state: RootState) => state.timeControlReducer.monthNumber
-    );
-    const year = useSelector(
-        (state: RootState) => state.timeControlReducer.year
-    );
     const [check, setCheck] = useState(false);
     const { isTagsArray } = useContext(commonData);
     const { setShowTagIndex } = useContext(commonData);
@@ -47,7 +40,7 @@ const MenuToday = (props: any) => {
                 <li
                     id={element.index}
                     className={styles.item_container}
-                    key={`menu-today-${index}`}
+                    key={`menu-today-${element.index}`}
                     onClick={(e) => {
                         setShowTagIndex(element.index);
                         setShowListDialog(true);
@@ -64,7 +57,7 @@ const MenuToday = (props: any) => {
     return (
         <>
             <ul>
-                <li className={styles.today_content}>
+                <li className={styles.sidebar_menu_content}>
                     <input
                         type="radio"
                         className={styles.check_box}
@@ -79,6 +72,11 @@ const MenuToday = (props: any) => {
                         }}
                         onChange={() => {}}
                     />
+
+                    <label htmlFor='today' className={styles.check_box_label}>
+                        Today's  task
+                    </label>
+
                     <ul className={styles.menu_item}>
                         {dataArray.length === 0 ? (
                             <li>

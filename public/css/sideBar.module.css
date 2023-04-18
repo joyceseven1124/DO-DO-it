@@ -89,17 +89,28 @@ ul,li{
   margin: 0px;
 }
 
-.today_content{
+.sidebar_menu_content{
   width: 100%;
   height: auto;
   background-color: #EEE;
   border-radius: 5px;
   text-align: center;
   list-style: none;
+  position: relative;
 }
 
-.check_box::before{
-  content: "Today's  task";
+
+
+.check_box{
+  position: absolute;
+  top:0px;
+  left: 0px;
+}
+
+.check_box_label{
+  position: absolute;
+  cursor: pointer;
+  width: 100%;
   letter-spacing: 1px;
   font-weight: 500;
   position: absolute;
@@ -118,20 +129,20 @@ ul,li{
   box-shadow: 0 1px 0 #40bdbd inset, 0 -1px 0 #329a9a inset;
   text-shadow:  5px 15px -2px rgba(64,64,64,0.73);
   border-radius: 5px 5px 0px 0px;
+  z-index: 10;
 }
 
-.check_box:hover::before{
+.check_box_label:hover{
   background-color: rgb(0,187,201);
-  
 }
 
-.check_box::after{
+.check_box_label::after{
   display: block;
   position: absolute;
   font-size: 16px;
   top:10px;
   right: 5px;
-  z-index: 5;
+  z-index: 15;
   color: white;
   content: '\25BC';
   -moz-transform: rotate(0deg);
@@ -144,42 +155,31 @@ ul,li{
   transition: transform 0.6s;
 }
 
-:global(#friend)::before{
-  content: "Friend list";
-  border-radius: 0px 0px 0px 0px;
-}
 
-:global(#Message)::before{
-  content: "Invitation";
-  border-radius: 0px 0px 0px 0px;
-}
 
-:global(#tomorrow)::before{
-  content: "Tomorrow's  task";
+:global(#tomorrow_label) , :global(#Message_label) , :global(#Friend_label){
   border-radius: 0px 0px 0px 0px;
 }
 
 .check_box{
-    z-index: 8;
-    width: 100%;
-    height: 32px;
-    top:0;
-    cursor: pointer;
-    position: relative;
-
+  z-index: 8;
+  width: 100%;
+  height: 32px;
+  top:0;
+  position: relative;
 }
 
 
 
-.check_box:checked::after{
-    -moz-transform: rotate(-180deg);
-    -ms-transform: rotate(-180deg);
-    -webkit-transform: rotate(-180deg);
-    transform: rotate(-180deg);
-    -moz-transition: -moz-transform 0.6s;
-    -o-transition: -o-transform 0.6s;
-    -webkit-transition: -webkit-transform 0.6s;
-    transition: transform 0.6s;
+.check_box:checked + .check_box_label::after{
+  -moz-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  -webkit-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+  -moz-transition: -moz-transform 0.6s;
+  -o-transition: -o-transform 0.6s;
+  -webkit-transition: -webkit-transform 0.6s;
+  transition: transform 0.6s;
 }
 
 .menu_item{
@@ -259,7 +259,6 @@ ul,li{
   grid-template-columns: 80% 20%;
   justify-content: space-between;
   align-items: center;
-  
 }
 
 .friend_email_word{
@@ -420,5 +419,4 @@ ul,li{
   .menu_close_button{
     display: none;
   }
-  
 }

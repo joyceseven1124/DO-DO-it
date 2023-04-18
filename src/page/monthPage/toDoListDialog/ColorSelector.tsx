@@ -1,6 +1,5 @@
 
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, {useState} from 'react';
 import styles from '/public/css/toDoListDialogBox.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faPalette} from '@fortawesome/free-solid-svg-icons'
@@ -103,7 +102,6 @@ const ColorSelector = (props:any)=>{
                     </div>
                 </>
             ):null}
-            
         </div>
     )
 }

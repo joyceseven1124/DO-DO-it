@@ -1,6 +1,4 @@
-import { title } from 'process';
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { commonData } from '../../MonthPage';
 import { tagData } from '../MonthCell';
@@ -69,10 +67,6 @@ function getPosition(element: any) {
 
 export default function ToDoListTag(props: any) {
     const { tagStartCell } = useContext(tagData);
-    const { tagEndCell } = useContext(tagData);
-    const { setTagEndCell } = useContext(tagData);
-    const { setTagsArray } = useContext(commonData);
-    const { isTagsArray } = useContext(commonData);
     const { setShowTagIndex } = useContext(commonData);
     const { setShowListDialog } = useContext(commonData);
 

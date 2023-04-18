@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import styles from "../../public/css/sideBar.module.css"
-import InviteCard from './sideBar/InviteCard';
 import MenuFriend from './sideBar/MenuFriend';
 import MenuMessage from "./sideBar/MenuMessage"
 import MenuToday from './sideBar/MenuToday';

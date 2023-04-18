@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import styles from "../../public/css/saveSuccessBlock.module.css"
 
 const SaveSuccessBlock= (props:any)=>{

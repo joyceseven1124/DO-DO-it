@@ -1,27 +1,22 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { useState} from 'react';
 import styles from '/public/css/toDoListDialogBox.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faPalette} from '@fortawesome/free-solid-svg-icons'
 import {faUserGroup} from '@fortawesome/free-solid-svg-icons'
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons'
-import {faCircle} from '@fortawesome/free-solid-svg-icons'
 import {faCircleCheck} from '@fortawesome/free-solid-svg-icons'
 
 
 
 function AddGuest(props:any) {
-  const [value, setValue] = useState('');
   const [rotate,setRotate] = useState("0")
   const [guestButtonWord,setGuestButtonWord] = useState("+")
   const [openFriendList,setOpenFriendList] = useState(false)
   const [friendChoose,setFriendChoose]=useState([])
-  let friendChooseStatus:string[] = []
   let friendListArray =props.friendData.map((element:any,index:number)=>{
 
     
     return <div className={styles.friend_list_item_wrapper}
-                key={`friend-list-${index}`}
+                key={`friend-list-${element}`}
                 id={`friend-list-${index}`}
                 onClick={(e:any)=>{
                     let chooseArray = [...friendChoose]
@@ -39,11 +34,11 @@ function AddGuest(props:any) {
                     props.data.receiveEmail = chooseArray
                 }}
                 >
-                <div className={styles.friend_list_item_email} key={`friend-item-${index}`}>
+                <div className={styles.friend_list_item_email} key={`friend-item-${element}`}>
                     <FontAwesomeIcon icon={faCircleUser} className={styles.people_icon}/>
                     <div>{element}</div>
                 </div>
-                <div className={styles.friend_list_item_check} key={`friend-status-item-${index}`}>
+                <div className={styles.friend_list_item_check} key={`friend-status-item-${element}`}>
                     {!friendChoose.includes(element) ?(
                         <div className={styles.friend_list_check}
                         id = {`list_unCheck_${index}`}
@@ -82,7 +77,7 @@ function AddGuest(props:any) {
                     >
                         <div className={styles.choose_email_item_container}>{friendChoose.length>0? (
                                 friendChoose.map((element,index)=>{
-                                return <div key={`friend-email-${index}`} className={styles.choose_email_item}>{element}</div>
+                                return <div key={`friend-email-${element}`} className={styles.choose_email_item}>{element}</div>
                             }))
                         :"Add guest"}</div>
                         <div 

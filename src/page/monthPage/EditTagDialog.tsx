@@ -353,7 +353,7 @@ export default function EditTagDialog(props: any) {
                                     return (
                                         <div
                                             className={styles.friend_email}
-                                            key={`tag-friend-${index}`}
+                                            key={`tag-friend-${element}`}
                                         >
                                             {element}
                                         </div>

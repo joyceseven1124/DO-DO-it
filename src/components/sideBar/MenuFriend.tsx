@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import styles from '../../../public/css/sideBar.module.css';
-import AddFriendCard from './AddFriendCard';
 import { memberStatus } from '../..';
 import db from '../../firebase/firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAtom } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
@@ -61,11 +58,14 @@ const MenuFriend = (props: any) => {
                                 let newFriendList: any = [];
                                 if (msg === 'success') {
                                     delete props.friendListIndex[element];
-                                    let newFriendEmail = [...props.friendList];
-                                    newFriendEmail.push(friendEmail);
-                                    props.setFriendList(newFriendEmail);
+                                    let oldFriendEmail = [...props.friendList];
+                                    let newFriendEmailList = oldFriendEmail.filter((noDeleteElement:any)=>{
+                                        if( noDeleteElement !== friendEmail){
+                                            return noDeleteElement
+                                        }
+                                    })
+                                    props.setFriendList(newFriendEmailList);
                                 }
-                                props.setFriendList(newFriendList);
                             });
                             e.stopPropagation();
                         }}
@@ -78,7 +78,7 @@ const MenuFriend = (props: any) => {
     return (
         <>
             <ul>
-                <li className={styles.today_content}>
+                <li className={styles.sidebar_menu_content}>
                     <input
                         type="radio"
                         className={styles.check_box}
@@ -93,6 +93,11 @@ const MenuFriend = (props: any) => {
                         }}
                         onChange={() => {}}
                     />
+
+                    <label htmlFor='friend' className={styles.check_box_label} id="Friend_label">
+                        Friend list
+                    </label>
+
                     <ul className={styles.menu_item}>
                         <div
                             className={styles.add_item}
