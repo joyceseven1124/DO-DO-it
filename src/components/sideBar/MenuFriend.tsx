@@ -6,7 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-const MenuFriend = (props: any) => {
+interface Props {
+    setFriend: (value: boolean) => void;
+    setFriendInformationCard: (value: boolean) => void;
+    friendList: string[];
+    setFriendList: (value: string[]) => void;
+    setChooseEmail: (value: string) => void;
+    friendListIndex: { [key: string]: string };
+    setFriendListIndex: (friendListIndex: { [key: string]: string }) => void;
+}
+
+const MenuFriend = (props: Props) => {
     const [check, setCheck] = useState(false);
     const { memberInformation } = useContext(memberStatus);
 
@@ -26,9 +36,9 @@ const MenuFriend = (props: any) => {
         }
     }, [memberInformation]);
 
-    let itemArray: any = [];
+    let itemArray: JSX.Element[] = [];
     const friendData = Object.keys(props.friendListIndex);
-    friendData.map((element: any) => {
+    friendData.map((element: number | string) => {
         if (element === 'result') {
             return;
         }
@@ -51,17 +61,16 @@ const MenuFriend = (props: any) => {
                         icon={faTrashCan}
                         onClick={(e) => {
                             const result = db.deleteFriend(
-                                element,
+                                element as string,
                                 memberInformation
                             );
                             result.then((msg) => {
-                                let newFriendList: any = [];
                                 if (msg === 'success') {
                                     delete props.friendListIndex[element];
                                     let oldFriendEmail = [...props.friendList];
                                     let newFriendEmailList =
                                         oldFriendEmail.filter(
-                                            (noDeleteElement: any) => {
+                                            (noDeleteElement: string) => {
                                                 if (
                                                     noDeleteElement !==
                                                     friendEmail

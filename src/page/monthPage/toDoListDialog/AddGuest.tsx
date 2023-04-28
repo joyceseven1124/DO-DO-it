@@ -6,19 +6,40 @@ import {faCircleUser} from '@fortawesome/free-solid-svg-icons'
 import {faCircleCheck} from '@fortawesome/free-solid-svg-icons'
 
 
+interface TagData{
+    id: number;
+    width: number;
+    title: string;
+    description: string;
+    connectWidth: number;
+    color: string;
+    index: string;
+    status: string;
+    yearStart: number;
+    yearEnd: number;
+    monthStart: number;
+    monthEnd: number;
+    dayStart: number;
+    dayEnd: number;
+    receiveEmail: string[];
+    sendEmail: string;
+    sendEmailName: string;
+}
+interface Props{
+    friendData:string[]
+    data:TagData
+}
 
-function AddGuest(props:any) {
+function AddGuest(props:Props) {
   const [rotate,setRotate] = useState("0")
   const [guestButtonWord,setGuestButtonWord] = useState("+")
   const [openFriendList,setOpenFriendList] = useState(false)
   const [friendChoose,setFriendChoose]=useState([])
-  let friendListArray =props.friendData.map((element:any,index:number)=>{
-
-    
+  let friendListArray =props.friendData.map((element:string,index:number)=>{
     return <div className={styles.friend_list_item_wrapper}
                 key={`friend-list-${element}`}
                 id={`friend-list-${index}`}
-                onClick={(e:any)=>{
+                onClick={()=>{
                     let chooseArray = [...friendChoose]
                     if(chooseArray.includes(element)){
                         const newChooseArray = chooseArray.filter((email,index)=>{

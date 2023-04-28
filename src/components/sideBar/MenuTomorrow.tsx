@@ -1,12 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store/index';
 import styles from '../../../public/css/sideBar.module.css';
 import { commonData } from '../../page/MonthPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
-const MenuTomorrow = (props: any) => {
+const MenuTomorrow = () => {
     const [check, setCheck] = useState(false);
     const { isTagsArray } = useContext(commonData);
     const { setShowTagIndex } = useContext(commonData);
@@ -15,7 +13,7 @@ const MenuTomorrow = (props: any) => {
     let tomorrowDay = new Date().getDate() + 1;
     let tomorrowMonth = new Date().getMonth();
     let tomorrowYear = new Date().getFullYear();
-    let dataArray: any = [];
+    let dataArray: JSX.Element[] = [];
     let checkRepeatIndex = '';
 
     tomorrowData.forEach((element, index) => {

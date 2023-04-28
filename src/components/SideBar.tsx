@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from "../../public/css/sideBar.module.css"
 import MenuFriend from './sideBar/MenuFriend';
 import MenuMessage from "./sideBar/MenuMessage"
@@ -8,7 +8,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBarsStaggered} from '@fortawesome/free-solid-svg-icons'
 import {faChevronRight} from '@fortawesome/free-solid-svg-icons'
 
-const SideBar= (props:any)=>{
+interface Props {
+  setFriend: (value: boolean) => void
+  setSideBarStatus: (value: boolean) => void
+  setGridRow: (value: string) => void
+  setInformation: (value: boolean) => void
+  setFriendInformationCard: (value: boolean) => void
+  friendList: string[]
+  setFriendList: (value: string[]) => void
+  setChooseEmail: (value: string) => void
+  setChooseInformationIndex: (value: number) => void
+  setInformationList : (value: { [key: number]: number | string }[]) => void
+  informationList : { [key: number]: number | string }[]
+  friendListIndex : {[key:string]:string}
+  setFriendListIndex : (friendListIndex : {[key:string]:string}
+) => void
+}
+
+const SideBar= (props:Props)=>{
     return(
     <div className={styles.menu_container}>
         <div className={styles.menu_wrapper}>

@@ -7,15 +7,22 @@ import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const InviteCard = (props: any) => {
+interface Props {
+    setInformation: (value: boolean) => void;
+    chooseInformationIndex: number;
+    informationList: { [key: string]: string | number }[];
+    setInformationList: (value: { [key: string]: string | number }[]) => void;
+}
+
+const InviteCard = (props: Props) => {
     const { memberName } = useContext(memberStatus);
     const { memberInformation } = useContext(memberStatus);
     const { setTagsArray } = useContext(commonData);
     const { isTagsArray } = useContext(commonData);
 
-    const messageData = props.informationList[props.chooseInformationIndex];
+    const messageData =
+        props.informationList[props.chooseInformationIndex as number];
     const messageDataIndexArray = Object.keys(props.informationList);
-
     const month = [
         'January',
         'February',
@@ -30,7 +37,8 @@ const InviteCard = (props: any) => {
         'November',
         'December',
     ];
-    const monthWord = month[messageData.monthStart - 1].toUpperCase();
+    const monthWord =
+        month[(messageData.monthStart as number) - 1].toUpperCase();
     const week = [
         'Sunday',
         'Monday',
@@ -42,9 +50,9 @@ const InviteCard = (props: any) => {
     ];
 
     const thisDateWeek: number = new Date(
-        messageData.yearStart,
-        messageData.monthStart,
-        messageData.dayStart
+        messageData.yearStart as number,
+        messageData.monthStart as number,
+        messageData.dayStart as number
     ).getDay();
 
     const thisDateWeekWord = week[thisDateWeek].toUpperCase();
@@ -106,7 +114,7 @@ const InviteCard = (props: any) => {
                                 ) : null}
 
                                 <div className={styles.schedule_content_word}>
-                                    {parse(messageData.description)}
+                                    {parse(messageData.description as string)}
                                 </div>
                             </div>
                         </div>
@@ -124,7 +132,7 @@ const InviteCard = (props: any) => {
                             onClick={(e) => {
                                 const deleteResult = db.deleteMessage(
                                     memberInformation,
-                                    messageData.index
+                                    messageData.index as number
                                 );
                                 deleteResult.then((msg) => {
                                     if (msg === 'success') {
@@ -134,16 +142,19 @@ const InviteCard = (props: any) => {
                                         }[] = [];
                                         const newInformationList =
                                             messageDataIndexArray.filter(
-                                                (element: any) => {
+                                                (element: number | string) => {
                                                     if (
                                                         data[
                                                             props
                                                                 .chooseInformationIndex
                                                         ].index !==
-                                                        data[element].index
+                                                        data[element as number]
+                                                            .index
                                                     ) {
                                                         newMessageArray.push(
-                                                            data[element]
+                                                            data[
+                                                                element as number
+                                                            ]
                                                         );
                                                     }
                                                 }
@@ -172,31 +183,36 @@ const InviteCard = (props: any) => {
                                 }[] = [];
                                 const newInformationList =
                                     messageDataIndexArray.map(
-                                        (element: any) => {
+                                        (element: string | number) => {
                                             if (
                                                 data[
-                                                    props.chooseInformationIndex
-                                                ].index !== data[element].index
+                                                    props.chooseInformationIndex as number
+                                                ].index !==
+                                                data[element as number].index
                                             ) {
                                                 newMessageArray.push(
-                                                    data[element]
+                                                    data[element as number]
                                                 );
                                             } else {
-                                                newTagArray.push(data[element]);
-                                                saveData.push(data[element]);
+                                                newTagArray.push(
+                                                    data[element as number]
+                                                );
+                                                saveData.push(
+                                                    data[element as number]
+                                                );
                                             }
                                         }
                                     );
                                 const result = db.saveMessage(
                                     memberInformation,
-                                    messageData.index,
+                                    messageData.index as number,
                                     `${messageData.yearStart}Y${messageData.monthStart}M`
                                 );
                                 result.then((msg) => {
                                     if (msg === 'success') {
                                         const deleteResult = db.deleteMessage(
                                             memberInformation,
-                                            messageData.index
+                                            messageData.index as number
                                         );
                                         deleteResult.then((msg) => {
                                             if (msg === 'success') {

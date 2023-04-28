@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
-export default function ChangeTime(props: any) {
+export default function ChangeTime() {
     const monthNumber = useSelector(
         (state: RootState) => state.timeControlReducer.monthNumber
     );

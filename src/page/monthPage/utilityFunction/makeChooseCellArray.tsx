@@ -4,7 +4,7 @@ export default function makeChooseCellArray(
             status: string,
             chooseCell:number[][]
         ) {
-        let prevChooseCell: any;
+        let prevChooseCell: number[][];
         if (status === 'usual') {
             prevChooseCell = [...chooseCell];
         } else {

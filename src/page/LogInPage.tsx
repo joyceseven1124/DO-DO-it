@@ -21,7 +21,7 @@ export default function LogInPage(){
             <SingIn
                 setErrorCard={setErrorCard}
                 setSuccessCard={setSuccessCard}
-                signInMsg={setMsg}
+                setSignInMsg={setMsg}
             />
         </div>
     )

@@ -4,11 +4,33 @@ import styles from '/public/css/toDoListDialogBox.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faPalette} from '@fortawesome/free-solid-svg-icons'
 
+interface TagData{
+    id: number;
+    width: number;
+    title: string;
+    description: string;
+    connectWidth: number;
+    color: string;
+    index: string;
+    status: string;
+    yearStart: number;
+    yearEnd: number;
+    monthStart: number;
+    monthEnd: number;
+    dayStart: number;
+    dayEnd: number;
+    receiveEmail: string[];
+    sendEmail: string;
+    sendEmailName: string;
+}
+interface Props{
+  data:TagData
+}
 
 
 
 
-const ColorSelector = (props:any)=>{
+const ColorSelector = (props:Props)=>{
     const [openSelectorColor,setOpenSelectorColor] = useState(false)
     const [chooseColor,setChooseColor] = useState("#f6be21")
     const [rotate,setRotate] = useState("0")

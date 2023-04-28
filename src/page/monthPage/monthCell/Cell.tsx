@@ -18,6 +18,7 @@ import weekday from 'dayjs/plugin/weekday';
 import find from '../../../components/commonFunction/findMaxDay';
 import dragDropHandle  from "../utilityFunction/dropFunction"
 import makeChooseCellArray  from "../utilityFunction/makeChooseCellArray"
+import { Value } from 'react-quill';
 dayjs.extend(toObject);
 dayjs.extend(weekday);
 
@@ -53,9 +54,13 @@ const DayCell = styled.div<DayCell>`
     }
 `;
 
+interface Props{
+    setErrorCardShow:(Value:boolean)=>void
+    setErrorCardWord:(Value:string)=>void
+    setShowCardDisplay:(Value:boolean)=>void
+}
 
-
-export default function Cell(props:any) {
+export default function Cell(props:Props) {
     const { memberInformation } = useContext(memberStatus);
     const { setTagsArray } = useContext(commonData);
     const { isTagsArray } = useContext(commonData);
@@ -84,8 +89,9 @@ export default function Cell(props:any) {
         (state: RootState) => state.timeControlReducer.year
     );
 
-    function checkMouseUpPlace(e:any){
-        if (!e.target.id.includes('cell')) {
+    function checkMouseUpPlace(e:MouseEvent){
+        const target = e.target as Element;
+        if (!target.id.includes('cell')) {
             props.setErrorCardShow(true)
             props.setErrorCardWord("Please release the mouse in the grid")
             setActiveCell(false);
@@ -93,7 +99,7 @@ export default function Cell(props:any) {
         document.removeEventListener("mouseup",checkMouseUpPlace)
     }   
 
-    function EnterCell(e: any) {
+    function EnterCell(e: any){
         const id = Number(e.target.id.split('-')[1]);
         setTagEndCell(id);
     }
@@ -134,8 +140,9 @@ export default function Cell(props:any) {
         endDayInit.current = chooseDate;
     }
 
-    const dragDrop = (e: any) => {
-        if (e.target.id) {
+    const dragDrop = (e:any) => {
+        const target = e.target as Element;
+        if (target.id) {
             let resultHandleData = dragDropHandle(e,thisPageDay,isTagsArray,chooseCell,yearNumber,monthNumber)
             let resultSaveData = db.updateData(
                 memberInformation,
@@ -156,14 +163,14 @@ export default function Cell(props:any) {
         }
     };
 
-    const dragover = (e: any) => {
+    const dragover = (e:React.DragEvent<HTMLDivElement>):void => {
         e.preventDefault();
     };
-    const dragenter = (e: any) => {
+    const dragenter = (e:React.DragEvent<HTMLDivElement>):void  => {
         e.preventDefault();
     };
 
-    const dragleave = (e: any) => {
+    const dragleave = (e:React.DragEvent<HTMLDivElement>):void  => {
         e.preventDefault();
     };
 
@@ -262,12 +269,10 @@ export default function Cell(props:any) {
                         width={tagWidth}
                         connectWidth={connectWidth}
                         tagOrder={orderNumber}
-                        date={date}
                         color={element.color}
                         index={element.index}
                         description={element.description}
                         status={element.status}
-                        friend={element.receiveEmail}
                     />
                 );
             }
@@ -299,20 +304,20 @@ export default function Cell(props:any) {
         }
         let dayHtml = (
             <DayCell
-                id={`cell-${i}-${row}`}
-                key={`cmd-${i}`}
-                className={`date ${date}`}
-                primary={color}
-                nowTime={nowTimeResult}
-                bgColor={activeStatus}
-                onPointerEnter={activeCell ? EnterCell:null}
-                onPointerDown={mouseDown}
-                onPointerUp={mouseUp}
-                onDragOver={dragover}
-                onDragEnter={dragenter}
-                onDragLeave={dragleave}
-                onDrop={dragDrop}
-                style={{ cursor: 'pointer' }}
+                 id={`cell-${i}-${row}`}
+                 key={`cmd-${i}`}
+                 className={`date ${date}`}
+                 primary={color}
+                 nowTime={nowTimeResult}
+                 bgColor={activeStatus}
+                 onPointerEnter={activeCell ? EnterCell:undefined}
+                 onPointerDown={mouseDown}
+                 onPointerUp={mouseUp}
+                 onDragOver={dragover}
+                 onDragEnter={dragenter}
+                 onDragLeave={dragleave}
+                 onDrop={dragDrop}
+                 style={{ cursor: 'pointer' }}
             >
                 <div className="date_word">{date}</div>
                 <div>{newTagArray}</div>

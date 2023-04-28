@@ -20,7 +20,7 @@ import 'react-quill/dist/quill.snow.css';
 import parse from 'html-react-parser';
 import ErrorCard from '../../components/ErrorCard';
 
-export default function EditTagDialog(props: any) {
+export default function EditTagDialog() {
     const monthNumber = useSelector(
         (state: RootState) => state.timeControlReducer.monthNumber
     );
@@ -61,7 +61,7 @@ export default function EditTagDialog(props: any) {
         weekStart: string;
         weekEnd: string;
     };
-    let descriptionWord: any;
+    let descriptionWord: string;
     let colorWord: string;
     let statusWord: string;
     let saveStatus: string = status;
@@ -69,61 +69,61 @@ export default function EditTagDialog(props: any) {
     let friendEmail: string[] = [];
     let sendEmail: string;
 
-    const dialogData = isTagsArray.filter((element: any) => {
-        if (element.index === showTagIndex) {
-            const startDate = `${element.yearStart}/${element.monthStart}/${element.dayStart}`;
-            const endDate = `${element.yearEnd}/${element.monthEnd}/${element.dayEnd}`;
-            const week = [
-                'Sunday',
-                'Monday',
-                'Tuesday',
-                'Wednesday',
-                'Thursday',
-                'Friday',
-                'Saturday',
-            ];
-            const weekStart = new Date(
-                element.yearStart,
-                element.monthStart - 1,
-                element.dayStart
-            ).getDay();
+    const dialogData = isTagsArray.filter(
+        (element: { [key: string]: string | number | string[] }) => {
+            if (element.index === showTagIndex) {
+                const week = [
+                    'Sunday',
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
+                ];
+                const weekStart = new Date(
+                    element.yearStart as number,
+                    (element.monthStart as number) - 1,
+                    element.dayStart as number
+                ).getDay();
 
-            const weekEnd = new Date(
-                element.yearEnd,
-                element.monthEnd - 1,
-                element.dayEnd
-            ).getDay();
-            const weekStartWord = week[weekStart];
-            const weekEndWord = week[weekEnd];
-            let monthNumber = useSelector(
-                (state: RootState) => state.timeControlReducer.monthNumber
-            );
+                const weekEnd = new Date(
+                    element.yearEnd as number,
+                    (element.monthEnd as number) - 1,
+                    element.dayEnd as number
+                ).getDay();
+                const weekStartWord = week[weekStart];
+                const weekEndWord = week[weekEnd];
+                let monthNumber = useSelector(
+                    (state: RootState) => state.timeControlReducer.monthNumber
+                );
 
-            dateData = {
-                yearStart: element.yearStart,
-                yearEnd: element.yearEnd,
-                monthStart: element.monthStart,
-                monthEnd: element.monthEnd,
-                dayStart: element.dayStart,
-                dayEnd: element.dayEnd,
-                weekStart: weekStartWord,
-                weekEnd: weekEndWord,
-            };
-            titleWord = element.title;
-            descriptionWord = element.description;
+                dateData = {
+                    yearStart: element.yearStart as number,
+                    yearEnd: element.yearEnd as number,
+                    monthStart: element.monthStart as number,
+                    monthEnd: element.monthEnd as number,
+                    dayStart: element.dayStart as number,
+                    dayEnd: element.dayEnd as number,
+                    weekStart: weekStartWord,
+                    weekEnd: weekEndWord,
+                };
+                titleWord = element.title as string;
+                descriptionWord = element.description as string;
 
-            colorWord = element.color;
-            databaseFileName = `${element.yearStart}Y${monthNumber}M`;
-            if (element.status === '未完成') {
-                statusWord = 'Unfinished';
-            } else {
-                statusWord = 'Mission accomplished! ';
+                colorWord = element.color as string;
+                databaseFileName = `${element.yearStart}Y${monthNumber}M`;
+                if (element.status === '未完成') {
+                    statusWord = 'Unfinished';
+                } else {
+                    statusWord = 'Mission accomplished! ';
+                }
+                friendEmail = element.receiveEmail as string[];
+                sendEmail = element.sendEmail as string;
+                return element;
             }
-            friendEmail = element.receiveEmail;
-            sendEmail = element.sendEmail;
-            return element;
         }
-    });
+    );
 
     useEffect(() => {
         setDate(dateData);
@@ -160,29 +160,31 @@ export default function EditTagDialog(props: any) {
         let time;
         let index;
 
-        dialogData.map((element: any) => {
-            element.title = title;
-            element.description = description;
-            element.color = color;
-            element.status = saveStatus;
-            time = `${yearNumber}Y${monthNumber}M`;
-            index = element.index;
-            newDataArray.push(element);
-            if (dialogData.length === 1) {
-                const result = db.updateData(
-                    memberInformation,
-                    time,
-                    index,
-                    element
-                );
-                result.then((msg) => {
-                    if (msg === 'fail') {
-                        setErrorCardShow(true);
-                        setErrorCardWord('save failed');
-                    }
-                });
+        dialogData.map(
+            (element: { [key: string]: string | number | string[] }) => {
+                element.title = title;
+                element.description = description;
+                element.color = color;
+                element.status = saveStatus;
+                time = `${yearNumber}Y${monthNumber}M`;
+                index = element.index;
+                newDataArray.push(element);
+                if (dialogData.length === 1) {
+                    const result = db.updateData(
+                        memberInformation,
+                        time,
+                        index as number,
+                        element
+                    );
+                    result.then((msg) => {
+                        if (msg === 'fail') {
+                            setErrorCardShow(true);
+                            setErrorCardWord('save failed');
+                        }
+                    });
+                }
             }
-        });
+        );
         if (dialogData.length > 1) {
             const result = db.updateData(
                 memberInformation,

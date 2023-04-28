@@ -19,7 +19,7 @@ export default function RegisterPage(){
             <Register 
                 setErrorCard={setErrorCard}
                 setSuccessCard={setSuccessCard}
-                registerMsg={setMsg}
+                setRegisterMsg={setMsg}
             />
         </div>
     )

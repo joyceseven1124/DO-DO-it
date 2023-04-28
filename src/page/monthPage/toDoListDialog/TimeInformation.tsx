@@ -6,7 +6,30 @@ import { tagData } from '../MonthCell';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faClock} from '@fortawesome/free-solid-svg-icons'
 
-export default function TimeInformation(props:any) {
+interface TagData{
+    id: number;
+    width: number;
+    title: string;
+    description: string;
+    connectWidth: number;
+    color: string;
+    index: string;
+    status: string;
+    yearStart: number;
+    yearEnd: number;
+    monthStart: number;
+    monthEnd: number;
+    dayStart: number;
+    dayEnd: number;
+    receiveEmail: string[];
+    sendEmail: string;
+    sendEmailName: string;
+}
+interface Props{
+    data:TagData
+}
+
+export default function TimeInformation(props:Props) {
     const { tagStartCell } = useContext(tagData);
     const {tagEndCell} = useContext(tagData);
     const { dayStart } = useContext(tagData);

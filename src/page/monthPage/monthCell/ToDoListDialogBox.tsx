@@ -10,10 +10,17 @@ import db from '../../../firebase/firebase';
 import { commonData } from '../../MonthPage';
 import DescriptionQuillEditor from '../toDoListDialog/DescriptionQuillEditor';
 import AddGuest from '../toDoListDialog/AddGuest';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
+interface Props{
+    status:boolean
+    setCardStatus:(value:boolean)=> void
+    friendData:string[]
+    setErrorCardShow:(value:boolean)=> void
+    setMsg:(value:string)=> void
+}
 
-
-export default function ToDoListDialogBox(props: any) {
+export default function ToDoListDialogBox(props: Props) {
     const { memberNowStatus } = useContext(memberStatus);
     const { memberInformation } = useContext(memberStatus);
     const { memberName } = useContext(memberStatus);
@@ -29,7 +36,7 @@ export default function ToDoListDialogBox(props: any) {
         (state: RootState) => state.timeControlReducer.monthNumber
     );
 
-    const closedDialog = (e: any) => {
+    const closedDialog = () => {
         props.setCardStatus(false);
         setShowRemind('none');
         let newData = [...isTagsArray];
@@ -43,7 +50,7 @@ export default function ToDoListDialogBox(props: any) {
         setChooseCell(newChooseCell);
     };
 
-    const saveData = (e: any) => {
+    const saveData = () => {
         let time = `${toDoListData.yearStart}Y${monthNumber}M`;
         if (toDoListData.title === '') {
             setShowRemind('block');
@@ -57,7 +64,7 @@ export default function ToDoListDialogBox(props: any) {
                 newData.pop();
             }
             if (tagIdWidthArray.length > 1) {
-                let sendData: any = [];
+                let sendData:{[key:string]:string | number | string[]}[] = [];
                 let uuidDate = new Date().getTime().toString();
                 tagIdWidthArray.forEach((element) => {
                     let moreRowsListData = {
@@ -88,8 +95,8 @@ export default function ToDoListDialogBox(props: any) {
                         setTagsArray(newData);
                         props.setCardStatus(false);
                     }else{
-                        props.setErrorCardShow("fail")
-                        props.msg("Save failed")
+                        props.setErrorCardShow(false)
+                        props.setMsg("Save failed")
                     }
                 });
             } else if (tagIdWidthArray.length === 1) {
@@ -100,8 +107,8 @@ export default function ToDoListDialogBox(props: any) {
                         setTagsArray(newData);
                         props.setCardStatus(false);
                     }else{
-                        props.setErrorCardShow("fail")
-                        props.msg("Save failed")
+                        props.setErrorCardShow(false)
+                        props.setMsg("Save failed")
                     }
                 });
             }
@@ -112,12 +119,12 @@ export default function ToDoListDialogBox(props: any) {
     let toDoListData = {
         title: '',
         color: '#f6be21',
-        yearStart: '',
-        yearEnd: '',
-        monthStart: '',
-        monthEnd: '',
-        dayStart: '',
-        dayEnd: '',
+        yearStart: 0,
+        yearEnd: 0,
+        monthStart: 0,
+        monthEnd: 0,
+        dayStart: 0,
+        dayEnd: 0,
         description: '',
         status: '未完成',
         index: uuidDate,

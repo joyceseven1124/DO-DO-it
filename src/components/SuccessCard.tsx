@@ -1,7 +1,12 @@
 import React from 'react';
 import styles from "../../public/css/msgCard.module.css"
 
-const SuccessCard= (props:any)=>{
+interface Props {
+  setCard: (value: boolean) => void
+  msg:string
+}
+
+const SuccessCard= (props:Props)=>{
     const closeCard = ()=>{
         props.setCard(false)
     }

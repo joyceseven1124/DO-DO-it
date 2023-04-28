@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import styles from '/public/css/friendInformation.module.css';
-import { memberStatus } from '../..';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/index';
 import db from '../../firebase/firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const FriendInformation = (props: any) => {
+interface Props {
+    setFriendInformationCard: (value: boolean) => void;
+    chooseEmail: string;
+}
+
+const FriendInformation = (props: Props) => {
     const [friendName, setFriendName] = useState('');
 
     useEffect(() => {

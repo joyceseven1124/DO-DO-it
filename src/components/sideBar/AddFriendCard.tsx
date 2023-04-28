@@ -7,7 +7,15 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 
-const AddFriendCard = (props: any) => {
+interface Props {
+    setFriend: (value: boolean) => void;
+    friendList: string[];
+    setFriendList: (value: string[]) => void;
+    friendListIndex: { [key: string]: string };
+    setFriendListIndex: (value: { [key: string]: string }) => void;
+}
+
+const AddFriendCard = (props: Props) => {
     const [inputEmail, setInputEmail] = useState('111@gmail.com');
     const [resultMsg, setResultMsg] = useState('');
     const [color, setColor] = useState('#048517fa');

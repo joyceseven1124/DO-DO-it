@@ -1,7 +1,11 @@
 import React from 'react';
 import styles from "../../public/css/saveSuccessBlock.module.css"
 
-const SaveSuccessBlock= (props:any)=>{
+interface Props {
+  msg:string
+}
+
+const SaveSuccessBlock= (props:Props)=>{
     return(
         <div className={styles.msgCard_wrapper}>
             <div className={styles.msgCard_content}>

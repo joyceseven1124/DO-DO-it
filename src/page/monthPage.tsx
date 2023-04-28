@@ -44,9 +44,9 @@ function MonthPage() {
     const [showTagIndex, setShowTagIndex] = useState(0);
     const [chooseEmail,setChooseEmail] = useState("")
     const [friendList,setFriendList] = useState([])
-    const [friendListIndex,setFriendListIndex] = useState([])
+    const [friendListIndex,setFriendListIndex] = useState({})
     const [informationList,setInformationList] = useState([])
-    const [chooseInformationIndex,setChooseInformationIndex] = useState("")
+    const [chooseInformationIndex,setChooseInformationIndex] = useState(0)
     const [hiddenSideBarButton,setHiddenSideBarButton] = useState("flex")
 
     const [loading,setLoading] = useState(true)

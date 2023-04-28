@@ -1,17 +1,25 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, {
+    useContext,
+    useState,
+    useEffect,
+    KeyboardEventHandler,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import styles from '/public/css/member.module.css';
 import db from '../../firebase/firebase';
 import { memberStatus } from '../../';
 
-export default function SingIn(props: any) {
+interface Props {
+    setErrorCard: (Value: boolean) => void;
+    setSuccessCard: (Value: boolean) => void;
+    setSignInMsg: (Value: string) => void;
+}
+
+export default function SingIn(props: Props) {
     const emailReg = /^\w+([-+.']\w+)*@gmail\.com$/;
     const passwordReg = /^.{6,}$/;
     const { setMemberStatus } = useContext(memberStatus);
     const { setMemberInformation } = useContext(memberStatus);
-    const openLogIn = props.setSignInCard;
-    const openRegister = props.setRegister;
     const [passwordType, setPasswordType] = useState('password');
     const [passwordCheck, setPassWordCheck] = useState('none');
     const [emailCheck, setEmailCheck] = useState('none');
@@ -23,10 +31,10 @@ export default function SingIn(props: any) {
         email: '',
         password: '',
     };
-    const enterAccount = (e: any) => {
+    const enterAccount = () => {
         if (!emailReg.test(email) || !passwordReg.test(password)) {
             props.setErrorCard(true);
-            props.signInMsg('Check your input');
+            props.setSignInMsg('Check your input');
             return;
         }
         const result = db.enterAccount(email, password);
@@ -37,23 +45,18 @@ export default function SingIn(props: any) {
                 navigate('/calender');
             } else {
                 props.setErrorCard(true);
-                props.signInMsg('Account or password incorrect');
+                props.setSignInMsg('Account or password incorrect');
             }
         });
     };
 
-    const enterAccountByKeyDown = (e: any) => {
+    const enterAccountByKeyDown: KeyboardEventHandler<HTMLDivElement> = (e) => {
         if (e.key === 'Enter') {
-            enterAccount(e);
+            enterAccount();
         }
     };
 
-    const closeCard = (e: any) => {
-        openRegister(false);
-        openLogIn(false);
-    };
-
-    const showPassword = (e: any) => {
+    const showPassword = () => {
         const fak = document.getElementById('fakePass');
         fak.classList.toggle('scan');
         passwordType === 'password'

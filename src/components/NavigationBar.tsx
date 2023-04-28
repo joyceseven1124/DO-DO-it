@@ -8,9 +8,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faAngleDown} from '@fortawesome/free-solid-svg-icons'
 import {faAngleUp} from '@fortawesome/free-solid-svg-icons'
 
+interface Props {
+  setHiddenSideBarButton: (value: string) => void
+  setSideBarStatus: (value: boolean) => void
+  sideBarStatus:boolean
+}
 
-
-const NavigationBar = (props:any) => {
+const NavigationBar = (props:Props) => {
     const {setMemberStatus} = useContext(memberStatus)
     const {memberInformation} = useContext(memberStatus)
     const {setMemberName} = useContext(memberStatus)
@@ -29,7 +33,7 @@ const NavigationBar = (props:any) => {
 
     },[memberInformation])
 
-    const changeMemberStatus = (e:any) => {
+    const changeMemberStatus = (e:React.MouseEvent<HTMLDivElement>) => {
         const result = db.leaveAccount()
         result.then((msg)=>{
             if(msg === "success"){

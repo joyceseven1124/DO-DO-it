@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, KeyboardEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '/public/css/member.module.css';
 import db from '../../firebase/firebase';
 
-export default function Register(props: any) {
+interface Props {
+    setErrorCard: (Value: boolean) => void;
+    setSuccessCard: (Value: boolean) => void;
+    setRegisterMsg: (Value: string) => void;
+}
+
+export default function Register(props: Props) {
     const emailReg = /^\w+([-+.']\w+)*@gmail\.com$/;
     const passwordReg = /^.{6,}$/;
-    const openRegister = props.setRegister;
-    const openLogIn = props.setSignInCard;
     const [passwordType, setPasswordType] = useState('password');
     const [passwordCheck, setPassWordCheck] = useState('none');
     const [emailCheck, setEmailCheck] = useState('none');
@@ -23,23 +27,19 @@ export default function Register(props: any) {
         name: name,
     };
 
-    const closeCard = (e: any) => {
-        openRegister(false);
-        openLogIn(false);
-    };
-    const buildAccountByKeyDown = (e: any) => {
+    const buildAccountByKeyDown: KeyboardEventHandler<HTMLDivElement> = (e) => {
         if (e.key === 'Enter') {
-            buildAccount(e);
+            buildAccount();
         }
     };
-    const buildAccount = (e: any) => {
+    const buildAccount = () => {
         if (
             !emailReg.test(email) ||
             !passwordReg.test(password) ||
             name === ''
         ) {
             props.setErrorCard(true);
-            props.registerMsg('Check your input');
+            props.setRegisterMsg('Check your input');
             return;
         }
 
@@ -47,10 +47,10 @@ export default function Register(props: any) {
         msg.then((msg) => {
             if (msg !== 'fail') {
                 props.setSuccessCard(true);
-                props.registerMsg('Registration success');
+                props.setRegisterMsg('Registration success');
             } else {
                 props.setErrorCard(true);
-                props.registerMsg('Registration failed (email repeat)');
+                props.setRegisterMsg('Registration failed (email repeat)');
             }
         });
         setEmail('');
@@ -58,7 +58,7 @@ export default function Register(props: any) {
         setName('');
     };
 
-    const showPassword = (e: any) => {
+    const showPassword = () => {
         const fak = document.getElementById('fakePass');
         fak.classList.toggle('scan');
         passwordType === 'password'
@@ -135,7 +135,6 @@ export default function Register(props: any) {
                                     value={email}
                                     required
                                     onChange={(e) => {
-                                        //user.email = e.target.value
                                         setEmail(e.target.value);
                                     }}
                                 />

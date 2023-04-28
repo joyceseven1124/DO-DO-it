@@ -3,7 +3,7 @@ import styles from '/public/css/frontPage.module.css';
 import {useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 
-export default function FrontPage(props:any){
+export default function FrontPage(){
     const navigate = useNavigate();
     return(
 

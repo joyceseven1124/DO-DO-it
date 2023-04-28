@@ -13,7 +13,7 @@ const initState = {
 
 const timeControlReducer = (
     state = initState,
-    action: { [key: string]: any }
+    action: { [key: string]: string }
 ) => {
     switch (action.type) {
         case actions.NEXT_MONTH:

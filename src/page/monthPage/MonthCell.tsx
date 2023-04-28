@@ -33,7 +33,12 @@ export const tagData = createContext({
     endDayInit: undefined,
 });
 
-export default function MonthCell(props: any) {
+interface Props {
+    friendData: string[];
+    setLoading: (value: boolean) => void;
+}
+
+export default function MonthCell(props: Props) {
     const [dayStart, setDayStart] = useState(0);
     const [dayEnd, setDayEnd] = useState(0);
     const [tagStartCell, setTagStartCell] = useState(0);
@@ -82,27 +87,39 @@ export default function MonthCell(props: any) {
                 memberInformation,
                 searchDataTime
             );
-            let data: any = [];
-            let chooseCellData: any = [];
+            type ToDoListDataItem = {
+                [key: string]: string | number | string[];
+            };
+            let data: { [key: string]: string | number | string[] }[] = [];
+            let chooseCellData: number[][] = [];
             monthData.then((msg) => {
                 props.setLoading(false);
                 if (msg !== 'fail' && msg !== null) {
-                    let moreRowsTag = msg.filter((element: any) => {
-                        if (element.length > 1) {
-                            return element;
+                    let moreRowsTag = msg.filter(
+                        (element: ToDoListDataItem | ToDoListDataItem[]) => {
+                            if ((element as ToDoListDataItem[]).length > 1) {
+                                return element;
+                            }
+                            data.push(element as ToDoListDataItem);
+                            const startId = (element as ToDoListDataItem)
+                                .id as number;
+                            const endId =
+                                startId +
+                                ((element as ToDoListDataItem)
+                                    .connectWidth as number) /
+                                    100 -
+                                1;
+                            const result = makeChooseCellArray(
+                                startId,
+                                endId,
+                                'change',
+                                chooseCell
+                            );
+                            chooseCellData.push(result[0]);
                         }
-                        data.push(element);
-                        const startId = element.id;
-                        const endId = startId + element.connectWidth / 100 - 1;
-                        const result = makeChooseCellArray(
-                            startId,
-                            endId,
-                            'change',
-                            chooseCell
-                        );
-                        chooseCellData.push(result[0]);
-                    });
-                    moreRowsTag.map((element: any, index: number) => {
+                    );
+
+                    moreRowsTag.map((element: any) => {
                         if (element[0]) {
                             data.push(element[0]);
                             const startId = element[0].id;
@@ -174,7 +191,7 @@ export default function MonthCell(props: any) {
                         setCardStatus={setShowCardDisplay}
                         friendData={props.friendData}
                         setErrorCardShow={setErrorCardShow}
-                        msg={setErrorCardWord}
+                        setMsg={setErrorCardWord}
                     />
                 </>
             ) : null}

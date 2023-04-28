@@ -31,8 +31,9 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore();
 
+type ToDoListDataItem = { [key: string]: string | number | string[] };
 
-async function saveToDoList(time:string,toDoListData:{[key:string]:any},uuid:any){
+async function saveToDoList(time:string,toDoListData:ToDoListDataItem[] | ToDoListDataItem ,uuid:string){
     let msg =""
     try {
         let email =""
@@ -40,21 +41,21 @@ async function saveToDoList(time:string,toDoListData:{[key:string]:any},uuid:any
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 email = user.email
-                if(toDoListData.length > 1){
-                    if(toDoListData[0].receiveEmail.length > 0){
+                if((toDoListData as ToDoListDataItem[]).length > 1){
+                    if(((toDoListData as ToDoListDataItem[])[0].receiveEmail as string[]).length > 0){
                         setDoc(doc(db, email, `CommonTag${time}`), {[uuid]:uuid},{ merge: true });
                         setDoc(doc(db, "commonTag", uuid), {[uuid]:toDoListData},{ merge: true });
-                        toDoListData[0].receiveEmail.map((element:string)=>{
+                        ((toDoListData as ToDoListDataItem[])[0].receiveEmail as string[]).map((element:string)=>{
                             setDoc(doc(db, element, "message"), {[uuid]:toDoListData}, { merge: true });
                         })
                     }else{
                         setDoc(doc(db, email, time), {[uuid]:toDoListData},{ merge: true });
                     }
                 }else{
-                    if(toDoListData.receiveEmail.length > 0){
+                    if(((toDoListData as ToDoListDataItem).receiveEmail as string[]).length > 0){
                         setDoc(doc(db, email, `CommonTag${time}`), {[uuid]:uuid},{ merge: true });
                         setDoc(doc(db, "commonTag", uuid), {[uuid]:toDoListData},{ merge: true });
-                        toDoListData.receiveEmail.map((element:string)=>{
+                        ((toDoListData as ToDoListDataItem).receiveEmail as string[]).map((element:string)=>{
                             setDoc(doc(db, element, "message"), {[uuid]:toDoListData}, { merge: true });
                         })
                     }else{
@@ -77,11 +78,11 @@ async function saveToDoList(time:string,toDoListData:{[key:string]:any},uuid:any
 
 async function getToDoListData(email:string,time:string){
     let msg:{[key:string]:{[key:string]:string}}
-     let data:any
+    let data:{[key:string]:string | number | string[]}[]
     try{
         const monthData =await getDoc(doc(db, email,time));
         if(monthData.exists()) {
-            msg = monthData.data()
+            msg = monthData.data() 
             let dataKey =Object.keys(msg)
             data = dataKey.map((element:string)=>{
                 return msg[element]
@@ -121,18 +122,17 @@ async function getToDoListData(email:string,time:string){
 }
 
 
-async function updateData(email:string,time:string,index:number,toDoListData:{[key:string]:any}){
+async function updateData(email:string,time:string,index:number,toDoListData:{ [key: string]: any}){
     let msg =''
-    let isCommonTag:boolean | undefined
     try{
-        if(toDoListData.length > 1){
-            if(toDoListData[0].receiveEmail.length > 0){
+        if((toDoListData as ToDoListDataItem[] ).length > 1){
+            if(((toDoListData as ToDoListDataItem[])[0].receiveEmail as string[]).length > 0){
                 setDoc(doc(db,"commonTag", `${index}`),{[index]:toDoListData},{ merge: true });
                 }else{
                     setDoc(doc(db, email, time), {[index]:toDoListData},{ merge: true });
                 }
         }else{
-            if(toDoListData.receiveEmail.length > 0){
+            if(((toDoListData as ToDoListDataItem).receiveEmail as string[]).length > 0){
                 setDoc(doc(db,"commonTag", `${index}`),{[index]:toDoListData},{ merge: true });
             }else{
                 setDoc(doc(db, email, time), {[index]:toDoListData},{ merge: true });

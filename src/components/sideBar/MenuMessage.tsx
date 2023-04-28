@@ -1,12 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
-import styled from 'styled-components';
 import styles from '../../../public/css/sideBar.module.css';
 import db from '../../firebase/firebase';
 import { memberStatus } from '../..';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-const MenuItem = (props: any) => {
+interface Props {
+    setInformation: (value: boolean) => void;
+    setChooseInformationIndex: (value: number) => void;
+    setInformationList: (value: { [key: number]: number | string }[]) => void;
+    informationList: { [key: number]: number | string }[];
+}
+
+const MenuMessage = (props: Props) => {
     const [check, setCheck] = useState(false);
     const { memberInformation } = useContext(memberStatus);
 
@@ -17,7 +23,7 @@ const MenuItem = (props: any) => {
             result.then((msg) => {
                 let msgArray: { [key: number]: number | string }[] = [];
                 const keyArray = Object.keys(msg);
-                const cleanMsg = keyArray.map((element: any) => {
+                const cleanMsg = keyArray.map((element: string) => {
                     if (keyArray.length === 0) {
                         return;
                     }
@@ -33,20 +39,20 @@ const MenuItem = (props: any) => {
         }
     }, [memberInformation]);
 
-    let itemArray: any = [];
+    let itemArray: JSX.Element[] = [];
     const messageData = Object.keys(props.informationList);
     let prevTimeIndex = '';
-    messageData.map((element: string) => {
+    messageData.map((element: string | number) => {
         if (prevTimeIndex !== Object(props.informationList)[element].index) {
             prevTimeIndex = Object(props.informationList)[element].index;
             let item = (
                 <li
                     className={styles.item_container}
-                    id={element}
+                    id={element as string}
                     key={`message-${element}`}
                     onClick={(e) => {
                         props.setInformation(true);
-                        props.setChooseInformationIndex(element);
+                        props.setChooseInformationIndex(element as number);
                     }}
                 >
                     <div>{Object(props.informationList)[element].title}</div>
@@ -100,4 +106,4 @@ const MenuItem = (props: any) => {
     );
 };
 
-export default MenuItem;
+export default MenuMessage;

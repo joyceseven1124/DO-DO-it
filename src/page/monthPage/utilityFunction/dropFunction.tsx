@@ -1,5 +1,30 @@
-export default function dragDropHandle(e: any,thisPageDay:number[],isTagsArray:{[key:string]:any}[],chooseCell:number[][],yearNumber:number,monthNumber:number){
-    if (e.target.id) {
+interface TagInformation {
+            id: number,
+            width: number,
+            title: string,
+            description: string,
+            connectWidth: number,
+            color: string,
+            index: string,
+            status: string,
+            yearStart: number,
+            yearEnd: number,
+            monthStart: number,
+            monthEnd: number,
+            dayStart: number,
+            dayEnd: number,
+            receiveEmail: string[],
+            sendEmail: string,
+            sendEmailName: string
+}
+
+export default function dragDropHandle(e:DragEvent,thisPageDay:number[],
+                                        isTagsArray:TagInformation[],
+                                        chooseCell:number[][],
+                                        yearNumber:number,
+                                        monthNumber:number){
+    const target = e.target as Element;
+    if (target.id) {
         const searchDataTime = `${yearNumber}Y${monthNumber}M`;
         const allConnectWidth = Number(
             e.dataTransfer.getData('allConnectWidth')
@@ -7,10 +32,10 @@ export default function dragDropHandle(e: any,thisPageDay:number[],isTagsArray:{
         
         const startOldTag = Number(e.dataTransfer.getData('startOldTag'));
         const endOldTag = startOldTag + allConnectWidth / 100 - 1;
-        const insertPlace = e.dataTransfer.getData('insertPlace');
+        const insertPlace = parseInt(e.dataTransfer.getData('insertPlace'));
         const index = e.dataTransfer.getData('index');
-        let date = Number(e.target.className.split(' ')[3]);
-        let startId: number = Number(e.target.id.split('-')[1]);
+        let date = Number(target.className.split(' ')[3]);
+        let startId: number = Number(target.id.split('-')[1]);
         let endId: number = startId + allConnectWidth / 100 - 1;
         let startDate: number = date;
         let endDate: number = thisPageDay[endId - 1];
@@ -47,9 +72,10 @@ export default function dragDropHandle(e: any,thisPageDay:number[],isTagsArray:{
                 endDate = thisPageDay[endId - 1];
             }
         }
+
         const perRowStartNumber = [1, 8, 15, 22, 29, 36];
         const perRowEndNumber = [7, 14, 21, 28, 35, 42];
-        let newTagArray = tagArray.filter((element:any) => {
+        let newTagArray = tagArray.filter((element:TagInformation) => {
             let connectTagValueIndex = element.index;
             if (connectTagValueIndex.toString() !== index) {
                 return element;
@@ -101,12 +127,12 @@ export default function dragDropHandle(e: any,thisPageDay:number[],isTagsArray:{
         let allWidth = allConnectWidth
         if(rowEnd !== rowStart){
             let upDateArray = []
-            let tagItem ={}
+            let tagItem:TagInformation
             let firstTagWidth = (Math.abs(startId-firstRowEndId)+1)*100
             if(startId === firstRowEndId){
                 firstTagWidth = 100
             }
-            tagItem = {
+            tagItem= {
                 id: startId,
                 width: firstTagWidth,
                 title: title,
@@ -123,7 +149,7 @@ export default function dragDropHandle(e: any,thisPageDay:number[],isTagsArray:{
                 dayEnd: endDate,
                 receiveEmail: receiveEmail,
                 sendEmail: sendEmail,
-                sendEmailName: sendEmailName,}
+                sendEmailName: sendEmailName}
             newTagArray.push(tagItem)
             upDateArray.push(tagItem)
             allWidth = allWidth - firstTagWidth

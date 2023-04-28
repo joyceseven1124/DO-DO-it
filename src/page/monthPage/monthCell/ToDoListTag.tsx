@@ -53,19 +53,32 @@ const DoneIcon = styled.span`
     position: relative;
 `;
 
-function getPosition(element: any) {
+function getPosition(e:any){
     let x = 0;
     let y = 0;
-    while (element) {
-        x += element.offsetLeft - element.scrollLeft + element.clientLeft;
-        y += element.offsetTop - element.scrollLeft + element.clientTop;
-        element = element.offsetParent;
+    while (e) {
+        x += e.offsetLeft - e.scrollLeft + e.clientLeft;
+        y += e.offsetTop - e.scrollLeft + e.clientTop;
+        e = e.offsetParent;
     }
 
     return { x: x, y: y };
 }
 
-export default function ToDoListTag(props: any) {
+interface TagStyleData{
+    key:string
+    id:string
+    title:string
+    width:string
+    connectWidth:number
+    tagOrder:number
+    color:string
+    index:string
+    description:string
+    status:string
+}
+
+export default function ToDoListTag(props: TagStyleData) {
     const { tagStartCell } = useContext(tagData);
     const { setShowTagIndex } = useContext(commonData);
     const { setShowListDialog } = useContext(commonData);
@@ -96,7 +109,7 @@ export default function ToDoListTag(props: any) {
         e.dataTransfer.setData('index', index);
     }
 
-    const dragend = (e: any) => {};
+    const dragend = () => {};
 
     let tagTop = 30;
     if (props.tagOrder > 1) {
